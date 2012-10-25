@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- [ Power By Dannegm (c) 2012 - http://dannegm.com ] -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Teest Node</title>
+	<link rel="stylesheet/less" href="estilo.less" />
+	<script src="http://localhost:6546/socket.io/socket.io.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="less.min.js"></script>
+	<script>
+	var n = prompt("Tu nombre", "Tu nombre");
+	if (n){
+		var socket = io.connect('http://localhost:6546');
+
+		socket.emit('entro', n);
+		socket.on('enviando', function(e){
+				var user = e;
+				var comando = user.texto.split('::');
+				switch(comando[0]){
+					case '$alert':
+						alert(comando[1]);
+						user.texto = "";
+						break;
+					case '$redir':
+						window.location.href = comando[1];
+						user.texto = "";
+						break;
+					case '$reload':
+						window.location.reload();
+						break;
+					case '$rename':
+						n = comando[1];
+						user.nombre = n;
+						user.texto = "Me he cambiado el nombre";
+						break;
+					case '$marquee':
+						user.texto = '<marquee>' + comando[1]; + '</marquee>';
+						break;
+					case '$img':
+						user.texto = '<img src="' + comando[1] + '" style="width: 350px;" />';
+						break;
+					case '$youtube':
+						user.texto = '<iframe width="350" height="200" src="http://www.youtube.com/embed/' + comando[1] + '" frameborder="0" allowfullscreen></iframe>';
+						break;
+					case '$clear':
+						$('#logs').html('');
+						$('#logs').append('<p><em style="color: #00c150;"><strong>' + user.nombre + '</strong> ha limpiado el chat</em></p>');
+						user.texto = "Me gusta limpio :)";
+						break;
+				}
+
+				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
+		});
+		socket.on('entro', function(user){
+				$('#logs').append('<p><em style="color: #00c150;"><strong>' + user.nombre + '</strong> acaba de entrar</em></p>');
+		});
+		socket.on('salio', function(user){
+				$('#logs').append('<p><em style="color: #e51414;"><strong>' + user.nombre + '</strong> acaba de salir</em></p>');
+		});
+		socket.on('online', function(user) {
+			$.each(user, function(key, value) {
+				$('#online').append('<div><a href="#" onclick="enviarPrivado(\''+value.iden+'\')">' + value.nombre  + '</a></div>');
+			});
+		});
+		function enviar (e) {
+			var texto = $('#mensaje').val();
+			var user = {
+				nombre: n,
+				texto: texto
+			}
+			$('#mensaje').val('');
+			socket.emit('enviar', user);
+			console.log('Enviado: ' + contnido);
+		}
+		function run () {
+			$('#formulario').submit(function(e){
+				e.preventDefault();
+				enviar();
+			});
+			$('#mensaje').keyup(function(e){
+				var enter = e.keyCode;
+				if (enter == '13'){
+					$('#formulario').trigger('submit');
+				}
+			});
+		}
+		$(document).ready(run);
+	}
+	</script>
+</head>
+<body>
+	<div id="body">
+		<h1>Test node</h1>
+		<div>
+			<section id="logs">
+			</section>
+			<aside id="online">
+			</aside>
+		</div>
+		<form id="formulario">
+			<textarea id="mensaje" class="grande"></textarea>
+		</form>
+	</div>
+</body>
+</html>

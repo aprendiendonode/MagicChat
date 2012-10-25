@@ -4,10 +4,12 @@
 <head>
 	<meta charset="utf-8">
 	<title>Teest Node</title>
-	<script src="http://50.116.24.64:2342/socket.io/socket.io.js"></script>
+	<link rel="stylesheet/less" href="estilo.less" />
+	<script src="http://localhost:2342/socket.io/socket.io.js"></script>
 	<script src="js/jquery.min.js"></script>
+	<script src="less.min.js"></script>
 	<script>
-		var socket = io.connect('http://50.116.24.64:2342');
+		var socket = io.connect('http://localhost:2342');
 
 		socket.on('enviando', function(e){
 				console.log('recibe: ' + e);
@@ -21,9 +23,15 @@
 			console.log('Enviado: ' + contnido);
 		}
 		function run () {
-			$('#enviar').click(function(e){
+			$('#formulario').submit(function(e){
 				e.preventDefault();
 				enviar();
+			});
+			$('#mensaje').keyup(function(e){
+				var enter = e.keyCode;
+				if (enter == '13'){
+					$('#formulario').trigger('submit');
+				}
 			});
 		}
 		$(document).ready(run);
@@ -31,11 +39,17 @@
 </head>
 <body>
 	<h1>Test node</h1>
-	<hr />
-	<textarea id="mensaje"></textarea>
-	<button id="enviar">Enviar</button>
-	<hr />
-	<div id="logs">
+	<div>
+		<section id="logs">
+		</section>
+		<aside>
+			<ul>
+				<li>Usuario</li>
+			</ul>
+		</aside>
+		<form id="formulario">
+			<textarea id="mensaje" class="grande"></textarea>
+		</form>
 	</div>
 </body>
 </html>

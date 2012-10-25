@@ -5,21 +5,26 @@
 	<meta charset="utf-8">
 	<title>Teest Node</title>
 	<link rel="stylesheet/less" href="estilo.less" />
-	<script src="http://localhost:2342/socket.io/socket.io.js"></script>
+	<script src="http://adsearch.mx:2142/socket.io/socket.io.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="less.min.js"></script>
 	<script>
-		var socket = io.connect('http://localhost:2342');
+		var socket = io.connect('http://adsearch.mx:2142');
 
 		socket.on('enviando', function(e){
-				console.log('recibe: ' + e);
-				$('#logs').append('<p>' + e + '</p>');
+				
+				var user = e.usuario;
+				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
+				$('#online').text(e.usuarios.lenght);
 		});
 		
 		function enviar (e) {
-			var contnido = $('#mensaje').val();
+			var user = {
+				nombre: $('#nombre').val(),
+				texto: $('#mensaje').val()
+			}
 			$('#mensaje').val('');
-			socket.emit('enviar', contnido);
+			socket.emit('enviar', user);
 			console.log('Enviado: ' + contnido);
 		}
 		function run () {
@@ -42,12 +47,10 @@
 	<div>
 		<section id="logs">
 		</section>
-		<aside>
-			<ul>
-				<li>Usuario</li>
-			</ul>
+		<aside id="online">
 		</aside>
 		<form id="formulario">
+			<input id="nombre" placeholder="Escribe un nombre">
 			<textarea id="mensaje" class="grande"></textarea>
 		</form>
 	</div>

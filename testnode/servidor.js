@@ -1,18 +1,30 @@
 var lucho = require('socket.io').listen(2342);
 
-var contenido;
+var contenido, usuarios = [];
 
 function recibir (res) {
+	/*
+	 res = {
+		nombre: tal,
+		texto: tal
+	 }
+	*/
 	contenido = res;
-	console.log('Recii: ' + res);
+	usuarios.push(res.nombre);
+	console.log('Se conecto ' + res.nombre);
 	enviarsss();
 }
 function enviarsss () {
-	lucho.sockets.emit('enviando', contenido);
-	console.log('Envie: ' + contenido);
+	obj = {
+		usuarios: usuarios,
+		usuario: contenido
+	}
+	lucho.sockets.emit('enviando', obj);
 }
 function iniciar (juancho) {
 	juancho.on('enviar', recibir);
+	var usuarioid = lucho.sockets.id;
+	console.log(usuarioid);
 }
 
 lucho.sockets.on('connection', iniciar);

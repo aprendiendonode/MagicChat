@@ -1,0 +1,41 @@
+<!doctype html>
+<!-- [ Power By Dannegm (c) 2012 - http://dannegm.com ] -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Teest Node</title>
+	<script src="http://50.116.24.64:2342/socket.io/socket.io.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script>
+		var socket = io.connect('http://50.116.24.64:2342');
+
+		socket.on('enviando', function(e){
+				console.log('recibe: ' + e);
+				$('#logs').append('<p>' + e + '</p>');
+		});
+		
+		function enviar (e) {
+			var contnido = $('#mensaje').val();
+			$('#mensaje').val('');
+			socket.emit('enviar', contnido);
+			console.log('Enviado: ' + contnido);
+		}
+		function run () {
+			$('#enviar').click(function(e){
+				e.preventDefault();
+				enviar();
+			});
+		}
+		$(document).ready(run);
+	</script>
+</head>
+<body>
+	<h1>Test node</h1>
+	<hr />
+	<textarea id="mensaje"></textarea>
+	<button id="enviar">Enviar</button>
+	<hr />
+	<div id="logs">
+	</div>
+</body>
+</html>

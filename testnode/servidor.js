@@ -23,8 +23,6 @@ function enviarsss () {
 }
 function iniciar (juancho) {
 	juancho.on('enviar', recibir);
-	var usuarioid = lucho.sockets.id;
-	console.log(usuarioid);
 }
 
 lucho.sockets.on('connection', iniciar);

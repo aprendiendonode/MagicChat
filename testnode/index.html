@@ -5,23 +5,36 @@
 	<meta charset="utf-8">
 	<title>Teest Node</title>
 	<link rel="stylesheet/less" href="estilo.less" />
-	<script src="http://adsearch.mx:2142/socket.io/socket.io.js"></script>
+	<script src="http://adsearch.mx:3642/socket.io/socket.io.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="less.min.js"></script>
 	<script>
-		var socket = io.connect('http://adsearch.mx:2142');
+	var n = prompt("Tu nombre", "Tu nombre");
+	if (n){
+		var socket = io.connect('http://adsearch.mx:3642');
 
+		socket.emit('entrooo', n);
 		socket.on('enviando', function(e){
-				
 				var user = e.usuario;
 				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
-				$('#online').text(e.usuarios.lenght);
 		});
-		
+		socket.on('entro', function(user){
+				$('#logs').append('<p><em>' + user.nombre + ' acaba de entrar con el id: ' + user.iden + '</em></p>');
+		});
+		socket.on('salio', function(user){
+				$('#logs').append('<p><em>Usuario con el id: ' + user.iden + ' acaba de salir</em></p>');
+		});
+		msjdir = {
+			user: 'mTWcchHkG8bney_Zzbr1',
+			mensaje: 'hola'
+		}
+		socket.emit('mensajedirecto', msjdir);
 		function enviar (e) {
+			var textooo = $('#mensaje').val();
+			textooo = textooo.replace('<', '&lt;').replace('>', '&gt;');
 			var user = {
-				nombre: $('#nombre').val(),
-				texto: $('#mensaje').val()
+				nombre: n,
+				texto: textooo
 			}
 			$('#mensaje').val('');
 			socket.emit('enviar', user);
@@ -40,6 +53,7 @@
 			});
 		}
 		$(document).ready(run);
+	}
 	</script>
 </head>
 <body>
@@ -50,7 +64,6 @@
 		<aside id="online">
 		</aside>
 		<form id="formulario">
-			<input id="nombre" placeholder="Escribe un nombre">
 			<textarea id="mensaje" class="grande"></textarea>
 		</form>
 	</div>

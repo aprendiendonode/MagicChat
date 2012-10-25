@@ -5,36 +5,64 @@
 	<meta charset="utf-8">
 	<title>Teest Node</title>
 	<link rel="stylesheet/less" href="estilo.less" />
-	<script src="http://adsearch.mx:3642/socket.io/socket.io.js"></script>
+	<script src="http://adsearch.mx:6546/socket.io/socket.io.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="less.min.js"></script>
 	<script>
 	var n = prompt("Tu nombre", "Tu nombre");
 	if (n){
-		var socket = io.connect('http://adsearch.mx:3642');
+		var socket = io.connect('http://adsearch.mx:6546');
 
-		socket.emit('entrooo', n);
+		socket.emit('entro', n);
 		socket.on('enviando', function(e){
-				var user = e.usuario;
+				var user = e;
+				var comando = user.texto.split('::');
+				switch(comando[0]){
+					case '$alert':
+						alert(comando[1]);
+						user.texto = "";
+						break;
+					case '$redir':
+						window.location.href = comando[1];
+						user.texto = "";
+						break;
+					case '$reload':
+						window.location.reload();
+						break;
+					case '$rename':
+						n = comando[1];
+						user.nombre = n;
+						user.texto = "Me he cambiado el nombre";
+						break;
+					case '$marquee':
+						user.texto = '<marquee>' + comando[1]; + '</marquee>';
+						break;
+					case '$img':
+						user.texto = '<img src="' + comando[1] + '" style="width: 350px;" />';
+						break;
+					case '$youtube':
+						user.texto = '<iframe width="350" height="200" src="http://www.youtube.com/embed/' + comando[1] + '" frameborder="0" allowfullscreen></iframe>';
+						break;
+					case '$clear':
+						$('#logs').html('');
+						$('#logs').append('<p><em style="color: #00c150;"><strong>' + user.nombre + '</strong> ha limpiado el chat</em></p>');
+						user.texto = "Me gusta limpio :)";
+						break;
+				}
+
 				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
 		});
 		socket.on('entro', function(user){
-				$('#logs').append('<p><em>' + user.nombre + ' acaba de entrar con el id: ' + user.iden + '</em></p>');
+				$('#logs').append('<p><em style="color: #00c150;"><strong>' + user.nombre + '</strong> acaba de entrar</em></p>');
 		});
 		socket.on('salio', function(user){
-				$('#logs').append('<p><em>Usuario con el id: ' + user.iden + ' acaba de salir</em></p>');
+				$('#logs').append('<p><em style="color: #e51414;"><strong>' + user.nombre + '</strong> acaba de salir</em></p>');
 		});
-		msjdir = {
-			user: 'mTWcchHkG8bney_Zzbr1',
-			mensaje: 'hola'
-		}
-		socket.emit('mensajedirecto', msjdir);
 		function enviar (e) {
-			var textooo = $('#mensaje').val();
-			textooo = textooo.replace('<', '&lt;').replace('>', '&gt;');
+			var texto = $('#mensaje').val();
 			var user = {
 				nombre: n,
-				texto: textooo
+				texto: texto
 			}
 			$('#mensaje').val('');
 			socket.emit('enviar', user);
@@ -57,12 +85,14 @@
 	</script>
 </head>
 <body>
-	<h1>Test node</h1>
-	<div>
-		<section id="logs">
-		</section>
-		<aside id="online">
-		</aside>
+	<div id="body">
+		<h1>Test node</h1>
+		<div>
+			<section id="logs">
+			</section>
+			<aside id="online">
+			</aside>
+		</div>
 		<form id="formulario">
 			<textarea id="mensaje" class="grande"></textarea>
 		</form>

@@ -5,13 +5,13 @@
 	<meta charset="utf-8">
 	<title>Teest Node</title>
 	<link rel="stylesheet/less" href="estilo.less" />
-	<script src="http://localhost:6546/socket.io/socket.io.js"></script>
+	<script src="http://199.175.48.248:6546/socket.io/socket.io.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="less.min.js"></script>
 	<script>
 	var n = prompt("Tu nombre", "Tu nombre");
 	if (n){
-		var socket = io.connect('http://localhost:6546');
+		var socket = io.connect('http://199.175.48.248:6546');
 
 		socket.emit('entro', n);
 		socket.on('enviando', function(e){

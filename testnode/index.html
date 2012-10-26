@@ -16,6 +16,17 @@
 	// Antes de iniciar el chat pedimos que nos de su nombre
 	var n = prompt("Tu nombre", "Tu nombre");
 
+	var sonidito = document.createElement('audio');
+		sonidito.src = "http://soundjax.com/reddo/27947%5EBells.mp3";
+
+	var winFocus = 'si';
+	window.onblur = function () {
+		winFocus = 'no';
+	};
+	window.onfocus = function () {
+		winFocus = 'si';
+
+	};
 	//Si nos da su nombre continuamos
 	if (n){
 
@@ -88,16 +99,23 @@
 
 				var altodiv = $('#logs').height();
 				$('#contenedor').scrollTop( altodiv );
+				if (winFocus == 'no'){
+					sonidito.play();
+				}
 		});
 
 		// Revisamos si alguien acaba de entrar
 		socket.on('entro', function(user){
 				$('#logs').append('<p><em style="color: #00c150;"><strong>' + user.nombre + '</strong> acaba de entrar</em></p>');
+				var altodiv = $('#logs').height();
+				$('#contenedor').scrollTop( altodiv );
 		});
 
 		// Revisamos si alguien salió
 		socket.on('salio', function(user){
-				$('#logs').append('<p><em style="color: #e51414;"><strong>' + user.nombre + '</strong> acaba de salir</em></p>');
+				$('#logs').append('<p><em style="color: #e51414;"><strong>' + user + '</strong> acaba de salir</em></p>');
+				var altodiv = $('#logs').height();
+				$('#contenedor').scrollTop( altodiv );
 		});
 
 		// Usuarios conectados
@@ -131,7 +149,6 @@
 
 			// Enviamos el objeto
 			socket.emit('enviar', user);
-			console.log('Enviado: ' + contnido);
 		}
 
 		// Iniciamos la aplicación

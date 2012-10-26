@@ -47,7 +47,7 @@ servidor.sockets.on('connection', function(socket){
 		delete usuarios[socket.username];
 
 		// Decimos al cliente que usuario salio
-		servidor.sockets.emit('salio', user);
+		servidor.sockets.emit('salio', socket.username);
 
 		// Actualizamos la lista en el cliente
 		servidor.sockets.emit('online', usuarios);

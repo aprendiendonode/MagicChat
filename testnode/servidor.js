@@ -7,6 +7,7 @@ var user = {
 	iden: 'undefined'
 };
 
+var usuarios = {};
 // Inicia conexion
 servidor.sockets.on('connection', function(socket){
 
@@ -23,8 +24,17 @@ servidor.sockets.on('connection', function(socket){
 			iden: iden
 		}
 
+		// Ponemos nombre a la session
+		socket.username = n;
+
+		// Guardamos en nuestro arreglo el objeto
+		usuarios[n] = user;
+
 		// Enviamos ese usuario diciendo que acaba de entrar
 		servidor.sockets.emit('entro', user);
+
+		// Enviamos la lista de objetos
+		servidor.sockets.emit('online', usuarios);
 
 		// El administrador debe saber quien entro
 		console.log('Entro: ' + n);
@@ -33,8 +43,14 @@ servidor.sockets.on('connection', function(socket){
 	// Detectamos que sale un usuario
 	socket.on('disconnect', function () {
 
+		// Borramos su objeto de la lista de usuarios
+		delete usuarios[socket.username];
+
 		// Decimos al cliente que usuario salio
 		servidor.sockets.emit('salio', user);
+
+		// Actualizamos la lista en el cliente
+		servidor.sockets.emit('online', usuarios);
 
 		// El adminitrador igual debe saber quien salio
 		console.log('Salio: ' + user.nombre);
@@ -58,5 +74,10 @@ servidor.sockets.on('connection', function(socket){
 
 		// El administrador es un dios!!
 		console.log(res.nombre + ' dice: ' + res.texto);
+	});
+
+	// Vemos si alguien está escribiendo
+	socket.on('escribiendo', function(res){
+		servidor.sockets.emit('escribiendo', res);
 	});
 });

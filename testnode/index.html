@@ -7,7 +7,7 @@
 	<link rel="stylesheet/less" href="estilo.less" />
 
 	<!-- Incluimos la librería de socket.io -->
-	<script src="http://dannegm.com:6546/socket.io/socket.io.js"></script>
+	<script src="http://adsearch.mx:6546/socket.io/socket.io.js"></script>
 	<!-- jQuery por es algo muy necesario -->
 	<script src="js/jquery.min.js"></script>
 	<script src="less.min.js"></script>
@@ -20,7 +20,7 @@
 	if (n){
 
 		// Creamos el socket al servidor
-		var socket = io.connect('http://dannegm.com:6546');
+		var socket = io.connect('http://adsearch.mx:6546');
 
 		// Le decimos al servidor que ya entramos, le mandamos nuestro nombre
 		socket.emit('entro', n);
@@ -85,6 +85,9 @@
 
 				// Añadimos el objeto recibido a la capa #logs donde mostraremos el chat
 				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
+
+				var altodiv = $('#logs').height();
+				$('#contenedor').scrollTop( altodiv );
 		});
 
 		// Revisamos si alguien acaba de entrar
@@ -97,6 +100,23 @@
 				$('#logs').append('<p><em style="color: #e51414;"><strong>' + user.nombre + '</strong> acaba de salir</em></p>');
 		});
 
+		// Usuarios conectados
+		socket.on('online', function(user) {
+			$('#online').html('');
+			$.each(user, function(key, value) {
+				$('#online').append('<p>' + value.nombre  + '</p>');
+			});
+		});
+
+		// vemos si esta escribiendo otro
+		socket.on('escribiendo', function(res){
+			if ( res.writing == 'si'){
+				$('#action').html('<strong>' + res.user + '</strong> está escribiendo...');
+			}else{
+				$('#action').html('');
+			}
+		});
+
 		// Funcion que enia el texto al servidor
 		function enviar (e) {
 			var texto = $('#mensaje').val();
@@ -107,6 +127,7 @@
 				texto: texto
 			}
 			$('#mensaje').val('');
+			$('#action').html('');
 
 			// Enviamos el objeto
 			socket.emit('enviar', user);
@@ -129,6 +150,19 @@
 					$('#formulario').trigger('submit');
 				}
 			});
+
+			// Vemos si está escribiendo
+			$('#mensaje').keydown(function(e){
+				var writing = 'no';
+				if ($('#mensaje').val() != "") {
+					writing = 'si';
+				}
+				var who = {
+					user: n,
+					writing: writing
+				}
+				socket.emit('escribiendo', who);
+			});
 		}
 
 		// Corremos la aplicacion
@@ -142,7 +176,8 @@
 		<div>
 
 			<!-- Aqui ponemos el historial del chat -->
-			<section id="logs">
+			<section id="contenedor">
+				<section id="logs"></section>
 			</section>
 			<aside id="online">
 			</aside>
@@ -150,6 +185,7 @@
 
 		<!-- aqui escribimos el texto a enviar -->
 		<form id="formulario">
+			<label id="action"></label>
 			<textarea id="mensaje" class="grande"></textarea>
 		</form>
 	</div>

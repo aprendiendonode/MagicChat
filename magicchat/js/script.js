@@ -1,86 +1,72 @@
 
-// Antes de iniciar el chat pedimos que nos de su nombre
 var n = prompt("Tu nombre", "");
 
-//Cargamos sonidito
 var sonidito = document.createElement('audio');
 	sonidito.src = "http://soundjax.com/reddo/27947%5EBells.mp3";
 	//sonidito.src = "nokia.mp3";
 
-//Comprobamos si la ventana esta en foco
 var winFocus = 'si';
-
-//No esta en foco
 window.onblur = function () {
 	winFocus = 'no';
 };
-
-//Si esta en foco
 window.onfocus = function () {
 	winFocus = 'si';
 };
 
-//Si nos da su nombre continuamos
-if (n){
+if (n == null || n == ""){
+	var aleatorio = Math.random() * 10000;
+	n = 'Anonimo' + aleatorio.toFixed();
+}
 
-	// Creamos el socket al servidor
 	var socket = io.connect('http://adsearch.mx:6546');
 
-	// Le decimos al servidor que ya entramos, le mandamos nuestro nombre
 	socket.emit('entro', n);
+	socket.on('usuarioexiste', function(user){
+		var usuario = prompt("El usuario ya existe, elige otro nombre", "");
+		if (usuario == null || usuario == ""){
+			var aleatorio = Math.random() * 10000;
+			usuario = 'Anonimo' + aleatorio.toFixed();
+		}
+		socket.emit('entro', usuario);
+		n = usuario;
+	});
 
-	// Esto cuando alguien mas nos manda un mensaje
 	socket.on('enviando', function(e){
-			// Nos regresa un callback con un objeto json
-			var user = e;
 
-			// Esto es para los comandos
+			var user = e;
 
 			var comando = user.texto.split('::');
 			var msgg = 'si';
 			switch(comando[0]){
-
-				// Envia una alerta
-				// $alert::foo bar
 				case '$alert':
 					$alert(comando[1], user.nombre + ' dice:');
 					msgg = no;
 					break;
-
-				// Enviar sonidito
-				// $sonidito::
 				case '$sonidito':
 					sonidito.play();
 					msgg = 'no';
 					break;
-				// Nos redircciona a otra pag
-				// $redir::http://foo.bar
 				case '$redir':
 					window.location.href = comando[1];
 					user.texto = "Adios!!";
 					break;
-				// Recarga la pag
-				// $reload::
 				case '$reload':
 					window.location.reload();
 					user.texto = "Recargando...";
 					break;
-				// Insertar imagen
-				// $img::path/to/img
 				case '$img':
 					user.texto = '<img src="' + comando[1] + '" />';
 					break;
-				// Iserta video de youtube
-				// $youtube::iddelvideo
 				case '$youtube':
 					user.texto = '<iframe width="350" height="200" src="http://www.youtube.com/embed/' + comando[1] + '" frameborder="0" allowfullscreen></iframe>';
 					break;
-				// Limpia el historial
-				// $clear::
 				case '$clear':
 					$('#logs').html('');
 					$('#logs').append('<article class="blue"><strong>' + user.nombre + '</strong><span>ha limpiado el historial del chat</span></article>');
 					msgg = 'no';
+					break;
+				case '$url':
+					user.texto = '<a href="' + comando[1] + '" target="_blank">' + comando[1] + '</a>';
 					break;
 			}
 
@@ -97,47 +83,36 @@ if (n){
 				.replace(':)', '<span class="emoticon sonriendo" title=":)"></span>')
 				.replace(':P', '<span class="emoticon lengua" title=":P"></span>');
 
-
-
-
 			user.texto = user.texto
-				.replace('[code]', '<pre class="prettyprint linenums">')
-				.replace('[/code]', '</pre>');
-			prettyPrint();
+				.replace(/\[code+\]/g, '<pre>')
+				.replace(/\[\/code\]/g, '</pre>')
+				.replace(/\[\[/g, '<code>')
+				.replace(/\]\]/g, '</code>');
 
-			// make code pretty
-
-			// Añadimos el objeto recibido a la capa #logs donde mostraremos el chat
 			if(msgg == 'si'){
 				$('#logs').append('<article class="msg"><strong>' + user.nombre + '</strong><span>' + user.texto + '</span></article>');
 			}
 
-			// Esto hace un scroll automatico
 			var altodiv = $('#logs').height();
 			$('#history').scrollTop( altodiv );
 
-			// Manda sonidito si no estas poniendo atencion
 			if (winFocus == 'no'){
 				sonidito.play();
-				//document.title = user.nombre + ' está hablando';
 			}
 	});
 
-	// Revisamos si alguien acaba de entrar
 	socket.on('entro', function(user){
 			$('#logs').append('<article class="green"><strong>' + user.nombre + '</strong><span>se ha unido al chat</span></article>');
 			var altodiv = $('#logs').height();
 			$('#history').scrollTop( altodiv );
 	});
 
-	// Revisamos si alguien salió
 	socket.on('salio', function(user){
 			$('#logs').append('<article class="red"><strong>' + user + '</strong><span>ha dejado el chat</span></article>');
 			var altodiv = $('#logs').height();
 			$('#history').scrollTop( altodiv );
 	});
 
-	// Usuarios conectados
 	socket.on('online', function(user) {
 		$('#online').html('');
 		$.each(user, function(key, value) {
@@ -147,7 +122,6 @@ if (n){
 		$('#nOnline').html(nOnline);
 	});
 
-	// vemos si esta escribiendo otro
 	socket.on('escribiendo', function(res){
 		if ( res.writing == 'si'){
 			$('#action').html('<strong>' + res.user + '</strong><span> está escribiendo...</span>');
@@ -155,23 +129,22 @@ if (n){
 			$('#action').html('');
 		}
 	});
-
-	// Funcion que enia el texto al servidor
 	function enviar (e) {
 		var texto = $('#mensaje').val();
-
-		// Creamos el objeto que vamos a enviar
-		var user = {
-			nombre: n,
-			texto: texto
+		var limpiarspaces = texto.replace(/ /g, '').replace(/\n/g, '');
+		if (limpiarspaces == ''){
+			$('#logs').append('<article class="red">Debes escribir algo antes de enviarlo</span></article>');
+		}else{
+			var user = {
+				nombre: n,
+				texto: texto
+			}
+			socket.emit('enviar', user);
 		}
 		$('#mensaje').val('');
 		$('#action').html('');
-
-		// Enviamos el objeto
-		socket.emit('enviar', user);
 	}
-}
+
 
 function resize (){
 	var winHeight = $(window).height() - $('#hed').height();
@@ -202,30 +175,22 @@ function showHideUsers(){
 function run () {
 	resize();
 	$(window).resize(resize);
-
 	$('aside').click(showHideUsers);
 
 	// make code pretty
     window.prettyPrint && prettyPrint();
 
     $('#mensaje').focus();
-	
-
-	// Al enviar el formulario ejecutamos la funcion enviar();
 	$('#formulario').submit(function(e){
 		e.preventDefault();
 		enviar();
 	});
-
-	// Si pulsamos enter enviamos el formulario
 	$('#mensaje').keyup(function(e){
 		var enter = e.keyCode;
 		if (enter == '13'){
 			$('#formulario').trigger('submit');
 		}
 	});
-
-	// Vemos si está escribiendo
 	$('#mensaje').keydown(function(e){
 		var writing = 'no';
 		if ($('#mensaje').val() != "") {

@@ -18,7 +18,7 @@
 	}
 	</style>
 
-	<!-- Incluimos la librerÌa de socket.io -->
+	<!-- Incluimos la librer√≠a de socket.io -->
 	<script src="http://199.175.48.248:6546/socket.io/socket.io.js"></script>
 	<!-- jQuery por es algo muy necesario -->
 	<script src="js/jquery.min.js"></script>
@@ -109,7 +109,7 @@
 						break;
 				}
 
-				// AÒadimos el objeto recibido a la capa #logs donde mostraremos el chat
+				// A√±adimos el objeto recibido a la capa #logs donde mostraremos el chat
 				user.texto = user.texto.replace(patterns.sonrisa, emoticons.sonrisa).replace(patterns.triste, emoticons.triste).replace(patterns.lengua, emoticons.lengua);   
 				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
 
@@ -124,7 +124,7 @@
 				$('#logs').append('<audio src="http://static.ak.fbcdn.net//rsrc.php//yq//r//Mpd0-fRgh5n.mp3" autoplay></audio>');
 		});
 
-		// Revisamos si alguien saliÛ
+		// Revisamos si alguien sali√≥
 		socket.on('salio', function(user){
 				$('#logs').append('<p><em style="color: #e51414;"><strong>' + user + '</strong> acaba de salir</em></p>');
 		});
@@ -140,7 +140,7 @@
 		// vemos si esta escribiendo otro
 		socket.on('escribiendo', function(res){
 			if ( res.writing == 'si'){
-				$('#action').html('<strong>' + res.user + '</strong> est· escribiendo...');
+				$('#action').html('<strong>' + res.user + '</strong> est√° escribiendo...');
 			}else{
 				$('#action').html('');
 			}
@@ -163,7 +163,7 @@
 			console.log('Enviado: ' + contnido);
 		}
 
-		// Iniciamos la aplicaciÛn
+		// Iniciamos la aplicaci√≥n
 		function run () {
 
 			// Al enviar el formulario ejecutamos la funcion enviar();
@@ -180,7 +180,7 @@
 				}
 			});
 
-			// Vemos si est· escribiendo
+			// Vemos si est√° escribiendo
 			$('#mensaje').keypress(function(e){
 				var writing = 'no';
 				if ($('#mensaje').val() != '') {
@@ -201,7 +201,7 @@
 </head>
 <body>
 	<div id="body">
-		<h1>Te extraÒe Liz :P</h1>
+		<h1>Te extra√±e Liz :P</h1>
 		<div>
 
 			<!-- Aqui ponemos el historial del chat -->

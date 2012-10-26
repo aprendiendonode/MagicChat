@@ -3,14 +3,26 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Teest Node</title>
+	<title>Super chat</title>
 	<link rel="stylesheet/less" href="estilo.less" />
+	<style>
+	.emote_img {
+		background: url(http://static.ak.fbcdn.net/rsrc.php/v2/ym/x/JeLhH4gSUuu.png) no-repeat;
+		overflow: hidden;
+		}
+	.emote_img, .emote_custom {
+		height: 16px;
+		vertical-align: top;
+		width: 16px;
+	}
+	</style>
 
 	<!-- Incluimos la librería de socket.io -->
 	<script src="http://adsearch.mx:6546/socket.io/socket.io.js"></script>
 	<!-- jQuery por es algo muy necesario -->
 	<script src="js/jquery.min.js"></script>
 	<script src="less.min.js"></script>
+	<script src="js/dannegm.dialogs.js"></script>
 	<script>
 
 	// Antes de iniciar el chat pedimos que nos de su nombre
@@ -25,7 +37,6 @@
 	};
 	window.onfocus = function () {
 		winFocus = 'si';
-
 	};
 	//Si nos da su nombre continuamos
 	if (n){
@@ -38,9 +49,24 @@
 
 		// Esto cuando alguien mas nos manda un mensaje
 		socket.on('enviando', function(e){
-
 				// Nos regresa un callback con un objeto json
 				var user = e;
+
+				var emoticons = {
+					sonrisa: '<img title=":)" alt=":)" aria-label="smile" class="emote_img" src="http://static.ak.fbcdn.net/images/blank.gif" style="background-position: 0px 0px; ">',
+					triste: '<img title=":(" alt=":(" aria-label="frown" class="emote_img" src="http://static.ak.fbcdn.net/images/blank.gif" style="background-position: -16px 0px; ">',
+					lengua: '<img title=":P" alt=":P" aria-label="frown" class="emote_img" src="http://static.ak.fbcdn.net/images/blank.gif" style="background-position: -32px 0px; ">',
+					risa: '<img title=":D" alt=":D" aria-label="frown" class="emote_img" src="http://static.ak.fbcdn.net/images/blank.gif" style="background-position: -48px 0px; ">' ,
+					like: '<img title="(Y)" alt="(Y)" aria-label="frown" class="emote_img" src="http://static.ak.fbcdn.net/images/blank.gif" style="background-position: -336px 0px;  ">'
+				};
+
+				var patterns = {
+					sonrisa: /:\)/gm,
+					triste: /:\(/gm,
+					lengua: /:\P/gm,
+					risa: /:\D/gm,
+					like: /(\Y)/gm
+				};
 
 				// Esto es para los comandos
 				var comando = user.texto.split('::');
@@ -49,7 +75,7 @@
 					// Envia una alerta
 					// $alert::foo bar
 					case '$alert':
-						alert(comando[1]);
+						$alert(comando[1], user.nombre + ' dice:');
 						user.texto = comando[1];
 						break;
 					// Nos redircciona a otra pag
@@ -78,7 +104,7 @@
 					// Insertar imagen
 					// $img::path/to/img
 					case '$img':
-						user.texto = '<img src="' + comando[1] + '" style="width: 350px;" />';
+						user.texto = '<img src="' + comando[1] + '" style="width: 450px;" />';
 						break;
 					// Iserta video de youtube
 					// $youtube::iddelvideo
@@ -94,13 +120,17 @@
 						break;
 				}
 
+				user.texto = user.texto.replace(patterns.sonrisa, emoticons.sonrisa).replace(patterns.triste, emoticons.triste).replace(patterns.lengua, emoticons.lengua); 
+
 				// Añadimos el objeto recibido a la capa #logs donde mostraremos el chat
 				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
 
 				var altodiv = $('#logs').height();
 				$('#contenedor').scrollTop( altodiv );
+
 				if (winFocus == 'no'){
 					sonidito.play();
+					//document.title = user.nombre + ' está hablando';
 				}
 		});
 
@@ -189,7 +219,7 @@
 </head>
 <body>
 	<div id="body">
-		<h1>Test node</h1>
+		<h1>Super chat</h1>
 		<div>
 
 			<!-- Aqui ponemos el historial del chat -->

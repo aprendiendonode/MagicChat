@@ -8,7 +8,7 @@
 	<link rel="stylesheet/less" href="estilo.less" />
 
 	<!-- Incluimos la librería de socket.io -->
-	<script src="http://adsearch.mx:6546/socket.io/socket.io.js"></script>
+	<script src="http://199.175.48.248:6546/socket.io/socket.io.js"></script>
 	<!-- jQuery por es algo muy necesario -->
 	<script src="js/jquery.min.js"></script>
 	<script src="less.min.js"></script>
@@ -21,7 +21,7 @@
 	if (n){
 
 		// Creamos el socket al servidor
-		var socket = io.connect('http://adsearch.mx:6546');
+		var socket = io.connect('http://199.175.48.248:6546');
 
 		// Le decimos al servidor que ya entramos, le mandamos nuestro nombre
 		socket.emit('entro', n);

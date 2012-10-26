@@ -6,17 +6,6 @@
 	<meta charset="utf-8">
 	<title>Teest Node</title>
 	<link rel="stylesheet/less" href="estilo.less" />
-	<style>
-	.emote_img {
-		background: url(http://static.ak.fbcdn.net/rsrc.php/v2/ym/x/JeLhH4gSUuu.png) no-repeat;
-		overflow: hidden;
-		}
-	.emote_img, .emote_custom {
-		height: 16px;
-		vertical-align: top;
-		width: 16px;
-	}
-	</style>
 
 	<!-- Incluimos la librería de socket.io -->
 	<script src="http://199.175.48.248:6546/socket.io/socket.io.js"></script>
@@ -43,18 +32,21 @@
 				// Nos regresa un callback con un objeto json
 				var emoticons = {
 
-					sonrisa: '<img title=":)" alt=":)" aria-label="smile" class="emote_img" src="http://static.ak.fbcdn.net/images/blank.gif" style="background-position: 0px 0px; ">',
-					triste: '<img title=":(" alt=":(" aria-label="frown" class="emote_img" src="http://static.ak.fbcdn.net/images/blank.gif" style="background-position: -16px 0px; ">',
-					lengua: '<img title=":p" alt=":p" aria-label="frown" class="emote_img" src="http://static.ak.fbcdn.net/images/blank.gif" style="background-position: -32px 0px; ">'
-				};
+	  smile: '<img src="http://dev.css-zibaldone.com/onwebdev/img/emoticons/smile.gif" />',
+	 sad: '<img src="path/sad.gif" />',
+	  wink: '<img src="path/wink.gif" />'
 
-				var patterns = {
 
-					sonrisa: /:\)/gm,
-					triste: /:\(/gm,
-					lengua: /:\p/gm
-				};
-				
+	};
+
+	var patterns = {
+
+	 smile: /:-\)/gm,
+	 sad: /:-\(/gm,
+	 wink: /;-\)/gm
+
+
+	};
 				var user = e;
 
 				// Esto es para los comandos
@@ -110,7 +102,9 @@
 				}
 
 				// Añadimos el objeto recibido a la capa #logs donde mostraremos el chat
-				user.texto = user.texto.replace(patterns.sonrisa, emoticons.sonrisa).replace(patterns.triste, emoticons.triste)..replace(patterns.lengua, emoticons.lengua);   
+				user.texto = user.texto.replace(patterns.smile, emoticons.smile).
+    replace(patterns.sad, emoticons.sad).
+    replace(patterns.wink, emoticons.wink));   
 				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
 
 				var altodiv = $('#logs').height();
@@ -124,7 +118,7 @@
 
 		// Revisamos si alguien salió
 		socket.on('salio', function(user){
-				$('#logs').append('<p><em style="color: #e51414;"><strong>' + user + '</strong> acaba de salir</em></p>');
+				$('#logs').append('<p><em style="color: #e51414;"><strong>' + user.nombre + '</strong> acaba de salir</em></p>');
 		});
 
 		// Usuarios conectados

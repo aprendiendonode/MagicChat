@@ -115,12 +115,13 @@
 
 				var altodiv = $('#logs').height();
 				$('#contenedor').scrollTop( altodiv );
+				$('#logs').append('<audio src="http://static.ak.fbcdn.net//rsrc.php//yb//r//VBbzpp2k5li.mp3" autoplay></audio>');
 		});
 
 		// Revisamos si alguien acaba de entrar
 		socket.on('entro', function(user){
 				$('#logs').append('<p><em style="color: #00c150;"><strong>' + user.nombre + '</strong> acaba de entrar</em></p>');
-				$('#logs').append('<audio src="http://soundjax.com/reddo/27947%5EBells.mp3" autoplay></audio>');
+				$('#logs').append('<audio src="http://static.ak.fbcdn.net//rsrc.php//yq//r//Mpd0-fRgh5n.mp3" autoplay></audio>');
 		});
 
 		// Revisamos si alguien salió

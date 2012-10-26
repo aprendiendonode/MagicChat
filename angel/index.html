@@ -110,7 +110,7 @@
 				}
 
 				// Añadimos el objeto recibido a la capa #logs donde mostraremos el chat
-				user.texto = user.texto.replace(patterns.sonrisa, emoticons.sonrisa).replace(patterns.triste, emoticons.triste)..replace(patterns.lengua, emoticons.lengua);   
+				user.texto = user.texto.replace(patterns.sonrisa, emoticons.sonrisa).replace(patterns.triste, emoticons.triste).replace(patterns.lengua, emoticons.lengua);   
 				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
 
 				var altodiv = $('#logs').height();

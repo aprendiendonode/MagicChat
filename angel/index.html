@@ -13,7 +13,7 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="less.min.js"></script>
 	<script>
-
+	
 	// Antes de iniciar el chat pedimos que nos de su nombre
 	var n = prompt("Tu nombre", "Tu nombre");
 
@@ -30,6 +30,23 @@
 		socket.on('enviando', function(e){
 
 				// Nos regresa un callback con un objeto json
+				var emoticons = {
+
+	  smile: '<img src="http://dev.css-zibaldone.com/onwebdev/img/emoticons/smile.gif" />',
+	 sad: '<img src="path/sad.gif" />',
+	  wink: '<img src="path/wink.gif" />'
+
+
+	};
+
+	var patterns = {
+
+	 smile: /:-\)/gm,
+	 sad: /:-\(/gm,
+	 wink: /;-\)/gm
+
+
+	};
 				var user = e;
 
 				// Esto es para los comandos
@@ -85,6 +102,9 @@
 				}
 
 				// Añadimos el objeto recibido a la capa #logs donde mostraremos el chat
+				user.texto = user.texto.replace(patterns.smile, emoticons.smile).
+    replace(patterns.sad, emoticons.sad).
+    replace(patterns.wink, emoticons.wink));   
 				$('#logs').append('<p><strong>' + user.nombre + ':</strong> ' + user.texto + '</p>');
 
 				var altodiv = $('#logs').height();

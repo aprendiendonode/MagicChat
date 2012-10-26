@@ -5,6 +5,7 @@ var sonidito = document.createElement('audio');
 	sonidito.src = "http://soundjax.com/reddo/27947%5EBells.mp3";
 	//sonidito.src = "nokia.mp3";
 
+var visto = 'no';
 var winFocus = 'si';
 window.onblur = function () {
 	winFocus = 'no';
@@ -61,13 +62,13 @@ if (n == null || n == ""){
 				case '$youtube':
 					user.texto = '<iframe width="350" height="200" src="http://www.youtube.com/embed/' + comando[1] + '" frameborder="0" allowfullscreen></iframe>';
 					break;
-				case '$clear':
+				case '$url':
+					user.texto = '<a href="' + comando[1] + '" target="_blank">' + comando[1] + '</a>';
+					break;
+				case '$borrarchat':
 					$('#logs').html('');
 					$('#logs').append('<article class="blue"><strong>' + user.nombre + '</strong><span>ha limpiado el historial del chat</span></article>');
 					msgg = 'no';
-					break;
-				case '$url':
-					user.texto = '<a href="' + comando[1] + '" target="_blank">' + comando[1] + '</a>';
 					break;
 			}
 
@@ -133,16 +134,28 @@ if (n == null || n == ""){
 	function enviar (e) {
 		var texto = $('#mensaje').val();
 		var limpiarspaces = texto.replace(/ /g, '').replace(/\n/g, '');
-		if (limpiarspaces == ''){
-			$('#logs').append('<article class="red">Debes escribir algo antes de enviarlo</span></article>');
-			var altodiv = $('#logs').height();
-			$('#history').scrollTop( altodiv );
-		}else{
-			var user = {
-				nombre: n,
-				texto: texto
+
+		var comando = texto.split('::');
+		var msgg = 'si';
+		switch(comando[0]){
+			case '$clear':
+				$('#logs').html('');
+				$('#logs').append('<article class="blue">Has limpiado tu historial del chat</span></article>');
+				msgg = 'no';
+				break;
+		}
+		if (msgg == 'si'){
+			if (limpiarspaces == ''){
+				$('#logs').append('<article class="red">Debes escribir algo antes de enviarlo</span></article>');
+				var altodiv = $('#logs').height();
+				$('#history').scrollTop( altodiv );
+			}else{
+				var user = {
+					nombre: n,
+					texto: texto
+				}
+				socket.emit('enviar', user);
 			}
-			socket.emit('enviar', user);
 		}
 		$('#mensaje').val('');
 		$('#action').html('');
@@ -194,9 +207,11 @@ function run () {
 			$('#formulario').trigger('submit');
 		}
 	});
-	$('#mensaje').keydown(function(e){
+
+	$('#mensaje').keyup(function(e){
+		var cleantexto = $('#mensaje').val().replace(/ /g, '').replace(/\n/g, '');
 		var writing = 'no';
-		if ($('#mensaje').val() != "") {
+		if (cleantexto != '') {
 			writing = 'si';
 		}
 		var who = {

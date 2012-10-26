@@ -1,0 +1,240 @@
+@import "reset.less";
+
+html {
+}
+body {
+	font-family: Calibri;
+	background: #444;
+}
+
+aside, section, header, article { display: block; }
+
+#main {
+
+}
+
+header {
+	width: 100%;
+	overflow: hidden;
+	background: rgb(191,191,191);
+
+	h1 {
+		color: rgb(127,127,127);
+		font-size: 22px;
+		font-weight: normal;
+		padding: .5em;
+	}
+}
+
+#contenedor {
+	overflow: hidden;
+	display: table;
+	height: 450px;
+
+	aside {
+		width: 260px;
+		background: rgb(217,217,217);
+		display: table-cell;
+		vertical-align: top;
+		height: 100%;
+		float: left;
+
+		h2 {
+			margin: 0 15px;
+			padding: 10px 0;
+			border-bottom: 1px solid rgb(191,191,191);
+			color: rgb(89,89,89);
+			font-weight: normal;
+			font-size: 18px;
+		}
+		ul {
+			margin: 15px;
+			display: block;
+			overflow: hidden;
+
+			li {
+				display: block;
+				color: rgb(89,89,89);
+				font-size: 18px;
+				margin: 5px 0;
+				margin-left: 12px;
+
+				&:before {
+					content: " ";
+					display: block;
+					width: 7px;
+					height: 7px;
+					background: rgb(119,147,60);
+					position: absolute;
+					margin-left: -12px;
+					margin-top: 8px;
+				}
+			}
+		}
+	}
+	#rom {		
+		height: 100%;
+		width: 100%;
+		background: rgb(242,242,242);
+		display: table-cell;
+		vertical-align: top;
+
+		#history {
+			padding: 20px;
+			height: 280px;
+			overflow: scroll;
+			overflow-x: hidden;
+
+			#logs {
+				height: auto;
+				overflow: hidden;
+
+				article {
+					border-top: 1px solid rgb(217,217,217);
+					padding-top: 10px;
+					margin-bottom: 10px;
+
+					strong {
+						margin: 0;
+						&:after {
+							content: " ";
+						}
+					}
+					span {
+						//...
+					}
+					&:first-child {
+						border: none;
+						padding-top: 0;
+					}
+					&.green {
+						color: rgb(119,147,60);
+						font-style: italic;
+					}
+					&.red {
+						color: rgb(149,55,53);
+						font-style: italic;
+					}
+					&.blue {
+						color: rgb(55,96,146);
+						font-style: italic;
+					}
+					&.msg {
+						color: rgb(0,0,0);
+						strong:after {
+							content: ": ";
+						}
+					}
+				}
+			}
+		}
+		#formulario {
+			overflow: hidden;
+			display: block;
+			#action {
+				height: 20px;
+				display: block;
+				margin: 0 20px;
+				color: rgb(166,166,166);
+				width: auto;
+				font-style: italic;
+			}
+			div {
+				margin: 10px 20px;
+				width: auto;
+				#mensaje {
+					display: block;
+					height: 60px;
+					padding: 10px 0;
+					width: 100%;
+					border: none;
+					border-top: 2px solid rgb(187,187,187);
+					background: rgb(246,246,246);
+					outline: none;
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: 1200px) {
+	#main {
+		width: 960px;
+		margin: auto;
+		.bshadow(0 0 20px rgba(0,0,0,.5));
+	}
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+	#main {
+		width: 100%;
+		margin: 0;
+	}
+}
+
+@media (max-width: 767px) {
+	#main {
+		width: 100%;
+		margin: 0;
+	}
+
+	#contenedor {
+		overflow: hidden;
+		display: table;
+		width: 100%;
+		height: 450px;
+
+		aside {
+			width: 100%;
+			display: block;
+			height: auto;
+			float: none;
+			clear: both;
+			h2 {
+				border: none;
+			}
+			ul {
+				display: none;
+			}
+		}
+		#rom {		
+			width: 100%;
+			display: block;
+			vertical-align: top;
+		}
+	}
+}
+
+// Emoticones 
+
+.emoticon {
+	display: inline-block;
+	height: 18px;
+	width: 18px;
+	background: url('../img/emoticones.png');
+}
+.pene {
+	background-position: 0 -2px;
+	width: 13px;
+}
+.mueca {
+	background-position: -18px -2px;
+}
+.guinio {
+	background-position: -41px -2px;
+}
+.riendo {
+	background-position: -64px -2px;
+}
+.wow {
+	background-position: -86px -2px;
+}
+.xd {
+	background-position: -108px -2px;
+}
+.sonriendo {
+	background-position: -130px -2px;
+}
+.lengua {
+	background-position: -152px -2px;
+}

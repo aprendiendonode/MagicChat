@@ -120,6 +120,7 @@
 		// Revisamos si alguien acaba de entrar
 		socket.on('entro', function(user){
 				$('#logs').append('<p><em style="color: #00c150;"><strong>' + user.nombre + '</strong> acaba de entrar</em></p>');
+				$('#logs').append('<audio src="http://soundjax.com/reddo/27947%5EBells.mp3" autoplay></audio>');
 		});
 
 		// Revisamos si alguien salió

@@ -134,6 +134,8 @@ if (n == null || n == ""){
 		var limpiarspaces = texto.replace(/ /g, '').replace(/\n/g, '');
 		if (limpiarspaces == ''){
 			$('#logs').append('<article class="red">Debes escribir algo antes de enviarlo</span></article>');
+			var altodiv = $('#logs').height();
+			$('#history').scrollTop( altodiv );
 		}else{
 			var user = {
 				nombre: n,

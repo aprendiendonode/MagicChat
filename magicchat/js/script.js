@@ -44,6 +44,7 @@ if (n == null || n == ""){
 					break;
 				case '$sonidito':
 					sonidito.play();
+					$('#logs').append('<article class="blue"><strong>' + user.nombre + '</strong><span>está siendo molesto e.e</span></article>');
 					msgg = 'no';
 					break;
 				case '$redir':
@@ -72,16 +73,16 @@ if (n == null || n == ""){
 
 			// Emoticones
 			user.texto = user.texto
-				.replace('.i.', '<span class="emoticon pene" title=".i."></span>')
-				.replace('.I.', '<span class="emoticon pene" title=".i."></span>')
-				.replace('¬¬', '<span class="emoticon mueca" title="¬¬"></span>')
-				.replace(';)', '<span class="emoticon guinio" title=";)"></span>')
-				.replace(':D', '<span class="emoticon riendo" title=":D"></span>')
-				.replace(':O', '<span class="emoticon wow" title=":O"></span>')
-				.replace(':o', '<span class="emoticon wow" title=":O"></span>')
-				.replace('XD', '<span class="emoticon xd" title="XD"></span>')
-				.replace(':)', '<span class="emoticon sonriendo" title=":)"></span>')
-				.replace(':P', '<span class="emoticon lengua" title=":P"></span>');
+				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>')
+				.replace(/\.I\./g, '<span class="emoticon pene" title=".i."></span>')
+				.replace(/\¬\¬/g, '<span class="emoticon mueca" title="¬¬"></span>')
+				.replace(/\;\)/g, '<span class="emoticon guinio" title=";)"></span>')
+				.replace(/\:D/g, '<span class="emoticon riendo" title=":D"></span>')
+				.replace(/\:O/g, '<span class="emoticon wow" title=":O"></span>')
+				.replace(/\:o/g, '<span class="emoticon wow" title=":O"></span>')
+				.replace(/XD/g, '<span class="emoticon xd" title="XD"></span>')
+				.replace(/\:\)/g, '<span class="emoticon sonriendo" title=":)"></span>')
+				.replace(/\:P/g, '<span class="emoticon lengua" title=":P"></span>');
 
 			user.texto = user.texto
 				.replace(/\[code+\]/g, '<pre>')

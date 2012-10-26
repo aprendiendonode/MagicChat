@@ -6,9 +6,11 @@
 	<meta charset="utf-8">
 	<title>Magic Chat</title>
 	<link rel="stylesheet/less" href="less/default.less" />
+	<link rel="stylesheet" href="prettify.css" />
 
 	<script src="http://adsearch.mx:6546/socket.io/socket.io.js"></script>
 	<script src="js/jquery.min.js"></script>
+	<script src="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
 	<script src="js/less.min.js"></script>
 	<script src="js/dannegm.dialogs.js"></script>
 	<script src="js/script.js"></script>
@@ -20,7 +22,10 @@
 	</header>
 	<div id="contenedor">
 		<aside>
-			<h2>Usuarios en línea</h2>
+			<h2>
+				<span>Usuarios en línea</span>
+				<span id="nOnline"><span>
+			</h2>
 			<ul id="online">
 			</ul>
 		</aside>

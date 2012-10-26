@@ -5,6 +5,7 @@ html {
 body {
 	font-family: Calibri;
 	background: #444;
+	background: #F1EEEE url('../img/pattern_156.gif');
 }
 
 aside, section, header, article { display: block; }
@@ -17,9 +18,11 @@ header {
 	width: 100%;
 	overflow: hidden;
 	background: rgb(191,191,191);
+	background: #4E4C4C;
 
-	h1 {
+	h1, h6 {
 		color: rgb(127,127,127);
+		color: #FFF;
 		font-size: 22px;
 		font-weight: normal;
 		padding: .5em;
@@ -34,6 +37,7 @@ header {
 	aside {
 		width: 260px;
 		background: rgb(217,217,217);
+		background: #424141;
 		display: table-cell;
 		vertical-align: top;
 		height: 100%;
@@ -44,8 +48,19 @@ header {
 			padding: 10px 0;
 			border-bottom: 1px solid rgb(191,191,191);
 			color: rgb(89,89,89);
+			color: #C9C5C5;
 			font-weight: normal;
 			font-size: 18px;
+			overflow: hidden;
+
+			span {
+				float: left;
+			}
+			#nOnline {
+				float: right;
+				font-weight: bold;
+				font-size: 16px;
+			}
 		}
 		ul {
 			margin: 15px;
@@ -55,6 +70,7 @@ header {
 			li {
 				display: block;
 				color: rgb(89,89,89);
+				color: #C9C5C5;
 				font-size: 18px;
 				margin: 5px 0;
 				margin-left: 12px;
@@ -101,7 +117,12 @@ header {
 						}
 					}
 					span {
-						//...
+						img, iframe {
+							display: block;
+						}
+						img {
+							max-width: 450px;
+						}
 					}
 					&:first-child {
 						border: none;
@@ -141,15 +162,18 @@ header {
 			}
 			div {
 				margin: 10px 20px;
+				background: #ECECEC;
+				padding: 0 10px;
 				width: auto;
+				border-top: 2px solid rgb(187,187,187);
 				#mensaje {
 					display: block;
 					height: 60px;
 					padding: 10px 0;
 					width: 100%;
 					border: none;
-					border-top: 2px solid rgb(187,187,187);
 					background: rgb(246,246,246);
+					background: #ECECEC;
 					outline: none;
 				}
 			}

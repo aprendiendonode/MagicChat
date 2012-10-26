@@ -1,6 +1,6 @@
 
 // Antes de iniciar el chat pedimos que nos de su nombre
-var n = prompt("Tu nombre", "Tu nombre");
+var n = prompt("Tu nombre", "");
 
 //Cargamos sonidito
 var sonidito = document.createElement('audio');
@@ -35,6 +35,7 @@ if (n){
 			var user = e;
 
 			// Esto es para los comandos
+
 			var comando = user.texto.split('::');
 			var msgg = 'si';
 			switch(comando[0]){
@@ -67,7 +68,7 @@ if (n){
 				// Insertar imagen
 				// $img::path/to/img
 				case '$img':
-					user.texto = '<img src="' + comando[1] + '" style="width: 450px;" />';
+					user.texto = '<img src="' + comando[1] + '" />';
 					break;
 				// Iserta video de youtube
 				// $youtube::iddelvideo
@@ -86,13 +87,25 @@ if (n){
 			// Emoticones
 			user.texto = user.texto
 				.replace('.i.', '<span class="emoticon pene" title=".i."></span>')
-				.replace(':/', '<span class="emoticon mueca" title=":/"></span>')
+				.replace('.I.', '<span class="emoticon pene" title=".i."></span>')
+				.replace('¬¬', '<span class="emoticon mueca" title="¬¬"></span>')
 				.replace(';)', '<span class="emoticon guinio" title=";)"></span>')
 				.replace(':D', '<span class="emoticon riendo" title=":D"></span>')
 				.replace(':O', '<span class="emoticon wow" title=":O"></span>')
+				.replace(':o', '<span class="emoticon wow" title=":O"></span>')
 				.replace('XD', '<span class="emoticon xd" title="XD"></span>')
 				.replace(':)', '<span class="emoticon sonriendo" title=":)"></span>')
 				.replace(':P', '<span class="emoticon lengua" title=":P"></span>');
+
+
+
+
+			user.texto = user.texto
+				.replace('[code]', '<pre class="prettyprint linenums">')
+				.replace('[/code]', '</pre>');
+			prettyPrint();
+
+			// make code pretty
 
 			// Añadimos el objeto recibido a la capa #logs donde mostraremos el chat
 			if(msgg == 'si'){
@@ -119,7 +132,7 @@ if (n){
 
 	// Revisamos si alguien salió
 	socket.on('salio', function(user){
-			$('#logs').append('<article class="red"><strong>' + user.nombre + '</strong><span>ha dejado el chat</span></article>');
+			$('#logs').append('<article class="red"><strong>' + user + '</strong><span>ha dejado el chat</span></article>');
 			var altodiv = $('#logs').height();
 			$('#history').scrollTop( altodiv );
 	});
@@ -130,6 +143,8 @@ if (n){
 		$.each(user, function(key, value) {
 			$('#online').append('<li>' + value.nombre  + '</li>');
 		});
+		var nOnline = $('#online li').length;
+		$('#nOnline').html(nOnline);
 	});
 
 	// vemos si esta escribiendo otro
@@ -163,10 +178,38 @@ function resize (){
 	$('#contenedor').height(winHeight);
 	var hisHeigt = winHeight - $('#formulario').height() - 90;
 	$('#history').height(hisHeigt);	
+	if( $(window).width() < 767){
+		$('#online').hide();
+	}else{
+		$('#online').show();
+	}
+	displayUsers = 0;
 }
+
+var displayUsers = 0;
+function showHideUsers(){
+	if( $(window).width() < 767){
+		if(displayUsers == 1){
+			$('#online').hide();
+			displayUsers = 0;
+		}else{
+			$('#online').show();
+			displayUsers = 1;
+		}
+	}
+}
+
 function run () {
 	resize();
 	$(window).resize(resize);
+
+	$('aside').click(showHideUsers);
+
+	// make code pretty
+    window.prettyPrint && prettyPrint();
+
+    $('#mensaje').focus();
+	
 
 	// Al enviar el formulario ejecutamos la funcion enviar();
 	$('#formulario').submit(function(e){

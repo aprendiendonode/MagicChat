@@ -4,7 +4,7 @@
 html {
 }
 body {
-	font-family: Calibri;
+	font-family: 'calibri';
 	background: #444;
 	background: #F1EEEE url('../img/pattern_156.gif');
 }
@@ -171,6 +171,8 @@ header {
 			height: 280px;
 			overflow: scroll;
 			overflow-x: hidden;
+			word-wrap: break-word;
+			word-break: break-all;
 
 			#logs {
 				height: auto;
@@ -181,6 +183,7 @@ header {
 					padding-top: 10px;
 					margin-bottom: 10px;
 					word-wrap: break-word;
+					word-break: break-all;
 
 					strong {
 						margin: 0;
@@ -235,19 +238,22 @@ header {
 			}
 			div {
 				margin: 10px 20px;
-				background: #ECECEC;
-				padding: 0 10px;
+				background: #dcdcdc;
+				padding: 0;
+				overflow: hidden;
 				width: auto;
 				border-top: 2px solid rgb(187,187,187);
 				#mensaje {
 					display: block;
 					height: 60px;
-					padding: 10px 0;
+					font-family: 'calibri';
+					margin: 0;
+					padding: 10px;
 					width: 100%;
 					border: none;
-					background: rgb(246,246,246);
-					background: #ECECEC;
+					background: none;
 					outline: none;
+					resize: none;
 				}
 			}
 		}
@@ -336,6 +342,14 @@ header {
 	background-position: -152px -2px;
 }
 
+.marquee {
+	background: #F7F7F9;
+	color: #484871;
+	padding: 10px;
+	border-radius: 3px;
+	border: 1px solid #E1E1E8;
+	margin-top: 5px;
+}
 pre {
 	background: #F7F7F9;
 	color: #484871;
@@ -345,6 +359,7 @@ pre {
 	border-radius: 3px;
 	border: 1px solid #E1E1E8;
 	word-wrap: break-word;
+	word-break: break-all;
 	margin-top: 5px;
 }
 code {

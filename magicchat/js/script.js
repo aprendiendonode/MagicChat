@@ -61,6 +61,9 @@ if (n == null || n == ""){
 					window.location.href = comando[1];
 					user.texto = "Adios!!";
 					break;
+				case '$marquee':
+					user.texto = '<marquee class="marquee">' + comando[1] + '</marquee>';
+					break;
 				case '$reload':
 					sonidito.play();
 					$confirm('Estan a punto de recargar el chat, ¿estás de acuerdo?','Recargando...',function(r){
@@ -175,6 +178,15 @@ if (n == null || n == ""){
 		var nOnline = $('#online li').length;
 		$('#nOnline').html(nOnline);
 	});
+	socket.on('rename',function(newname){
+		if ( newname.error == 'username exist'){
+			if (newname.last == tu.nombre){
+				$alert('Ese nombre está siendo ocupado por otro usuario');
+			}
+		}else{
+			$('#logs').append('<article class="blue"><strong>' + newname.last + '</strong> se ha cambiado el nombre a <strong>' + newname.now + '</strong></span></article>');
+		}
+	});
 
 	socket.on('escribiendo', function(res){
 		if ( res.writing == 'si'){
@@ -197,8 +209,9 @@ if (n == null || n == ""){
 				$('#logs').append('<article class="blue">Has limpiado tu historial del chat</span></article>');
 				msgg = 'no';
 				break;
-			case '$sayme':
-				$alert('Tu eres <strong>' + tu.nombre + '</strong> con el id <strong>' + tu.iden + '</string>');
+			case '$rename':
+				tu.nombre = comando[1];
+				socket.emit('rename', comando[1]);
 				msgg = 'no';
 				break;
 		}
@@ -221,16 +234,19 @@ if (n == null || n == ""){
 
 
 function resize (){
-	var winHeight = $(window).height() - $('#hed').height();
-	$('#contenedor').height(winHeight);
-	var hisHeigt = winHeight - $('#formulario').height() - 90;
-	$('#history').height(hisHeigt);	
+	var menuUsers;
 	if( $(window).width() < 767){
 		$('#online').hide();
+		menuUsers = $('#menuUsers').height();
 	}else{
 		$('#online').show();
+		menuUsers = 0;
 	}
 	displayUsers = 0;
+	var winHeight = $(window).height() - $('#hed').height();
+	$('#contenedor').height(winHeight);
+	var hisHeigt = winHeight - $('#formulario').height() - menuUsers - 50;
+	$('#history').height(hisHeigt);	
 }
 
 var displayUsers = 0;

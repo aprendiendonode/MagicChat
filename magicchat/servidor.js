@@ -20,14 +20,7 @@ servidor.sockets.on('connection', function(socket){
 			iden: iden
 		}
 
-		if (usuarios[n]){
-			var usuarioslower = usuarios[n].nombre.toLowerCase();
-			var nlower = n.toLowerCase();
-
-			if (usuarioslower == nlower){
-				servidor.sockets.socket(socket.id).emit('usuarioexiste', user);
-			}
-		}else if(typeof usuarios[n] != "undefined"){
+		if(typeof usuarios[n] != "undefined"){
 			servidor.sockets.socket(socket.id).emit('usuarioexiste', user);
 		}else{
 			socket.username = n;
@@ -55,7 +48,6 @@ servidor.sockets.on('connection', function(socket){
 		delete usuarios[socket.username];
 		servidor.sockets.emit('salio', socket.username);
 		servidor.sockets.emit('online', usuarios);
-		console.log('Salio: ' + user.nombre);
 	});
 
 	socket.on('enviar', function (res) {
@@ -75,14 +67,19 @@ servidor.sockets.on('connection', function(socket){
 	});
 
 	socket.on('rename', function(newname){
-		newname = newname.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		user = {
-			nombre: newname,
-			iden: iden
+		if(typeof usuarios[newname] != "undefined"){
+			servidor.sockets.socket(socket.id).emit('rename', {last: socket.username, now: socket.username, error: 'username exist'});
+		}else{
+			newname = newname.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			servidor.sockets.emit('rename', {last: socket.username, now: newname});
+			user = {
+				nombre: newname,
+				iden: iden
+			}
+			delete usuarios[socket.username];
+			socket.username = newname;
+			usuarios[newname] = user;
+			servidor.sockets.emit('online', usuarios);
 		}
-		delete usuarios[socket.username];
-		socket.username = newname;
-		usuarios[newname] = user;
-		servidor.sockets.emit('online', usuarios); 
 	});
 });

@@ -62,14 +62,21 @@ if (n == null || n == ""){
 					user.texto = "Adios!!";
 					break;
 				case '$reload':
-					window.location.reload();
-					user.texto = "Recargando...";
+					sonidito.play();
+					$confirm('Estan a punto de recargar el chat, ¿estás de acuerdo?','Recargando...',function(r){
+						if(r){
+							window.location.reload();
+						}else{
+							$('#logs').append('<article class="red"><span>Has cancelado la recarga</span></article>');
+						}
+					});
+					msgg = 'no';
 					break;
 				case '$img':
 					user.texto = '<img src="' + comando[1] + '" />';
 					break;
 				case '$youtube':
-					user.texto = '<iframe width="350" height="200" src="http://www.youtube.com/embed/' + comando[1] + '" frameborder="0" allowfullscreen></iframe>';
+					user.texto = '<iframe width="550" height="300" src="http://www.youtube.com/embed/' + comando[1] + '" frameborder="0" allowfullscreen></iframe>';
 					break;
 				case '$url':
 					user.texto = '<a href="' + comando[1] + '" target="_blank">' + comando[1] + '</a>';
@@ -92,6 +99,12 @@ if (n == null || n == ""){
 				.replace(/XD/g, '<span class="emoticon xd" title="XD"></span>')
 				.replace(/\:\)/g, '<span class="emoticon sonriendo" title=":)"></span>')
 				.replace(/\:P/g, '<span class="emoticon lengua" title=":P"></span>');
+
+			user.texto = user.texto
+				.replace(/\[code+\]/g, '<pre>')
+				.replace(/\[\/code\]/g, '</pre>')
+				.replace(/\[\[/g, '<code>')
+				.replace(/\]\]/g, '</code>');
 
 			user.texto = user.texto
 				.replace(/\[code+\]/g, '<pre>')
@@ -282,7 +295,7 @@ function run () {
 
 	$('#help').click(function(e){
 		e.preventDefault();
-		$alert( $('#helpTxt').html(), 'Ayuda' );
+		$alert( '<article>' + $('#helpTxt').html() + '</article>', 'Ayuda' );
 	});
 
 }

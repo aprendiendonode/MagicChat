@@ -1,4 +1,5 @@
 @import "reset.less";
+@import "fonts.less";
 
 html {
 }
@@ -98,7 +99,7 @@ header {
 					margin-top: 8px;
 				}
 				&.naranjita:before {
-					background: #ff9d00;
+					background: #D57100;
 				}
 				.actionUser {
 					margin-left: 5px;
@@ -193,7 +194,7 @@ header {
 							margin-top: 5px;
 						}
 						img {
-							max-width: 450px;
+							max-width: 550px;
 						}
 					}
 					&:first-child {
@@ -372,7 +373,6 @@ code {
 	color: #fff;
 	margin: 10px;
 	border-radius: 3px;
-	-webkit-transition: all 1s;
 	cursor: pointer;
 
 	&:hover {
@@ -385,13 +385,14 @@ code {
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#2e000000',GradientType=0 );
 	}
 	&:active {
-		background: -moz-linear-gradient(top,  rgba(0,0,0,0.31) 0%, rgba(0,0,0,0.14) 100%);
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.31)), color-stop(100%,rgba(0,0,0,0.14)));
-		background: -webkit-linear-gradient(top,  rgba(0,0,0,0.31) 0%,rgba(0,0,0,0.14) 100%);
-		background: -o-linear-gradient(top,  rgba(0,0,0,0.31) 0%,rgba(0,0,0,0.14) 100%);
-		background: -ms-linear-gradient(top,  rgba(0,0,0,0.31) 0%,rgba(0,0,0,0.14) 100%);
-		background: linear-gradient(to bottom,  rgba(0,0,0,0.31) 0%,rgba(0,0,0,0.14) 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f000000', endColorstr='#24000000',GradientType=0 );
+		background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.18)));
+		background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.18) 100%);
+		background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.18) 100%);
+		background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.18) 100%);
+		background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.18) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#2e000000',GradientType=0 );
+		box-shadow: inset 0px 2px 5px rgba(0,0,0,.5);
 	}
 }
 
@@ -412,23 +413,32 @@ code {
 }
 #msgBox {
 	overflow: hidden;
-	background: #ddd;
+	background: #eee;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(234,234,234,1)), color-stop(100%,rgba(224,224,224,1)));
 }
 #msgTitle {
 	display: block;
 	overflow: hidden;
 	padding: 10px;
-	font: 18px sans-serif;
+	font-size: 18px;
 	color: #333;
-	border-bottom: 1px solid #aaa;
+	border-bottom: 1px solid #ddd;
 }
 #msgContent {
 	color: #000;
 	display: block;
 	overflow: auto;
-	font: 14px/1.4 sans-serif;
+	font-size: 14px;
 	padding: 10px;
 	max-height: 400px;
+
+	article {
+		background: #fff;
+		border-bottom: 1px solid #ddd;
+		margin: -10px;
+		padding: 10px;
+		overflow: hidden;
+	}
 }
 #msgOptions {
 	display: block;
@@ -438,7 +448,7 @@ code {
 #msgOptions a {
 	text-decoration: none;
 	color: #000;
-	font: 12px sans-serif;
+	font-size: 12px;
 	display: block;
 	float: right;
 	margin: 5px;

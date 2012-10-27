@@ -17,6 +17,8 @@ servidor.sockets.on('connection', function(socket){
 	// Detectams que entra un usuario
 	socket.on('entro', function(n){
 
+		// Filtro AntiAngel
+		n = n.replace('<', '&lt;').replace('>', '&gt;');
 		// Obtenemos el nombre del usuario por callback
 		// Creamos un usuario
 		user = {
@@ -79,5 +81,17 @@ servidor.sockets.on('connection', function(socket){
 	// Vemos si alguien está escribiendo
 	socket.on('escribiendo', function(res){
 		servidor.sockets.emit('escribiendo', res);
+	});
+
+	socket.on('rename', function(newname){
+		newname = newname.replace('<', '&lt;').replace('>', '&gt;');
+		user = {
+			nombre: newname,
+			iden: iden
+		}
+		delete usuarios[socket.username];
+		socket.username = newname;
+		usuarios[newname] = user;
+		servidor.sockets.emit('online', usuarios); 
 	});
 });

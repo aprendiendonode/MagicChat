@@ -24,10 +24,23 @@ servidor.sockets.on('connection', function(socket){
 		}else{
 			socket.username = n;
 			usuarios[n] = user;
+			var envTU = {
+				nombre: n,
+				iden: socket.id,
+			};
+			servidor.sockets.socket(socket.id).emit('entraste', envTU);
 			servidor.sockets.emit('entro', user);
 			servidor.sockets.emit('online', usuarios);
 			console.log('Entro: ' + n);
 		}
+	});
+
+	socket.on('winFocus', function(e) {
+		servidor.sockets.emit('winFocus', e);
+	});
+
+	socket.on('visto', function(e) {
+		servidor.sockets.emit('visto', e);
 	});
 
 	socket.on('disconnect', function () {

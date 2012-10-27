@@ -5,7 +5,11 @@ var sonidito = document.createElement('audio');
 	sonidito.src = "http://soundjax.com/reddo/27947%5EBells.mp3";
 	//sonidito.src = "nokia.mp3";
 
-var visto = 'no';
+var tu = {
+	nombre: 'Anonimo',
+	iden: 'undefine'
+};
+var txtFocus = 'no';
 var winFocus = 'si';
 window.onblur = function () {
 	winFocus = 'no';
@@ -30,6 +34,11 @@ if (n == null || n == ""){
 		}
 		socket.emit('entro', usuario);
 		n = usuario;
+	});
+
+	socket.on('entraste', function(tuRe){
+		tu.nombre = tuRe.nombre;
+		tu.iden = tuRe.iden;
 	});
 
 	socket.on('enviando', function(e){
@@ -75,7 +84,6 @@ if (n == null || n == ""){
 			// Emoticones
 			user.texto = user.texto
 				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>')
-				.replace(/\.I\./g, '<span class="emoticon pene" title=".i."></span>')
 				.replace(/\¬\¬/g, '<span class="emoticon mueca" title="¬¬"></span>')
 				.replace(/\;\)/g, '<span class="emoticon guinio" title=";)"></span>')
 				.replace(/\:D/g, '<span class="emoticon riendo" title=":D"></span>')
@@ -101,6 +109,24 @@ if (n == null || n == ""){
 			if (winFocus == 'no'){
 				sonidito.play();
 			}
+
+			if (txtFocus == 'si'){
+				socket.emit('visto', {visto: 'si', iden: user.nombre});
+			}else{
+				socket.emit('visto', {visto: 'no', iden: user.nombre});
+			}
+	});
+
+	socket.on('visto', function(visto){
+		if (visto.iden != tu.nombre){
+			if (visto.visto == 'si'){
+				$('#action').html('<span>Visto</span>');
+				$('[rel="user_' + visto.iden + '"] .actionUser').html('lo vió');
+			}else{
+				$('#action').html('');
+				$('[rel="user_' + visto.iden + '"] .actionUser').html('');
+			}
+		}
 	});
 
 	socket.on('entro', function(user){
@@ -115,10 +141,23 @@ if (n == null || n == ""){
 			$('#history').scrollTop( altodiv );
 	});
 
+	socket.on('winFocus', function(w){
+		if(w.focused == 'no'){
+			$('[rel="user_' + w.iden + '"]').addClass('naranjita');
+		}else{
+			$('[rel="user_' + w.iden + '"]').removeClass('naranjita');
+		}
+	});
+
 	socket.on('online', function(user) {
 		$('#online').html('');
 		$.each(user, function(key, value) {
-			$('#online').append('<li>' + value.nombre  + '</li>');
+			var eresTu = '';
+			if (value.nombre == tu.nombre){
+				eresTu = 'id="tu"';
+			}
+			$('#online').append('<li rel="user_' + value.nombre + '" ' + eresTu + '>' + value.nombre  + '<span class="actionUser"></spa></li>');
+
 		});
 		var nOnline = $('#online li').length;
 		$('#nOnline').html(nOnline);
@@ -126,9 +165,11 @@ if (n == null || n == ""){
 
 	socket.on('escribiendo', function(res){
 		if ( res.writing == 'si'){
-			$('#action').html('<strong>' + res.user + '</strong><span> está escribiendo...</span>');
+			$('#action').html('Escribiendo...</span>');
+			$('[rel="user_' + res.user + '"] .actionUser').html('está escribiendo');
 		}else{
 			$('#action').html('');
+			$('[rel="user_' + res.user + '"] .actionUser').html('');
 		}
 	});
 	function enviar (e) {
@@ -143,6 +184,10 @@ if (n == null || n == ""){
 				$('#logs').append('<article class="blue">Has limpiado tu historial del chat</span></article>');
 				msgg = 'no';
 				break;
+			case '$sayme':
+				$alert('Tu eres <strong>' + tu.nombre + '</strong> con el id <strong>' + tu.iden + '</string>');
+				msgg = 'no';
+				break;
 		}
 		if (msgg == 'si'){
 			if (limpiarspaces == ''){
@@ -151,7 +196,7 @@ if (n == null || n == ""){
 				$('#history').scrollTop( altodiv );
 			}else{
 				var user = {
-					nombre: n,
+					nombre: tu.nombre,
 					texto: texto
 				}
 				socket.emit('enviar', user);
@@ -215,10 +260,24 @@ function run () {
 			writing = 'si';
 		}
 		var who = {
-			user: n,
+			user: tu.nombre,
 			writing: writing
 		}
 		socket.emit('escribiendo', who);
+	});
+	$('#mensaje').focus(function(){
+		socket.emit('visto', {visto: 'si', iden: tu.nombre});
+		txtFocus = 'si';
+	});
+	$('#mensaje').blur(function(){
+		socket.emit('visto', {visto: 'no', iden: tu.nombre});
+		txtFocus = 'no';
+	});
+	$(window).focus(function(){
+		socket.emit('winFocus', {focused: 'si', iden: tu.nombre});
+	});
+	$(window).blur(function(){
+		socket.emit('winFocus', {focused: 'no', iden: tu.nombre});
 	});
 
 }

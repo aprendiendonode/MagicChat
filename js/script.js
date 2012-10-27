@@ -86,12 +86,18 @@ if (n == null || n == ""){
 				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>')
 				.replace(/\.I\./g, '<span class="emoticon pene" title=".i."></span>')
 				.replace(/\¬\¬/g, '<span class="emoticon mueca" title="¬¬"></span>')
+				.replace(/\e\.e/g, '<span class="emoticon mueca" title="¬¬"></span>')
 				.replace(/\;\)/g, '<span class="emoticon guinio" title=";)"></span>')
 				.replace(/\:D/g, '<span class="emoticon riendo" title=":D"></span>')
 				.replace(/\:O/g, '<span class="emoticon wow" title=":O"></span>')
+				.replace(/\:0/g, '<span class="emoticon wow" title=":O"></span>')
 				.replace(/\:o/g, '<span class="emoticon wow" title=":O"></span>')
 				.replace(/XD/g, '<span class="emoticon xd" title="XD"></span>')
+				.replace(/xD/g, '<span class="emoticon xd" title="XD"></span>')
+				.replace(/xd/g, '<span class="emoticon xd" title="XD"></span>')
+				.replace(/Xd/g, '<span class="emoticon xd" title="XD"></span>')
 				.replace(/\:\)/g, '<span class="emoticon sonriendo" title=":)"></span>')
+				.replace(/\:p/g, '<span class="emoticon lengua" title=":P"></span>')
 				.replace(/\:P/g, '<span class="emoticon lengua" title=":P"></span>');
 
 			user.texto = user.texto
@@ -111,21 +117,18 @@ if (n == null || n == ""){
 				sonidito.play();
 			}
 
-			if ( txtFocus == 'si' ){
-				vistoObj.visto = 'si';
+			if (txtFocus == 'si'){
 				socket.emit('visto', {visto: 'si', iden: user.nombre});
-				txtFocus = 'no';
 			}else{
 				socket.emit('visto', {visto: 'no', iden: user.nombre});
 			}
+			txtFocus = 'no';
 	});
 
 	socket.on('visto', function(visto){
-		if (visto.iden == tu.iden){
-			if (visto.visto == 'no'){
+		if (visto.iden != tu.nombre){
+			if (visto.visto == 'si'){
 				$('#action').html('<span>Visto</span>');
-			}else{
-				$('#action').html('');
 			}
 		}
 	});
@@ -149,7 +152,7 @@ if (n == null || n == ""){
 			if (value.nombre == tu.nombre){
 				eresTu = 'id="tu"';
 			}
-			$('#online').append('<li rel="user_' + value.iden + '" ' + eresTu + '>' + value.nombre  + '</li>');
+			$('#online').append('<li rel="user_' + value.nombre + '" ' + eresTu + '>' + value.nombre  + '</li>');
 
 		});
 		var nOnline = $('#online li').length;
@@ -257,11 +260,11 @@ function run () {
 		socket.emit('escribiendo', who);
 	});
 	$('#mensaje').focus(function(){
-		socket.emit('visto', {visto: 'si', iden: tu.iden});
+		socket.emit('visto', {visto: 'si', iden: tu.nombre});
 		txtFocus = 'si';
 	});
 	$('#mensaje').blur(function(){
-		socket.emit('visto', {visto: 'no', iden: tu.iden});
+		socket.emit('visto', {visto: 'no', iden: tu.nombre});
 		txtFocus = 'no';
 	});
 

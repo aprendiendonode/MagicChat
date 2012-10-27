@@ -280,5 +280,10 @@ function run () {
 		socket.emit('winFocus', {focused: 'no', iden: tu.nombre});
 	});
 
+	$('#help').click(function(e){
+		e.preventDefault();
+		$alert( $('#helpTxt').html(), 'Ayuda' );
+	});
+
 }
 $(document).ready(run);

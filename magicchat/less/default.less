@@ -10,8 +10,8 @@ body {
 
 aside, section, header, article { display: block; }
 
-#main {
-
+#helpTxt {
+	display: none;
 }
 
 header {
@@ -20,12 +20,23 @@ header {
 	background: rgb(191,191,191);
 	background: #4E4C4C;
 
-	h1, h6 {
+	h1 {
 		color: rgb(127,127,127);
 		color: #FFF;
 		font-size: 22px;
 		font-weight: normal;
-		padding: .5em;
+		padding: 10px;
+		overflow: hidden;
+		span {
+			float: left;
+			display: block;
+		}
+		button {
+			float: right;
+			display: block;
+			margin: 0 !important;
+			font-size: 12px;
+		}
 	}
 }
 
@@ -382,4 +393,68 @@ code {
 		background: linear-gradient(to bottom,  rgba(0,0,0,0.31) 0%,rgba(0,0,0,0.14) 100%);
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f000000', endColorstr='#24000000',GradientType=0 );
 	}
+}
+
+#msgWrap {
+	display: none;
+	position: absolute;
+	position: fixed;
+	top: 50px;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+}
+#msgShadow {
+	width: 500px;
+	margin: 10px auto;
+	.bshadow(0 0 20px rgba(0,0,0,.5));
+	overflow: hidden;
+}
+#msgBox {
+	overflow: hidden;
+	background: #ddd;
+}
+#msgTitle {
+	display: block;
+	overflow: hidden;
+	padding: 10px;
+	font: 18px sans-serif;
+	color: #333;
+	border-bottom: 1px solid #aaa;
+}
+#msgContent {
+	color: #000;
+	display: block;
+	overflow: auto;
+	font: 14px/1.4 sans-serif;
+	padding: 10px;
+	max-height: 400px;
+}
+#msgOptions {
+	display: block;
+	overflow: hidden;
+	padding: 5px;
+}
+#msgOptions a {
+	text-decoration: none;
+	color: #000;
+	font: 12px sans-serif;
+	display: block;
+	float: right;
+	margin: 5px;
+	padding: 5px 7px;
+	border: 1px solid rgb(127,127,127);
+	background: #eee;
+	background: -webkit-linear-gradient(top, rgb(242,242,242) 0%,rgb(217,217,217) 100%);
+}
+#msgOptions a:focus {
+	outline: none;
+	box-shadow: 0 0 3px rgb(38,125,230);
+}
+#msgOptions a:hover {
+	background: #fff;
+	background: -webkit-linear-gradient(top, rgb(255,255,255) 0%,rgb(242,242,242) 100%);
+}
+#msgOptions a:active {
+	background: rgb(242,242,242);
 }

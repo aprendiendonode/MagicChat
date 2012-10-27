@@ -19,7 +19,15 @@ servidor.sockets.on('connection', function(socket){
 			nombre: n,
 			iden: iden
 		}
-		if(typeof usuarios[n] != "undefined"){
+
+		if (usuarios[n]){
+			var usuarioslower = usuarios[n].nombre.toLowerCase();
+			var nlower = n.toLowerCase();
+
+			if (usuarioslower == nlower){
+				servidor.sockets.socket(socket.id).emit('usuarioexiste', user);
+			}
+		}else if(typeof usuarios[n] != "undefined"){
 			servidor.sockets.socket(socket.id).emit('usuarioexiste', user);
 		}else{
 			socket.username = n;

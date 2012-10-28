@@ -50,11 +50,6 @@ if (n == null || n == ""){
 	socket.on('enviando', function(e){
 
 			var user = e;
-
-			var url = user.texto.split('://');
-			if (url[0] == 'http' || url[0] == 'https') {
-					user.texto = '<a href="' + comando[0] + '://' + comando[1] + '">' + comando[0] + '://' + comando[1] + '</a>';
-			}
 			var comando = user.texto.split('::');
 			var msgg = 'si';
 			switch(comando[0]){
@@ -106,13 +101,6 @@ if (n == null || n == ""){
 					user.texto = '<figure class="media_youtube"><iframe src="http://www.youtube.com/embed/' + comando[1] + '" frameborder="0" allowfullscreen></iframe></figure>';
 					break;
 				case '$url':
-					var mediaa = {
-						typo: 'url',
-						author: user.nombre,
-						date: hora(),
-						content: comando[1]
-					};
-					multimedia.push(mediaa);
 					user.texto = '<a href="' + comando[1] + '" target="_blank">' + comando[1] + '</a>';
 					break;
 				case '$borrarchat':

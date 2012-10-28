@@ -7,6 +7,7 @@ var user = {
 };
 
 var usuarios = {};
+var canales = ['canal1','canal2','canal3'];
 
 servidor.sockets.on('connection', function(socket){
 
@@ -24,6 +25,8 @@ servidor.sockets.on('connection', function(socket){
 			servidor.sockets.socket(socket.id).emit('usuarioexiste', user);
 		}else{
 			socket.username = n;
+			// Agregamos el canal por defecto
+			socket.room = 'canal1';
 			usuarios[n] = user;
 			var envTU = {
 				nombre: n,

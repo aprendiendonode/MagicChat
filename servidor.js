@@ -82,4 +82,10 @@ servidor.sockets.on('connection', function(socket){
 			servidor.sockets.emit('online', usuarios);
 		}
 	});
+
+	socket.on('privado', function(privado){
+		if(typeof usuarios[privado.para] != "undefined"){
+			servidor.sockets.socket(usuarios[privado.para].iden).emit('privado', privado);
+		}
+	});
 });

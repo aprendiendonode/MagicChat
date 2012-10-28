@@ -25,7 +25,7 @@ if (n == null || n == ""){
 	n = 'Anonimo' + aleatorio.toFixed();
 }
 
-	var socket = io.connect('http://adsearch.mx:6546');
+	var socket = io.connect('http://dannegm.com:6546');
 
 	socket.emit('entro', n);
 	socket.on('usuarioexiste', function(user){
@@ -213,6 +213,12 @@ if (n == null || n == ""){
 			$('[rel="user_' + res.user + '"] .actionUser').html('');
 		}
 	});
+
+	socket.on('privado', function(privado){
+		$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><em><strong>MP</strong> de <strong>' + privado.de + '</strong> para <strong>' + privado.para + '</strong><span>' + privado.texto + '</span></em></article>');
+		autoScroll();
+	});
+
 	function enviar (e) {
 		var texto = $('#mensaje').val();
 		var limpiarspaces = texto.replace(/ /g, '').replace(/\n/g, '');
@@ -229,6 +235,17 @@ if (n == null || n == ""){
 			case '$rename':
 				tu.nombre = comando[1];
 				socket.emit('rename', comando[1]);
+				msgg = 'no';
+				break;
+			case '$privado':
+				var privado = {
+					de: tu.nombre,
+					para: comando[1],
+					texto: comando[2]
+				}
+				socket.emit('privado', privado);
+				$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><em><strong>MP</strong> de <strong>' + privado.de + '</strong> para <strong>' + privado.para + '</strong><span>' + privado.texto + '</span></em></article>');
+				autoScroll();
 				msgg = 'no';
 				break;
 		}
@@ -330,6 +347,11 @@ function run () {
 			var altodiv = $('#media').height();
 			$('#history').scrollTop( altodiv );
 		}
+	});
+
+	$('li[rel]').live('click', function(){
+		var liuser = $(this).attr('rel').split('_')[1];
+		$('#mensaje').val('$privado::' + liuser + '::').focus();
 	});
 
     $('#mensaje').focus();

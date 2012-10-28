@@ -213,6 +213,11 @@ if (n == null || n == ""){
 			$('[rel="user_' + res.user + '"] .actionUser').html('');
 		}
 	});
+	socket.on('recibePrivado', function(privado){
+		$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><em>MP de <strong>' + privado.de + '</strong><span>' + privado.texto + '</span></em></article>');
+
+		
+	});
 	function enviar (e) {
 		var texto = $('#mensaje').val();
 		var limpiarspaces = texto.replace(/ /g, '').replace(/\n/g, '');

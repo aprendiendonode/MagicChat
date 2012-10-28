@@ -41,6 +41,10 @@ if (n == null || n == ""){
 		tu.iden = tuRe.iden;
 	});
 
+	socket.on('disconnect', function () {
+		$alert('Te has desconectado del seridor, te ecomendamos recargar la aplicación.', 'Te has desconectado');
+	});
+
 	socket.on('enviando', function(e){
 
 			var user = e;
@@ -263,6 +267,15 @@ function showHideUsers(){
 }
 
 function run () {
+	document.addEventListener("backbutton", function(){
+		if(displayUsers == 1){
+			$('#online').hide();
+			displayUsers = 0;
+		}else{
+			window.close();
+		}
+	}, false);
+
 	resize();
 	$(window).resize(resize);
 	$('aside').click(showHideUsers);

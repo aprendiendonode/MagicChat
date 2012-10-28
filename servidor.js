@@ -27,7 +27,7 @@ servidor.sockets.on('connection', function(socket){
 			usuarios[n] = user;
 			var envTU = {
 				nombre: n,
-				iden: socket.id,
+				iden: socket.id
 			};
 			servidor.sockets.socket(socket.id).emit('entraste', envTU);
 			servidor.sockets.emit('entro', user);
@@ -80,6 +80,14 @@ servidor.sockets.on('connection', function(socket){
 			socket.username = newname;
 			usuarios[newname] = user;
 			servidor.sockets.emit('online', usuarios);
+		}
+	});
+	socket.on('recibePrivado', function(privado){
+		
+		if(typeof usuarios[privado.para] != "undefined"){
+			servidor.sockets.socket(usuarios[privado.para].iden).emit('recibePrivado', privado);
+		}else{
+			// Si el usuario no existe 
 		}
 	});
 });

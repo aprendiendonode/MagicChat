@@ -188,7 +188,7 @@ if (n == null || n == ""){
 			if (value.nombre == tu.nombre){
 				eresTu = 'id="tu"';
 			}
-			$('#online').append('<li rel="user_' + value.nombre + '" ' + eresTu + '>' + value.nombre  + '<span class="actionUser"></span></li>');
+			$('#online').append('<li rel="user_' + value.nombre + '" ' + eresTu + 'class = "privado">' + value.nombre  + '<span class="actionUser"></spa></li>');
 		});
 		var nOnline = $('#online li').length;
 		$('#nOnline').html(nOnline);
@@ -229,6 +229,16 @@ if (n == null || n == ""){
 			case '$rename':
 				tu.nombre = comando[1];
 				socket.emit('rename', comando[1]);
+				msgg = 'no';
+				break;
+			case '$privado':
+				
+				var privado = {
+					de: tu.nombre,
+					para: comando[1],
+					texto: comando[2]
+				}
+				socket.emit('recibePrivado', privado);
 				msgg = 'no';
 				break;
 		}
@@ -374,6 +384,12 @@ function run () {
 	$('#help').click(function(e){
 		e.preventDefault();
 		$alert( '<article>' + $('#helpTxt').html() + '</article>', 'Ayuda' );
+	});
+	
+	$(".privado").live('click', function(event){
+		var userid = $(this).attr('rel').split('_')[1];
+		$("#mensaje").val("$privado::"+userid+"::");
+		
 	});
 
 }

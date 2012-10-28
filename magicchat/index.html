@@ -19,10 +19,11 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="image_src" href="apple-touch-icon-144x144-precomposed.png">
 
-	<script src="http://adsearch.mx:6546/socket.io/socket.io.js"></script>
+	<script src="js/socket.io.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/less.min.js"></script>
 	<script src="js/dannegm.dialogs.js"></script>
+	<script src="js/functions.js"></script>
 	<script src="js/script.js"></script>
 </head>
 <body>
@@ -33,7 +34,7 @@
 
 		<strong>Poner una link</strong><br />
 		<span>Sólo debes poner el comando <code>$url::</code> seguido del link, ej.</span>
-		<pre>$img::http://google.com</pre><br />
+		<pre>$url::http://google.com</pre><br />
 
 		<strong>Poner un video</strong><br />
 		<span>Sólo debes poner el comando <code>$youtube::</code> seguido del id del video, ej.</span>
@@ -68,9 +69,13 @@
 <div id="main">
 	<header id="hed">
 		<h1>
-			<button id="help" class="btn">Ayuda</button>
 			<span>Magic Chat</span>
 		</h1>
+		<nav>
+			<button id="goChat" class="active">Chat</button>
+			<button id="goMedia">Multimedia</button>
+			<button id="help">Ayuda</button>
+		</nav>
 	</header>
 	<div id="contenedor">
 		<aside id="menuUsers">
@@ -85,6 +90,7 @@
 			<div id="history">
 				<section id="logs">
 				</section>
+				<section id="media"></section>
 			</div>
 			<form id="formulario">
 				<label id="action">

@@ -28,6 +28,7 @@ header {
 		font-weight: normal;
 		padding: 10px;
 		overflow: hidden;
+		float: left;
 		span {
 			float: left;
 			display: block;
@@ -37,6 +38,39 @@ header {
 			display: block;
 			margin: 0 !important;
 			font-size: 12px;
+		}
+	}
+	nav {
+		float: right;
+		margin-right: 10px;
+		margin-top: 10px;
+		border: 1px solid rgba(0,0,0,.3);
+		border-bottom: none;
+		background: rgba(0,0,0,.2);
+		box-shadow: inset 0 1 3px rgba(0,0,0,.5);
+		border-radius: 3px 3px 0 0;
+		overflow: hidden;
+
+		button {
+			display: block;
+			float: left;
+			background: none;
+			border: none;
+			padding: 10px 15px;
+			margin: 0;
+			color: #fff;
+			cursor: pointer;
+			border-left: 1px solid rgba(44,44,44,.3);
+			-webkit-transition: all .2s;
+			&:first-child {
+				border: none;
+			}
+			&:hover {
+				background: rgba(255,255,255,.1);
+			}
+			&.active {
+				background: rgba(255,255,255,.2);
+			}
 		}
 	}
 }
@@ -192,12 +226,45 @@ header {
 						}
 					}
 					span {
-						img, iframe {
+						figure {
+							width: 200px;
+							margin: 5px;
+							border: 1px solid #aaa;
+							background: #f9f9f9;
+							border-radius: 3px;
+							box-shadow: 0 0 3px rgba(0,0,0,.3);
+							overflow: hidden;
 							display: block;
-							margin-top: 5px;
+
+							figcaption {
+								background: #e0e0e0;
+								color: #2e2e2e;
+								padding: 5px;
+								font-size: 14x;
+								display: block;
+							}
 						}
-						img {
-							max-width: 550px;
+						.media_img {
+							div {
+								max-height: 220px;
+								overflow: hidden;
+								max-width: 180px;
+								margin: 10px;
+								display: block;
+								img {
+									max-width: 180px;
+									display: block;
+								}
+							}
+						}
+						.media_youtube {
+							width: 410px;
+							iframe {
+								width: 390px;
+								height: 220px;
+								margin: 10px;
+								display: block;
+							}
 						}
 					}
 					.time {
@@ -227,6 +294,54 @@ header {
 						strong:after {
 							content: ": ";
 						}
+					}
+				}
+			}
+			#media {
+				height: auto;
+				overflow: hidden;
+				display: none;
+				margin-left: -5px;
+
+				figure {
+					width: 200px;
+					margin: 5px;
+					border: 1px solid #aaa;
+					background: #f9f9f9;
+					border-radius: 3px;
+					box-shadow: 0 0 3px rgba(0,0,0,.3);
+					overflow: hidden;
+					display: block;
+					float: left;
+
+					figcaption {
+						background: #e0e0e0;
+						color: #2e2e2e;
+						padding: 5px;
+						font-size: 14x;
+						display: block;
+					}
+				}
+				.media_img {
+					div {
+						max-height: 220px;
+						overflow: hidden;
+						max-width: 180px;
+						margin: 10px;
+						display: block;
+						img {
+							max-width: 180px;
+							display: block;
+						}
+					}
+				}
+				.media_youtube {
+					width: 410px;
+					iframe {
+						width: 390px;
+						height: 220px;
+						margin: 10px;
+						display: block;
 					}
 				}
 			}
@@ -371,6 +486,22 @@ pre {
 	word-wrap: break-word;
 	word-break: break-all;
 	margin-top: 5px;
+
+	.verdesito {
+		color: #31c455;
+	}
+
+	.corchetes {
+		color: #a02318;
+	}
+
+	.azulito {
+		color: #0d5fa3;
+	}
+
+	.azulitoclaro {
+		color: #0a7ddb;
+	}
 }
 code {
 	background: #F7F7F9;

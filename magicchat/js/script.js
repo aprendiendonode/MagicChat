@@ -1,45 +1,11 @@
 
-function hora () {
-	var horas = new Date(),
-		ampm = 'am',
-		hours = horas.getHours(),
-		minutes = horas.getMinutes();
-	if (hours > 12){
-		ampm = 'pm';
-	}
-	switch(hours){
-		case 13: hours = 1; break;
-		case 14: hours = 2; break;
-		case 15: hours = 3; break;
-		case 16: hours = 4; break;
-		case 17: hours = 5; break;
-		case 18: hours = 6; break;
-		case 19: hours = 7; break;
-		case 20: hours = 8; break;
-		case 21: hours = 9; break;
-		case 22: hours = 10; break;
-		case 23: hours = 11; break;
-		case 24: hours = 12; break;
-	}
-	switch(minutes){
-		case 1: minutes = '01'; break;
-		case 2: minutes = '02'; break;
-		case 3: minutes = '03'; break;
-		case 4: minutes = '04'; break;
-		case 5: minutes = '05'; break;
-		case 6: minutes = '06'; break;
-		case 7: minutes = '07'; break;
-		case 8: minutes = '08'; break;
-		case 9: minutes = '09'; break;
-	}
-	return hours + ':' + minutes + ' ' + ampm;
-}
-
 n = prompt("Tu nombre", "");
 
 var sonidito = document.createElement('audio');
 	sonidito.src = "http://soundjax.com/reddo/27947%5EBells.mp3";
 	//sonidito.src = "nokia.mp3";
+
+var multimedia = [];
 
 var tu = {
 	nombre: 'Anonimo',
@@ -85,6 +51,10 @@ if (n == null || n == ""){
 
 			var user = e;
 
+			var url = user.texto.split('://');
+			if (url[0] == 'http' || url[0] == 'https') {
+					user.texto = '<a href="' + comando[0] + '://' + comando[1] + '">' + comando[0] + '://' + comando[1] + '</a>';
+			}
 			var comando = user.texto.split('::');
 			var msgg = 'si';
 			switch(comando[0]){
@@ -116,12 +86,33 @@ if (n == null || n == ""){
 					msgg = 'no';
 					break;
 				case '$img':
-					user.texto = '<img src="' + comando[1] + '" />';
+					var mediaa = {
+						typo: 'img',
+						author: user.nombre,
+						date: hora(),
+						content: comando[1]
+					};
+					multimedia.push(mediaa);
+					user.texto = '<figure class="media_img"><div><img src="' + comando[1] + '" /></div></figure>';
 					break;
 				case '$youtube':
-					user.texto = '<iframe width="550" height="300" src="http://www.youtube.com/embed/' + comando[1] + '" frameborder="0" allowfullscreen></iframe>';
+					var mediaa = {
+						typo: 'youtube',
+						author: user.nombre,
+						date: hora(),
+						content: comando[1]
+					};
+					multimedia.push(mediaa);
+					user.texto = '<figure class="media_youtube"><iframe src="http://www.youtube.com/embed/' + comando[1] + '" frameborder="0" allowfullscreen></iframe></figure>';
 					break;
 				case '$url':
+					var mediaa = {
+						typo: 'url',
+						author: user.nombre,
+						date: hora(),
+						content: comando[1]
+					};
+					multimedia.push(mediaa);
 					user.texto = '<a href="' + comando[1] + '" target="_blank">' + comando[1] + '</a>';
 					break;
 				case '$borrarchat':
@@ -186,13 +177,13 @@ if (n == null || n == ""){
 	});
 
 	socket.on('entro', function(user){
-			$('#logs').append('<article class="green"><strong>' + user.nombre + '</strong><span>se ha unido al chat</span></article>');
+			$('#logs').append('<article class="green"><span class="time">' + hora() + '</span><strong>' + user.nombre + '</strong><span>se ha unido al chat</span></article>');
 			var altodiv = $('#logs').height();
 			$('#history').scrollTop( altodiv );
 	});
 
 	socket.on('salio', function(user){
-			$('#logs').append('<article class="red"><strong>' + user + '</strong><span>ha dejado el chat</span></article>');
+			$('#logs').append('<article class="red"><span class="time">' + hora() + '</span><strong>' + user + '</strong><span>ha dejado el chat</span></article>');
 			var altodiv = $('#logs').height();
 			$('#history').scrollTop( altodiv );
 	});
@@ -212,8 +203,7 @@ if (n == null || n == ""){
 			if (value.nombre == tu.nombre){
 				eresTu = 'id="tu"';
 			}
-			$('#online').append('<li rel="user_' + value.nombre + '" ' + eresTu + '>' + value.nombre  + '<span class="actionUser"></spa></li>');
-
+			$('#online').append('<li rel="user_' + value.nombre + '" ' + eresTu + '>' + value.nombre  + '<span class="actionUser"></span></li>');
 		});
 		var nOnline = $('#online li').length;
 		$('#nOnline').html(nOnline);
@@ -224,7 +214,7 @@ if (n == null || n == ""){
 				$alert('Ese nombre está siendo ocupado por otro usuario');
 			}
 		}else{
-			$('#logs').append('<article class="blue"><strong>' + newname.last + '</strong> se ha cambiado el nombre a <strong>' + newname.now + '</strong></span></article>');
+			$('#logs').append('<article class="blue"><span class="time">' + hora() + '</span><span><strong>' + newname.last + '</strong> se ha cambiado el nombre a <strong>' + newname.now + '</strong></span></article>');
 			var altodiv = $('#logs').height();
 			$('#history').scrollTop( altodiv );
 		}
@@ -248,7 +238,7 @@ if (n == null || n == ""){
 		switch(comando[0]){
 			case '$clear':
 				$('#logs').html('');
-				$('#logs').append('<article class="blue">Has limpiado tu historial del chat</span></article>');
+				$('#logs').append('<article class="blue"><span>Has limpiado tu historial del chat</span></article>');
 				msgg = 'no';
 				break;
 			case '$rename':
@@ -259,7 +249,7 @@ if (n == null || n == ""){
 		}
 		if (msgg == 'si'){
 			if (limpiarspaces == ''){
-				$('#logs').append('<article class="red">Debes escribir algo antes de enviarlo</span></article>');
+				$('#logs').append('<article class="red"><span>Debes escribir algo antes de enviarlo</span></article>');
 				var altodiv = $('#logs').height();
 				$('#history').scrollTop( altodiv );
 			}else{
@@ -270,6 +260,8 @@ if (n == null || n == ""){
 				socket.emit('enviar', user);
 			}
 		}
+		var altodiv = $('#logs').height();
+		$('#history').scrollTop( altodiv );
 		$('#mensaje').val('');
 		$('#action').html('');
 	}
@@ -288,7 +280,7 @@ function resize (){
 	var winHeight = $(window).height() - $('#hed').height();
 	$('#contenedor').height(winHeight);
 	var hisHeigt = winHeight - $('#formulario').height() - menuUsers - 50;
-	$('#history').height(hisHeigt);	
+	$('#history').height(hisHeigt);
 }
 
 var displayUsers = 0;
@@ -318,8 +310,40 @@ function run () {
 	$(window).resize(resize);
 	$('aside').click(showHideUsers);
 
-	// make code pretty
-    window.prettyPrint && prettyPrint();
+	$('#goChat').click(function(e){
+		$('#logs').show();
+		$('#media').hide();
+		$('#goChat').addClass('active');
+		$('#goMedia').removeClass('active');
+		var altodiv = $('#logs').height();
+		$('#history').scrollTop( altodiv );
+	});
+	$('#goMedia').click(function(e){
+		$('#logs').hide();
+		$('#media').show();
+		$('#goChat').removeClass('active');
+		$('#goMedia').addClass('active');
+
+		$('#media').html('');
+		for (item in multimedia){
+			var itemMedia = multimedia[item];
+			var contenido;
+			switch(itemMedia.typo){
+				case 'img': contenido = '<div><img src="' + itemMedia.content + '" /></div>'; break;
+				case 'youtube': contenido = '<iframe src="http://www.youtube.com/embed/' + itemMedia.content + '" frameborder="0" allowfullscreen></iframe>'; break;
+			}
+			var tmp = '<figure class="media_' + itemMedia.typo + '">'
+						+ contenido
+						+ '<figcaption>Por <strong>' + itemMedia.author + '</strong> a las ' + itemMedia.date + '</figcaption></figure>';
+			$('#media').append(tmp);
+		}
+		var txtMedia = $('#media').html().replace(/ /g, '').replace(/\n/g, '');
+		if (txtMedia == ''){
+			$('#media').append('<pre>No hay multimedia que ver, aún...</pre>');
+		}
+		var altodiv = $('#media').height();
+		$('#history').scrollTop( altodiv );
+	});
 
     $('#mensaje').focus();
 	$('#formulario').submit(function(e){

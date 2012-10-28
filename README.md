@@ -2,8 +2,8 @@
 
 ##TEAM
 
-Web Developer: Daniel García
-Site: http://dannegm.com
+Web Developer: Daniel García,
+Site: http://dannegm.com,
 Twitter: @dannegm
 
 - Idea original
@@ -12,8 +12,8 @@ Twitter: @dannegm
 - Se puso un filtro en su nombre
 - Desarrollo para android
 
-Web Developer: Angel Martz
-Site: N/A
+Web Developer: Angel Martz,
+Site: N/A,
 Twitter: @angelmartz_
 
 - Identificó un bug de seguridad, pusimos un filtro con su nombre
@@ -24,8 +24,8 @@ Twitter: @angelmartz_
 - Resolvió problema del usuario que sale
 - Resolvió problema de los filtros
 
-Web Developer: Javier Gómez
-Site: http://gomosoft.com
+Web Developer: Javier Gómez,
+Site: http://gomosoft.com,
 Twitter: @gomosoft
 
 - Iconos
@@ -33,8 +33,8 @@ Twitter: @gomosoft
 - Idea de usuario fuera de foco
 - Idea de texo "visto"
 
-Web Developer: Dante Gilabert
-Site: N/A
+Web Developer: Dante Gilabert,
+Site: N/A,
 Twitter: @DanteHat
 
 - Resolivó bugs de seeguridad, pusimos un fitro con su nombre

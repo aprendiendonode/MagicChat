@@ -1,7 +1,7 @@
-* Magic Chat
+#Magic Chat
 
 
-* TEAM
+##TEAM
 -
   Web Developer: Daniel García
   Site: http://dannegm.com
@@ -34,13 +34,13 @@
   - Idea de usuario fuera de foco
   - Idea de texo "visto"
 
-  Web Developer: Dante Gilabert
+  *Web Developer*: Dante Gilabert
   Site: N/A
   Twitter: @DanteHat
 
   - Resolivó bugs de seeguridad, pusimos un fitro con su nombre
 
-* SITE
+##SITE
   - Standards: HTML5, CSS3, Responsive Design
   - Components: jQuery, Less, Socket.io, PhoneGap
   - Software: Sublime Text 2, WAMP Server Manager, Google Chrome, Eclipse, Filezilla, Git/GitHub, Photoshop, Putty, Node.js

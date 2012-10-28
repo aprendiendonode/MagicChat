@@ -33,7 +33,7 @@ servidor.sockets.on('connection', function(socket){
 				iden: socket.id
 			};
 			servidor.sockets.socket(socket.id).emit('entraste', envTU);
-			servidor.sockets.emit('entro', user);
+			servidor.broadcast.emit('entro', user);
 			servidor.sockets.emit('online', usuarios);
 			console.log('Entro: ' + n);
 		}

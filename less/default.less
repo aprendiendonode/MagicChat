@@ -349,15 +349,39 @@ header {
 		#formulario {
 			overflow: hidden;
 			display: block;
-			#action {
+			.controls {
+				width: auto;
+				margin: 0 20px;
 				height: 20px;
 				display: block;
-				margin: 0 20px;
-				color: rgb(166,166,166);
-				width: auto;
-				font-style: italic;
+				overflow: hidden;
+
+				#action {
+					display: block;
+					float: left;
+					color: rgb(166,166,166);
+					font-style: italic;
+				}
+				#conrols {
+					display: block;
+					overflow: hidden;
+					float: right;
+					label {
+						color: #444;
+						padding: 0;
+						input {
+							margin: 0;
+						}
+						span {
+							font-size: 12px;
+							padding: 0 5px;
+							margin: 0;
+							vertical-align: text-top;
+						}
+					}
+				}
 			}
-			div {
+			.textarea {
 				margin: 10px 20px;
 				background: #dcdcdc;
 				padding: 0;

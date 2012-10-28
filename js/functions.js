@@ -34,3 +34,18 @@ function hora () {
 	}
 	return hours + ':' + minutes + ' ' + ampm;
 }
+
+function autoScroll(){
+	var cScroll = $('#cScroll').is(":checked");
+	if (cScroll){
+		var altodiv = $('#logs').height();
+		$('#history').scrollTop( altodiv );
+	}
+}
+
+function plaSonidito(){
+	var cSonido = $('#cSonido').is(":checked");
+	if (cSonido){
+		sonidito.play();
+	}
+}

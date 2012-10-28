@@ -58,7 +58,7 @@ if (n == null || n == ""){
 					msgg = no;
 					break;
 				case '$sonidito':
-					sonidito.play();
+					plaSonidito();
 					$('#logs').append('<article class="blue"><strong>' + user.nombre + '</strong><span>está siendo molesto e.e</span></article>');
 					msgg = 'no';
 					break;
@@ -70,7 +70,7 @@ if (n == null || n == ""){
 					user.texto = '<marquee class="marquee">' + comando[1] + '</marquee>';
 					break;
 				case '$reload':
-					sonidito.play();
+					plaSonidito();
 					$confirm('Estan a punto de recargar el chat, ¿estás de acuerdo?','Recargando...',function(r){
 						if(r){
 							window.location.reload();
@@ -138,11 +138,10 @@ if (n == null || n == ""){
 				$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>' + user.nombre + '</strong><span>' + user.texto + '</span></article>');
 			}
 
-			var altodiv = $('#logs').height();
-			$('#history').scrollTop( altodiv );
+			autoScroll();
 
 			if (winFocus == 'no'){
-				sonidito.play();
+				plaSonidito();
 			}
 
 			if (txtFocus == 'si'){
@@ -166,14 +165,12 @@ if (n == null || n == ""){
 
 	socket.on('entro', function(user){
 			$('#logs').append('<article class="green"><span class="time">' + hora() + '</span><strong>' + user.nombre + '</strong><span>se ha unido al chat</span></article>');
-			var altodiv = $('#logs').height();
-			$('#history').scrollTop( altodiv );
+			autoScroll();
 	});
 
 	socket.on('salio', function(user){
 			$('#logs').append('<article class="red"><span class="time">' + hora() + '</span><strong>' + user + '</strong><span>ha dejado el chat</span></article>');
-			var altodiv = $('#logs').height();
-			$('#history').scrollTop( altodiv );
+			autoScroll();
 	});
 
 	socket.on('winFocus', function(w){
@@ -203,8 +200,7 @@ if (n == null || n == ""){
 			}
 		}else{
 			$('#logs').append('<article class="blue"><span class="time">' + hora() + '</span><span><strong>' + newname.last + '</strong> se ha cambiado el nombre a <strong>' + newname.now + '</strong></span></article>');
-			var altodiv = $('#logs').height();
-			$('#history').scrollTop( altodiv );
+			autoScroll();
 		}
 	});
 
@@ -227,6 +223,7 @@ if (n == null || n == ""){
 			case '$clear':
 				$('#logs').html('');
 				$('#logs').append('<article class="blue"><span>Has limpiado tu historial del chat</span></article>');
+				autoScroll();
 				msgg = 'no';
 				break;
 			case '$rename':
@@ -238,8 +235,7 @@ if (n == null || n == ""){
 		if (msgg == 'si'){
 			if (limpiarspaces == ''){
 				$('#logs').append('<article class="red"><span>Debes escribir algo antes de enviarlo</span></article>');
-				var altodiv = $('#logs').height();
-				$('#history').scrollTop( altodiv );
+				autoScroll();
 			}else{
 				var user = {
 					nombre: tu.nombre,
@@ -303,8 +299,7 @@ function run () {
 		$('#media').hide();
 		$('#goChat').addClass('active');
 		$('#goMedia').removeClass('active');
-		var altodiv = $('#logs').height();
-		$('#history').scrollTop( altodiv );
+		autoScroll();
 	});
 	$('#goMedia').click(function(e){
 		$('#logs').hide();
@@ -329,8 +324,12 @@ function run () {
 		if (txtMedia == ''){
 			$('#media').append('<pre>No hay multimedia que ver, aún...</pre>');
 		}
-		var altodiv = $('#media').height();
-		$('#history').scrollTop( altodiv );
+
+		var cSscroll = $('#cScroll').is(":checked");
+		if (cSscroll){
+			var altodiv = $('#media').height();
+			$('#history').scrollTop( altodiv );
+		}
 	});
 
     $('#mensaje').focus();

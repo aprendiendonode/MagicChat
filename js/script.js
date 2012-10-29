@@ -24,7 +24,7 @@ if (n == null || n == ""){
 	n = 'Anonimo' + aleatorio.toFixed();
 }
 
-	var socket = io.connect('http://dannegm.com:6546');
+	var socket = io.connect('http://dannegm.com:7873');
 
 	socket.emit('entro', n);
 	socket.on('usuarioexiste', function(user){

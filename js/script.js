@@ -214,7 +214,7 @@ if (n == null || n == ""){
 	});
 
 	socket.on('privado', function(privado){
-		$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De ' + privado.de + ' para ' + privado.para + '</strong><span><pre>' + privado.texto + '</pre></span></article>');
+		$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De <em>' + privado.de + '</em> para <em>' + privado.para + '</em></strong><span><pre>' + privado.texto + '</pre></span></article>');
 		autoScroll();
 	});
 
@@ -243,7 +243,7 @@ if (n == null || n == ""){
 					texto: comando[2]
 				}
 				socket.emit('privado', privado);
-				$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De ' + privado.de + ' para ' + privado.para + '</strong><span><pre>' + privado.texto + '</pre></span></article>');
+				$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De <em>' + privado.de + '</em> para <em>' + privado.para + '</em></strong><span><pre>' + privado.texto + '</pre></span></article>');
 				autoScroll();
 				msgg = 'no';
 				break;

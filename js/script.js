@@ -253,7 +253,7 @@ if (n == null || n == ""){
 			date: hora()
 		};
 
-		if(typeof inbox[privado.para] != "undefined"){
+		if(typeof inbox[privado.para] == "undefined"){
 			inbox[privado.para] = {
 				nombre: privado.para,
 				mensajes: [msg]

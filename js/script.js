@@ -220,9 +220,7 @@ if (n == null || n == ""){
 	});
 	socket.on('rename',function(newname){
 		if ( newname.error == 'username exist'){
-			if (newname.last == tu.nombre){
-				$alert('Ese nombre está siendo ocupado por otro usuario');
-			}
+			$alert('Ese nombre está siendo ocupado por otro usuario');
 		}else{
 			$('#logs').append('<article class="blue"><span class="time">' + hora() + '</span><span><strong>' + newname.last + '</strong> se ha cambiado el nombre a <strong>' + newname.now + '</strong></span></article>');
 			autoScroll();

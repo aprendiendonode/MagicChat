@@ -6,31 +6,6 @@ var sonidito = document.createElement('audio');
 
 var multimedia = [];
 var inbox = {};
-/*
-
-inbox: {
-	usuario: {
-		nombre: usuario,
-		iden: iduser,
-		mensajes: [
-			{
-				mensaje: mensaje,
-				from: usuario,
-				to: usuario,
-				date: hora
-			}
-		]
-	}
-}
-
-if (usuarionoesta){
-	insertar inboxusuario
-	usuario.mensajes[] = mensaje;
-}else{
-	inbox.usuario.mesajes[] = mensaje;
-}
-
-*/
 
 var tu = {
 	nombre: 'Anonimo',
@@ -407,9 +382,9 @@ function run () {
 				case 'img': contenido = '<div><img src="' + itemMedia.content + '" /></div>'; break;
 				case 'youtube': contenido = '<iframe src="http://www.youtube.com/embed/' + itemMedia.content + '" frameborder="0" allowfullscreen></iframe>'; break;
 			}
-			var tmp = '<figure class="media_' + itemMedia.typo + '">'
+			var tmp = '<div><figure class="media_' + itemMedia.typo + '">'
 						+ contenido
-						+ '<figcaption>Por <strong>' + itemMedia.author + '</strong> a las ' + itemMedia.date + '</figcaption></figure>';
+						+ '<figcaption>Por <strong>' + itemMedia.author + '</strong> a las ' + itemMedia.date + '</figcaption></figure></div>';
 			$('#media').append(tmp);
 		}
 		var txtMedia = $('#media').html().replace(/ /g, '').replace(/\n/g, '');

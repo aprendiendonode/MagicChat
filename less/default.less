@@ -304,8 +304,12 @@ header {
 				display: none;
 				margin-left: -5px;
 
+				& > div {
+					height: 270px;
+				}
 				figure {
 					width: 200px;
+					min-height: 170px;
 					margin: 5px;
 					border: 1px solid #aaa;
 					background: #f9f9f9;
@@ -321,6 +325,14 @@ header {
 						padding: 5px;
 						font-size: 14x;
 						display: block;
+
+						strong {
+							text-overflow: ellipsis;
+							overflow: hidden;
+							max-width: 70px;
+							display: inline-block;
+							white-space: nowrap;
+						}
 					}
 				}
 				.media_img {
@@ -343,6 +355,11 @@ header {
 						height: 220px;
 						margin: 10px;
 						display: block;
+					}
+					figcaption {
+						strong {
+							max-width: 270px;
+						}
 					}
 				}
 			}

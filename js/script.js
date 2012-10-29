@@ -247,7 +247,7 @@ if (n == null || n == ""){
 		}
 
 		var msg = {
-			mensaje: privado.exto,
+			mensaje: privado.texto,
 			from: privado.de,
 			to: privado.para,
 			date: hora()
@@ -288,10 +288,30 @@ if (n == null || n == ""){
 					para: comando[1],
 					texto: comando[2]
 				}
-				socket.emit('privado', privado);
-				$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De <em>' + privado.de + '</em> para <em>' + privado.para + '</em></strong><span><pre>' + privado.texto + '</pre></span></article>');
-				autoScroll();
-				msgg = 'no';
+				if (comando[1] == tu.nombre){
+					$('#logs').append('<article class="red"><span>No puedes enviarte un mensaje privado a tí mismo</span></article>');
+				}else{
+					socket.emit('privado', privado);
+					$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De <em>' + privado.de + '</em> para <em>' + privado.para + '</em></strong><span><pre>' + privado.texto + '</pre></span></article>');
+					autoScroll();
+					msgg = 'no';
+
+					var msg = {
+						mensaje: privado.texto,
+						from: privado.de,
+						to: privado.para,
+						date: hora()
+					};
+
+					if(typeof inbox[privado.para] == "undefined"){
+						inbox[privado.para] = {
+							nombre: privado.para,
+							mensajes: [msg]
+						}
+					}else{
+						inbox[privado.para].mensajes.push(msg);
+					}
+				}
 				break;
 		}
 		if (msgg == 'si'){

@@ -1,3 +1,4 @@
+
 var servidor = require('socket.io').listen(7873);
 
 var user = {
@@ -66,7 +67,7 @@ servidor.sockets.on('connection', function(socket){
 	});
 
 	socket.on('rename', function(newname){
-		if(typeof usuarios[newname] != 'undefined'){
+		if(typeof usuarios[newname] == 'object'){
 			servidor.sockets.socket(socket.id).emit('rename', {last: socket.username, now: socket.username, error: 'username exist'});
 		}else{
 			newname = newname.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -87,101 +88,4 @@ servidor.sockets.on('connection', function(socket){
 			servidor.sockets.socket(usuarios[privado.para].iden).emit('privado', privado);
 		}
 	});
-=======
-
-var servidor = require('socket.io').listen(6546);
-
-var user = {
-	nombre: 'Anónimo',
-	iden: 'undefined'
-};
-
-var usuarios = {};
-var canales = ['canal1','canal2','canal3'];
-
-servidor.sockets.on('connection', function(socket){
-
-	var iden = socket.id;
-
-	socket.on('entro', function(n){
-		// Filtro AntiAngel
-		n = n.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		user = {
-			nombre: n,
-			iden: iden
-		}
-
-		if(typeof usuarios[n] != "undefined"){
-			servidor.sockets.socket(socket.id).emit('usuarioexiste', user);
-		}else{
-			socket.username = n;
-			// Agregamos el canal por defecto
-			socket.room = 'canal1';
-			usuarios[n] = user;
-			var envTU = {
-				nombre: n,
-				iden: socket.id
-			};
-			servidor.sockets.socket(socket.id).emit('entraste', envTU);
-			servidor.broadcast.emit('entro', user);
-			servidor.sockets.emit('online', usuarios);
-			console.log('Entro: ' + n);
-		}
-	});
-
-	socket.on('winFocus', function(e) {
-		servidor.sockets.emit('winFocus', e);
-	});
-
-	socket.on('visto', function(e) {
-		servidor.sockets.emit('visto', e);
-	});
-
-	socket.on('disconnect', function () {
-		delete usuarios[socket.username];
-		servidor.sockets.emit('salio', socket.username);
-		servidor.sockets.emit('online', usuarios);
-	});
-
-	socket.on('enviar', function (res) {
-		// Ponemos un filtro "AntiDante"
-		var nombre = res.nombre.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		var texto = res.texto.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		linea = {
-			nombre: nombre,
-			texto: texto
-		}
-		servidor.sockets.emit('enviando', linea);
-		console.log(res.nombre + ' dice: ' + res.texto);
-	});
-
-	socket.on('escribiendo', function(res){
-		servidor.sockets.emit('escribiendo', res);
-	});
-
-	socket.on('rename', function(newname){
-		if(typeof usuarios[newname] != "undefined"){
-			servidor.sockets.socket(socket.id).emit('rename', {last: socket.username, now: socket.username, error: 'username exist'});
-		}else{
-			newname = newname.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-			servidor.sockets.emit('rename', {last: socket.username, now: newname});
-			user = {
-				nombre: newname,
-				iden: iden
-			}
-			delete usuarios[socket.username];
-			socket.username = newname;
-			usuarios[newname] = user;
-			servidor.sockets.emit('online', usuarios);
-		}
-	});
-	socket.on('recibePrivado', function(privado){
-		
-		if(typeof usuarios[privado.para] != "undefined"){
-			servidor.sockets.socket(usuarios[privado.para].iden).emit('recibePrivado', privado);
-		}else{
-			// Si el usuario no existe 
-		}
-	});
->>>>>>> d54923738dbdc13719d1ea85e70d3694cf3fb278
 });

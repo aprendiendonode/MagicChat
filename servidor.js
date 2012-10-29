@@ -67,6 +67,7 @@ servidor.sockets.on('connection', function(socket){
 	});
 
 	socket.on('rename', function(newname){
+		console.log(usuarios);
 		if(typeof usuarios[newname] != "undefined"){
 			servidor.sockets.socket(socket.id).emit('rename', {last: socket.username, now: socket.username, error: 'username exist'});
 		}else{

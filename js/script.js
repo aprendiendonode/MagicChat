@@ -278,6 +278,7 @@ if (n == null || n == ""){
 				msgg = 'no';
 				break;
 			case '$rename':
+				tu.nombre = comando[1];
 				socket.emit('rename', comando[1]);
 				msgg = 'no';
 				break;

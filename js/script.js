@@ -259,7 +259,7 @@ if (n == null || n == ""){
 				mensajes: [msg]
 			}
 		}else{
-			inbox[privado.para].mensajes[] = msg;
+			inbox[privado.para].mensajes.push(msg);
 		}
 
 	});

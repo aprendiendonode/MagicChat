@@ -288,13 +288,13 @@ if (n == null || n == ""){
 					para: comando[1],
 					texto: comando[2]
 				}
+				msgg = 'no';
 				if (comando[1] == tu.nombre){
 					$('#logs').append('<article class="red"><span>No puedes enviarte un mensaje privado a tí mismo</span></article>');
 				}else{
 					socket.emit('privado', privado);
 					$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De <em>' + privado.de + '</em> para <em>' + privado.para + '</em></strong><span><pre>' + privado.texto + '</pre></span></article>');
 					autoScroll();
-					msgg = 'no';
 
 					var msg = {
 						mensaje: privado.texto,

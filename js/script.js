@@ -5,6 +5,32 @@ var sonidito = document.createElement('audio');
 	//sonidito.src = "nokia.mp3";
 
 var multimedia = [];
+var inbox = {};
+/*
+
+inbox: {
+	usuario: {
+		nombre: usuario,
+		iden: iduser,
+		mensajes: [
+			{
+				mensaje: mensaje,
+				from: usuario,
+				to: usuario,
+				date: hora
+			}
+		]
+	}
+}
+
+if (usuarionoesta){
+	insertar inboxusuario
+	usuario.mensajes[] = mensaje;
+}else{
+	inbox.usuario.mesajes[] = mensaje;
+}
+
+*/
 
 var tu = {
 	nombre: 'Anonimo',
@@ -216,6 +242,26 @@ if (n == null || n == ""){
 	socket.on('privado', function(privado){
 		$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De <em>' + privado.de + '</em> para <em>' + privado.para + '</em></strong><span><pre>' + privado.texto + '</pre></span></article>');
 		autoScroll();
+		if (winFocus == 'no'){
+			plaSonidito();
+		}
+
+		var msg = {
+			mensaje: privado.exto,
+			from: privado.de,
+			to: privado.para,
+			date: hora()
+		};
+
+		if(typeof inbox[privado.para] != "undefined"){
+			inbox[privado.para] = {
+				nombre: privado.para,
+				mensajes: [msg]
+			}
+		}else{
+			inbox[privado.para].mensajes[] = msg;
+		}
+
 	});
 
 	function enviar (e) {
@@ -312,14 +358,26 @@ function run () {
 
 	$('#goChat').click(function(e){
 		$('#logs').show();
+		$('#inbox').hide();
 		$('#media').hide();
 		$('#goChat').addClass('active');
+		$('#goInbox').removeClass('active');
 		$('#goMedia').removeClass('active');
 		autoScroll();
 	});
+	$('#goInbox').click(function(e){
+		$('#inbox').show();
+		$('#logs').hide();
+		$('#media').hide();
+		$('#goInbox').addClass('active');
+		$('#goChat').removeClass('active');
+		$('#goMedia').removeClass('active');
+	});
 	$('#goMedia').click(function(e){
 		$('#logs').hide();
+		$('#inbox').hide();
 		$('#media').show();
+		$('#goInbox').removeClass('active');
 		$('#goChat').removeClass('active');
 		$('#goMedia').addClass('active');
 

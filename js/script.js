@@ -28,7 +28,7 @@
 		function chkLogin (resp) {
 			if (resp.authResponse) {
 				doLogin():
-			} else {
+			}else{
 				$("#intoFace").click(function() {
 					FB.login(function(resp) {
 						if (resp.authResponse) {
@@ -37,7 +37,7 @@
 					}, 'email,user_about_me,user_hometown,user_interests,user_location');
 				});
 			}
-		};
+		}
 		FB.init({
 			appId: '125054150878675',
 			status: true,
@@ -285,7 +285,6 @@
 			foto: tuRe.foto,
 			perfil: tuRe.perfil
 		};
-		console.log('Recibimos usuario y lo dejamos entrar');
 		$("#fbLogin").fadeOut();
 	});
 	socket.on('disconnect', function () {

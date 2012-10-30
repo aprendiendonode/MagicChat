@@ -92,21 +92,4 @@ servidor.sockets.on('connection', function(socket){
 			console.log('DM de ' + privado.de + ' para ' + privado.para + ': ' + privado.texto);
 		}
 	});
-
-	socket.on('updatecommit', function(res){
-		exec("git pull origin master", function (error, stdout, stderr) {
-  				console.log('stdout: ' + stdout);
-  				console.log('stderr: ' + stderr);
-  			if (error !== null) {
-    				console.log('exec error: ' + error);
-  			}
-		});
-		exec("forever restart servidor.js", function (error, stdout, stderr) {
-  				console.log('stdout: ' + stdout);
-  				console.log('stderr: ' + stderr);
-  			if (error !== null) {
-    				console.log('exec error: ' + error);
-  			}
-		});
-	});
 });

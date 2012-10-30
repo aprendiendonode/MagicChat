@@ -260,11 +260,6 @@ if (n == null || n == ""){
 				socket.emit('rename', comando[1]);
 				msgg = 'no';
 				break;
-			case '$actualizar':
-				tu.nombre = comando[1];
-				socket.emit('updatecommit', comando[1]);
-				msgg = 'no';
-				break;
 			case '$privado':
 				var privado = {
 					de: tu.nombre,

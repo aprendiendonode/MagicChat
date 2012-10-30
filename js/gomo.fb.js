@@ -25,7 +25,7 @@ Modificaciones para éste proyecto por Dannegm
 			access_token = resp.authResponse.accessToken;
 			user_id = resp.authResponse.userID;
 			on = true;
-			if(call) call;
+			if(call) call();
 		} else {
 			console.log('No está logueado');
 			on = false;
@@ -39,7 +39,7 @@ Modificaciones para éste proyecto por Dannegm
 						console.log('Obtenemos token e id');
 						access_token = resp.authResponse.accessToken;
 						user_id = resp.authResponse.userID;
-						if(call) call;
+						if(call) call();
 					} else {
 						console.log('Puto facebook e.e');
 						return {cod:11, estado:"sin permisos"};

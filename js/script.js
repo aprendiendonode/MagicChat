@@ -13,7 +13,15 @@
 		winFocus = 'si';
 	};
 
-	var face = $("#intoFace").fb(function(){   
+	var face = $("#intoFace").fb(
+		{ 
+			id : '125054150878675', 
+			secret : "111f187cae3275d438aefb66ad964fd6", 
+			permisos : {
+				scope:'user_about_me'
+			}
+		},
+		function(){   
 		if(this.isOn()){
 			$("#fbLogin").fadeOut();
 			fbInfo(function(user){

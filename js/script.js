@@ -44,7 +44,7 @@ if (n == null || n == ""){
 	});
 
 	socket.on('disconnect', function () {
-		$alert('Te has desconectado del seridor, te ecomendamos recargar la aplicación.', 'Te has desconectado');
+		$alert('Te has desconectado del servidor, te ecomendamos recargar la aplicación.', 'Te has desconectado');
 	});
 
 	socket.on('enviando', function(e){

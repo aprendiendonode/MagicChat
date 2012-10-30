@@ -23,7 +23,6 @@ Modificaciones para éste proyecto por Dannegm
 			access_token = resp.authResponse.accessToken;
 			user_id = resp.authResponse.userID;
 			on = true;
-			boton.remove();
 		} else {
 			on = false; 
 			actBot("Conectar"); 

@@ -8,7 +8,7 @@ servidor.sockets.on('connection', function(socket){
 	var iden = socket.id;
 
 	socket.on('entro', function(user){
-		var u = user.name;
+		var n = user.name;
 		user = {
 			nombre: user.name,
 			fbID: user.id,
@@ -41,7 +41,6 @@ servidor.sockets.on('connection', function(socket){
 
 	socket.on('enviar', function (res) {
 		// Ponemos un filtro "AntiDante"
-		var nombre = res.nombre.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 		var texto = res.texto.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 		linea = {
 			nombre: nombre,

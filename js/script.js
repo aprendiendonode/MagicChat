@@ -420,7 +420,7 @@ function run () {
 			var itemMedia = multimedia[item];
 			var contenido;
 			switch(itemMedia.typo){
-				case 'img': contenido = '<div><img src="' + itemMedia.content + '" /></div>'; break;
+				case 'img': contenido = '<div><img class="pop" src="' + itemMedia.content + '" /></div>'; break;
 				case 'youtube': contenido = '<iframe src="http://www.youtube.com/embed/' + itemMedia.content + '" frameborder="0" allowfullscreen></iframe>'; break;
 			}
 			var tmp = '<div><figure class="media_' + itemMedia.typo + '">'
@@ -489,5 +489,17 @@ function run () {
 		$alert( '<article>' + $('#helpTxt').html() + '</article>', 'Ayuda' );
 	});
 
+	$('.pop').live('click', function(e){
+		e.preventDefault();
+		var pict = $(this).attr('href');
+
+		var pop = '<div id="pop"><img src="' + pict + '" /></div>';
+		console.log('Popup Activado: [img] ' + pict);
+		$('body').append(pop);
+	});
+	$('#pop').live('click', function(){
+		$('#pop').remove();
+		console.log('Popup desactivado');
+	});
 }
 $(document).ready(run);

@@ -20,22 +20,13 @@
 		winFocus = 'si';
 	};
 	function login (){
-		$("#intoFace").fb(
-			{ 
-				id : '125054150878675', 
-				secret : "111f187cae3275d438aefb66ad964fd6", 
-				permisos : {
-					scope:'user_about_me'
-				}
-			},
-			function(){   
-				if(this.isOn()){
-					fbInfo(function(user){
-						socket.emit('entro', user);
-					});
-				}
+		$("#intoFace").fb(function(){
+			if(this.isOn()){
+				fbInfo(function(user){
+					socket.emit('entro', user);
+				});
 			}
-		);
+		});
 	}
 	function enviar (e) {
 		var texto = $('#mensaje').val();

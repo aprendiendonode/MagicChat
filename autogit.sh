@@ -9,4 +9,4 @@ else
     git commit -m $1
 fi
 echo Subiendo archivos
-#git push origin master
+git push origin master

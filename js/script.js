@@ -117,7 +117,7 @@ if (n == null || n == ""){
 			// Emoticones
 			user.texto = user.texto
 				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>');
-			/*	.replace(/\¬\¬/g, '<span class="emoticon mueca" title="¬¬"></span>')
+				.replace(/\¬\¬/g, '<span class="emoticon mueca" title="¬¬"></span>')
 				.replace(/\;\)/g, '<span class="emoticon guinio" title=";)"></span>')
 				.replace(/\:D/g, '<span class="emoticon riendo" title=":D"></span>')
 				.replace(/\:O/g, '<span class="emoticon wow" title=":O"></span>')
@@ -127,6 +127,7 @@ if (n == null || n == ""){
 				.replace(/\:P/g, '<span class="emoticon lengua" title=":P"></span>');
 			/* */
 
+			/*
 			// Emoticones Facebook
 			user.texto = user.texto
 				.replace(/\:\)/g, '<span class="emotiface fbFeliz" title=":)"></span>')
@@ -148,7 +149,7 @@ if (n == null || n == ""){
 				.replace(/\-\.\-/g, '<span class="emotiface fbSerio" title="-.-"></span>');
 			user.texto = user.texto
 				.replace(/o\:\)/g, '<span class="emotiface fbAngelito" title="o:)"></span>')
-				.replace(/\:\*/g, '<span class="emotiface fbBeso" title=":*"></span>')
+				.replace(/\:\* /g, '<span class="emotiface fbBeso" title=":*"></span>')
 				.replace(/o\_O/g, '<span class="emotiface fbConfundido" title="o_O"></span>')
 				.replace(/\&gt;\.\&lt;/g, '<span class="emotiface fbAmargo" title="&gt;.&lt;"></span>')
 				.replace(/\:v/g, '<span class="emotiface fbPacman" title=":v"></span>');
@@ -156,6 +157,7 @@ if (n == null || n == ""){
 				.replace(/\:3/g, '<span class="emotiface fbTierno" title=":3"></span>')
 				.replace(/\(Y\)/g, '<span class="emotiface fbLike" title="(Y)"></span>')
 				.replace(/O\_o/g, '<span class="emotiface fbConfused" title="O_o"></span>');
+			/* */
 
 			user.texto = user.texto
 				.replace(/\[code+\]/g, '<pre>')

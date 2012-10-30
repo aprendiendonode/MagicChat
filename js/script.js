@@ -20,15 +20,33 @@
 		winFocus = 'si';
 	};
 	function login (){
-		$("#intoFace").fb(function(){
-			if(this.isOn()){
-				console.log('Esta conectado y ya le dijimos al cliente');
-				fbInfo(function(user){
-					console.log('Obtenemos usuario y lo mandmos al servidor');
-					socket.emit('entro', user);
+		function doLogin (){
+			FB.api('/me', function(user){
+				socket.emit('entro', user);
+			});
+		}
+		function chkLogin (resp) {
+			if (resp.authResponse) {
+				doLogin():
+			} else {
+				$("#intoFace").click(function() {
+					FB.login(function(resp) {
+						if (resp.authResponse) {
+							doLogin():
+						}
+					}, 'email,user_about_me,user_hometown,user_interests,user_location');
 				});
 			}
+		};
+		FB.init({
+			appId: '125054150878675',
+			status: true,
+			cookie: true,
+			xfbml: true,
+			oauth: true
 		});
+		FB.getLoginStatus( chkLogin );
+		FB.Event.subscribe( 'auth.statusChange', chkLogin );
 	}
 	function enviar (e) {
 		var texto = $('#mensaje').val();

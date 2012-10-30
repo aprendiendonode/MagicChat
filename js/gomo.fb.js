@@ -1,10 +1,7 @@
 /* Desarrollado por gomosoft  
    Opensource 
    ahora iniciamos el sdk de face :) 
-*/
-  
-     fbRoot = document.createElement("div"); 
-     fbRoot.id = "fb-root"; 
+*/ 
   
             (function(d){ 
   
@@ -245,11 +242,7 @@
        if(callback) 
            call = callback 
        else if(jQuery.isFunction(vars)) 
-           call = vars; 
-  
-        
-  
-         $("body").append("<div id='fb-root'></div>"); 
+           call = vars;
   
             this.vars = { 
                 id : '125054150878675', 

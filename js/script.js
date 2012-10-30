@@ -110,6 +110,9 @@ if (n == null || n == ""){
 					break;
 			}
 
+			user.texto = user.texto
+				.replace(/\&lt;3/g, '♥');
+
 			// Emoticones
 			user.texto = user.texto
 				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>')

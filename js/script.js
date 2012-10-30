@@ -242,7 +242,9 @@ if (n == null || n == ""){
 
 	function enviar (e) {
 		var texto = $('#mensaje').val();
-		var limpiarspaces = texto.replace(/ /g, '').replace(/\n/g, '');
+		texto = texto.replace(/\n/g, '');
+
+		var limpiarspaces = texto.replace(/ /g, '');
 
 		var comando = texto.split('::');
 		var msgg = 'si';
@@ -300,7 +302,6 @@ if (n == null || n == ""){
 				$('#logs').append('<article class="red"><span>Debes escribir algo antes de enviarlo</span></article>');
 				autoScroll();
 			}else{
-				texto = texto.replace(/\n/g, '');
 				var user = {
 					nombre: tu.nombre,
 					texto: texto

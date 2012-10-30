@@ -113,11 +113,11 @@ if (n == null || n == ""){
 			user.texto = user.texto
 				.replace(/\&lt;3/g, '♥');
 
-			/*
+			
 			// Emoticones
 			user.texto = user.texto
-				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>')
-				.replace(/\¬\¬/g, '<span class="emoticon mueca" title="¬¬"></span>')
+				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>');
+			/*	.replace(/\¬\¬/g, '<span class="emoticon mueca" title="¬¬"></span>')
 				.replace(/\;\)/g, '<span class="emoticon guinio" title=";)"></span>')
 				.replace(/\:D/g, '<span class="emoticon riendo" title=":D"></span>')
 				.replace(/\:O/g, '<span class="emoticon wow" title=":O"></span>')
@@ -142,8 +142,8 @@ if (n == null || n == ""){
 				.replace(/\:\//g, '<span class="emotiface fbMueca" title=":/"></span>');
 			user.texto = user.texto
 				.replace(/\:\'\(/g, '<span class="emotiface fbLagrima" title=":\'("></span>')
-				.replace(/3\:\)/g, '<span class="emotiface fbDiablito" title="<3"></span>')
-				.replace(/\&lt;3/g, '<span class="emotiface fbCorazon" title="o:)"></span>')
+				.replace(/3\:\)/g, '<span class="emotiface fbDiablito" title="3:)"></span>')
+				.replace(/♥/g, '<span class="emotiface fbCorazon" title="<3"></span>')
 				.replace(/\^\^/g, '<span class="emotiface fbAlegre" title="^^"></span>')
 				.replace(/\-\.\-/g, '<span class="emotiface fbSerio" title="-.-"></span>');
 			user.texto = user.texto

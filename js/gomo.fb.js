@@ -2,6 +2,7 @@
 Power By Gomosoft
 Modificaciones para éste proyecto por Dannegm
 */
+var log = console.log;
 (function($){ 
 	var boton, on = false, filtro = 0, user, call, access_token, user_id;
 	this.ini =  function(vars){

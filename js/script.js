@@ -20,7 +20,7 @@
 		winFocus = 'si';
 	};
 	function login (){
-		var face = $("#intoFace").fb(
+		$("#intoFace").fb(
 			{ 
 				id : '125054150878675', 
 				secret : "111f187cae3275d438aefb66ad964fd6", 

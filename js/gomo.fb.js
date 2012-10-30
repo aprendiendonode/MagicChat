@@ -25,7 +25,6 @@ Modificaciones para éste proyecto por Dannegm
 			access_token = resp.authResponse.accessToken;
 			user_id = resp.authResponse.userID;
 			on = true;
-			if(call) call();
 		} else {
 			console.log('No está logueado');
 			on = false;
@@ -39,7 +38,6 @@ Modificaciones para éste proyecto por Dannegm
 						console.log('Obtenemos token e id');
 						access_token = resp.authResponse.accessToken;
 						user_id = resp.authResponse.userID;
-						if(call) call();
 					} else {
 						console.log('Puto facebook e.e');
 						return {cod:11, estado:"sin permisos"};
@@ -47,6 +45,7 @@ Modificaciones para éste proyecto por Dannegm
 				}, 'email,user_about_me,user_hometown,user_interests,user_location');
 			}); 
 		}
+		if(call){ call(); }
 		filtro++;
 	}; 
 	this.fbInfo = function(callback){

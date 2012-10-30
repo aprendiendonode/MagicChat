@@ -22,7 +22,9 @@
 	function login (){
 		$("#intoFace").fb(function(){
 			if(this.isOn()){
+				console.log('Esta conectado y ya le dijimos al cliente');
 				fbInfo(function(user){
+					console.log('Obtenemos usuario y lo mandmos al servidor');
 					socket.emit('entro', user);
 				});
 			}
@@ -257,7 +259,6 @@
 		btnMenu();
 		login();
 	}
-
 	socket.on('entraste', function(tuRe){
 		tu = {
 			nombre: tuRe.nombre,
@@ -266,6 +267,7 @@
 			foto: tuRe.foto,
 			perfil: tuRe.perfil
 		};
+		console.log('Recibimos usuario y lo dejamos entrar');
 		$("#fbLogin").fadeOut();
 	});
 	socket.on('disconnect', function () {

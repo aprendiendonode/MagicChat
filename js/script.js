@@ -1,52 +1,40 @@
-n = prompt("Tu nombre", "");
+	var
+		servidor = 'http://dannegm.com',
+		puerto = '7873';
 
-var sonidito = document.createElement('audio');
+	var socket = io.connect(servidor + ':' +  puerto);
+
+	var multimedia = [], inbox = {}, txtFocus = 'no', winFocus = 'si', sonidito = document.createElement('audio'), tu = {};
 	sonidito.src = "http://soundjax.com/reddo/27947%5EBells.mp3";
-	//sonidito.src = "nokia.mp3";
+	window.onblur = function () {
+		winFocus = 'no';
+	};
+	window.onfocus = function () {
+		winFocus = 'si';
+	};
 
-var multimedia = [];
-var inbox = {};
-
-var tu = {
-	nombre: 'Anonimo',
-	iden: 'undefine'
-};
-var txtFocus = 'no';
-var winFocus = 'si';
-window.onblur = function () {
-	winFocus = 'no';
-};
-window.onfocus = function () {
-	winFocus = 'si';
-};
-
-if (n == null || n == ""){
-	var aleatorio = Math.random() * 10000;
-	n = 'Anonimo' + aleatorio.toFixed();
-}
-
-	var socket = io.connect('http://dannegm.com:7873');
-
-	socket.emit('entro', n);
-	socket.on('usuarioexiste', function(user){
-		var usuario = prompt("El usuario ya existe, elige otro nombre", "");
-		if (usuario == null || usuario == ""){
-			var aleatorio = Math.random() * 10000;
-			usuario = 'Anonimo' + aleatorio.toFixed();
+	var face = $("#intoFace").fb(function(){   
+		if(this.isOn()){
+			$("#fbLogin").fadeOut();
+			fbInfo(function(user){
+				socket.emit('entro', user);
+			});
+		}else{
 		}
-		socket.emit('entro', usuario);
-		n = usuario;
 	});
 
 	socket.on('entraste', function(tuRe){
-		tu.nombre = tuRe.nombre;
-		tu.iden = tuRe.iden;
+		tu = {
+			nombre: tuRe.nombre,
+			fbID: tuRe.fbID,
+			iden: tuRe.iden,
+			foto: tuRe.foto,
+			perfil: tuRe.perfil
+		}
 	});
-
 	socket.on('disconnect', function () {
 		$alert('Te has desconectado del servidor, te ecomendamos recargar la aplicación.', 'Te has desconectado');
 	});
-
 	socket.on('enviando', function(e){
 
 			var user = e;
@@ -187,7 +175,6 @@ if (n == null || n == ""){
 				socket.emit('visto', {visto: 'no', iden: user.nombre});
 			}
 	});
-
 	socket.on('visto', function(visto){
 		if (visto.iden != tu.nombre){
 			if (visto.visto == 'si'){
@@ -199,17 +186,14 @@ if (n == null || n == ""){
 			}
 		}
 	});
-
 	socket.on('entro', function(user){
 			$('#logs').append('<article class="green"><span class="time">' + hora() + '</span><strong>' + user.nombre + '</strong><span>se ha unido al chat</span></article>');
 			autoScroll();
 	});
-
 	socket.on('salio', function(user){
 			$('#logs').append('<article class="red"><span class="time">' + hora() + '</span><strong>' + user + '</strong><span>ha dejado el chat</span></article>');
 			autoScroll();
 	});
-
 	socket.on('winFocus', function(w){
 		if(w.focused == 'no'){
 			$('[rel="user_' + w.iden + '"]').addClass('naranjita');
@@ -217,7 +201,6 @@ if (n == null || n == ""){
 			$('[rel="user_' + w.iden + '"]').removeClass('naranjita');
 		}
 	});
-
 	socket.on('online', function(user) {
 		$('#online').html('');
 		$.each(user, function(key, value) {
@@ -230,18 +213,6 @@ if (n == null || n == ""){
 		var nOnline = $('#online li').length;
 		$('#nOnline').html(nOnline);
 	});
-	socket.on('rename',function(newname){
-		if ( newname.error == 'username exist'){
-			$alert('Ese nombre está siendo ocupado por otro usuario');
-		}else{
-			$('#logs').append('<article class="blue"><span class="time">' + hora() + '</span><span><strong>' + newname.last + '</strong> se ha cambiado el nombre a <strong>' + newname.now + '</strong></span></article>');
-			autoScroll();
-			if (tu.nombre == newname.last){
-				tu.nombre = newname.now;
-			}
-		}
-	});
-
 	socket.on('escribiendo', function(res){
 		if ( res.writing == 'si'){
 			$('#action').html('Escribiendo...</span>');
@@ -251,7 +222,6 @@ if (n == null || n == ""){
 			$('[rel="user_' + res.user + '"] .actionUser').html('');
 		}
 	});
-
 	socket.on('privado', function(privado){
 		$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De <em>' + privado.de + '</em> para <em>' + privado.para + '</em></strong><span><pre>' + privado.texto + '</pre></span></article>');
 		autoScroll();
@@ -274,9 +244,7 @@ if (n == null || n == ""){
 		}else{
 			inbox[privado.para].mensajes.push(msg);
 		}
-
 	});
-
 	function enviar (e) {
 		var texto = $('#mensaje').val();
 		texto = texto.replace(/\n/g, '');
@@ -345,159 +313,165 @@ if (n == null || n == ""){
 		$('#mensaje').val('');
 		$('#action').html('');
 	}
-
-
-function resize (){
-	var menuUsers;
-	if( $(window).width() < 767){
-		$('#online').hide();
-		menuUsers = $('#menuUsers').height();
-	}else{
-		$('#online').show();
-		menuUsers = 0;
-	}
-	displayUsers = 0;
-	var winHeight = $(window).height() - $('#hed').height();
-	$('#contenedor').height(winHeight);
-	var hisHeigt = winHeight - $('#formulario').height() - menuUsers - 50;
-	$('#history').height(hisHeigt);
-}
-
-var displayUsers = 0;
-function showHideUsers(){
-	if( $(window).width() < 767){
-		if(displayUsers == 1){
+	function resize (){
+		var menuUsers;
+		if( $(window).width() < 767){
 			$('#online').hide();
-			displayUsers = 0;
+			menuUsers = $('#menuUsers').height();
 		}else{
 			$('#online').show();
-			displayUsers = 1;
+			menuUsers = 0;
+		}
+		displayUsers = 0;
+		var winHeight = $(window).height() - $('#hed').height();
+		$('#contenedor').height(winHeight);
+		var hisHeigt = winHeight - $('#formulario').height() - menuUsers - 50;
+		$('#history').height(hisHeigt);
+	}
+	var displayUsers = 0;
+	function showHideUsers(){
+		if( $(window).width() < 767){
+			if(displayUsers == 1){
+				$('#online').hide();
+				displayUsers = 0;
+			}else{
+				$('#online').show();
+				displayUsers = 1;
+			}
 		}
 	}
-}
+	function btnMenu(){
+		$('#goChat').click(function(e){
+			$('#logs').show();
+			$('#inbox').hide();
+			$('#media').hide();
+			$('#help').hide();
+			$('#goChat').addClass('active');
+			$('#goInbox').removeClass('active');
+			$('#goMedia').removeClass('active');
+			$('#goHelp').removeClass('active');
+			autoScroll();
+		});
+		$('#goInbox').click(function(e){
+			$('#inbox').show();
+			$('#logs').hide();
+			$('#media').hide();
+			$('#help').hide();
+			$('#goInbox').addClass('active');
+			$('#goChat').removeClass('active');
+			$('#goMedia').removeClass('active');
+			$('#goHelp').removeClass('active');
+		});
+		$('#goHelp').click(function(e){
+			$('#inbox').hide();
+			$('#logs').hide();
+			$('#media').hide();
+			$('#help').show();
+			$('#goInbox').removeClass('active');
+			$('#goChat').removeClass('active');
+			$('#goMedia').removeClass('active');
+			$('#goHelp').addClass('active');
+		});
+		$('#goMedia').click(function(e){
+			$('#logs').hide();
+			$('#inbox').hide();
+			$('#media').show();
+			$('#help').hide();
+			$('#goInbox').removeClass('active');
+			$('#goChat').removeClass('active');
+			$('#goMedia').addClass('active');
+			$('#goHelp').removeClass('active');
 
-function run () {
-	document.addEventListener("backbutton", function(){
-		if(displayUsers == 1){
-			$('#online').hide();
-			displayUsers = 0;
-		}else{
-			window.close();
-		}
-	}, false);
-
-	resize();
-	$(window).resize(resize);
-	$('aside').click(showHideUsers);
-
-	$('#goChat').click(function(e){
-		$('#logs').show();
-		$('#inbox').hide();
-		$('#media').hide();
-		$('#goChat').addClass('active');
-		$('#goInbox').removeClass('active');
-		$('#goMedia').removeClass('active');
-		autoScroll();
-	});
-	$('#goInbox').click(function(e){
-		$('#inbox').show();
-		$('#logs').hide();
-		$('#media').hide();
-		$('#goInbox').addClass('active');
-		$('#goChat').removeClass('active');
-		$('#goMedia').removeClass('active');
-	});
-	$('#goMedia').click(function(e){
-		$('#logs').hide();
-		$('#inbox').hide();
-		$('#media').show();
-		$('#goInbox').removeClass('active');
-		$('#goChat').removeClass('active');
-		$('#goMedia').addClass('active');
-
-		$('#media').html('');
-		for (item in multimedia){
-			var itemMedia = multimedia[item];
-			var contenido;
-			switch(itemMedia.typo){
-				case 'img': contenido = '<div><img class="pop" src="' + itemMedia.content + '" /></div>'; break;
-				case 'youtube': contenido = '<iframe src="http://www.youtube.com/embed/' + itemMedia.content + '" frameborder="0" allowfullscreen></iframe>'; break;
+			$('#media').html('');
+			for (item in multimedia){
+				var itemMedia = multimedia[item];
+				var contenido;
+				switch(itemMedia.typo){
+					case 'img': contenido = '<div><img class="pop" src="' + itemMedia.content + '" /></div>'; break;
+					case 'youtube': contenido = '<iframe src="http://www.youtube.com/embed/' + itemMedia.content + '" frameborder="0" allowfullscreen></iframe>'; break;
+				}
+				var tmp = '<div><figure class="media_' + itemMedia.typo + '">'
+							+ contenido
+							+ '<figcaption>Por <strong>' + itemMedia.author + '</strong> a las ' + itemMedia.date + '</figcaption></figure></div>';
+				$('#media').append(tmp);
 			}
-			var tmp = '<div><figure class="media_' + itemMedia.typo + '">'
-						+ contenido
-						+ '<figcaption>Por <strong>' + itemMedia.author + '</strong> a las ' + itemMedia.date + '</figcaption></figure></div>';
-			$('#media').append(tmp);
-		}
-		var txtMedia = $('#media').html().replace(/ /g, '').replace(/\n/g, '');
-		if (txtMedia == ''){
-			$('#media').append('<pre>No hay multimedia que ver, aún...</pre>');
-		}
+			var txtMedia = $('#media').html().replace(/ /g, '').replace(/\n/g, '');
+			if (txtMedia == ''){
+				$('#media').append('<pre>No hay multimedia que ver, aún...</pre>');
+			}
 
-		var cSscroll = $('#cScroll').is(":checked");
-		if (cSscroll){
-			var altodiv = $('#media').height();
-			$('#history').scrollTop( altodiv );
-		}
-	});
+			var cSscroll = $('#cScroll').is(":checked");
+			if (cSscroll){
+				var altodiv = $('#media').height();
+				$('#history').scrollTop( altodiv );
+			}
+		});
+	}
+	function eventos (){
+		// API PhoneGap
+		document.addEventListener("backbutton", function(){
+			if(displayUsers == 1){
+				$('#online').hide();
+				displayUsers = 0;
+			}else{
+				window.close();
+			}
+		}, false);
+		// Eventos generales
+		$('aside').click(showHideUsers);
 
-	$('li[rel]').live('click', function(){
-		var liuser = $(this).attr('rel').split('_')[1];
-		$('#mensaje').val('$privado::' + liuser + '::').focus();
-	});
+	    $('#mensaje').focus();
+		$('#formulario').submit(function(e){
+			e.preventDefault();
+			enviar();
+		});
+		$('#mensaje').keyup(function(e){
+			var enter = e.keyCode;
+			if (enter == '13'){
+				$('#formulario').trigger('submit');
+			}
+		});
+		$('#mensaje').keyup(function(e){
+			var cleantexto = $('#mensaje').val().replace(/ /g, '').replace(/\n/g, '');
+			var writing = 'no';
+			if (cleantexto != '') {
+				writing = 'si';
+			}
+			var who = {
+				user: tu.nombre,
+				writing: writing
+			}
+			socket.emit('escribiendo', who);
+		});
+		$('#mensaje').focus(function(){
+			socket.emit('visto', {visto: 'si', iden: tu.nombre});
+			txtFocus = 'si';
+		});
+		$('#mensaje').blur(function(){
+			socket.emit('visto', {visto: 'no', iden: tu.nombre});
+			txtFocus = 'no';
+		});
+		$(window).focus(function(){
+			socket.emit('winFocus', {focused: 'si', iden: tu.nombre});
+		});
+		$(window).blur(function(){
+			socket.emit('winFocus', {focused: 'no', iden: tu.nombre});
+		});
+		$('.pop').live('click', function(e){
+			e.preventDefault();
+			var pict = $(this).attr('src');
 
-    $('#mensaje').focus();
-	$('#formulario').submit(function(e){
-		e.preventDefault();
-		enviar();
-	});
-	$('#mensaje').keyup(function(e){
-		var enter = e.keyCode;
-		if (enter == '13'){
-			$('#formulario').trigger('submit');
-		}
-	});
-
-	$('#mensaje').keyup(function(e){
-		var cleantexto = $('#mensaje').val().replace(/ /g, '').replace(/\n/g, '');
-		var writing = 'no';
-		if (cleantexto != '') {
-			writing = 'si';
-		}
-		var who = {
-			user: tu.nombre,
-			writing: writing
-		}
-		socket.emit('escribiendo', who);
-	});
-	$('#mensaje').focus(function(){
-		socket.emit('visto', {visto: 'si', iden: tu.nombre});
-		txtFocus = 'si';
-	});
-	$('#mensaje').blur(function(){
-		socket.emit('visto', {visto: 'no', iden: tu.nombre});
-		txtFocus = 'no';
-	});
-	$(window).focus(function(){
-		socket.emit('winFocus', {focused: 'si', iden: tu.nombre});
-	});
-	$(window).blur(function(){
-		socket.emit('winFocus', {focused: 'no', iden: tu.nombre});
-	});
-
-	$('#help').click(function(e){
-		e.preventDefault();
-		$alert( '<article>' + $('#helpTxt').html() + '</article>', 'Ayuda' );
-	});
-
-	$('.pop').live('click', function(e){
-		e.preventDefault();
-		var pict = $(this).attr('src');
-
-		var pop = '<div id="pop"><img src="' + pict + '" /></div>';
-		$('body').append(pop);
-	});
-	$('#pop').live('click', function(){
-		$('#pop').remove();
-	});
-}
-$(document).ready(run);
+			var pop = '<div id="pop"><img src="' + pict + '" /></div>';
+			$('body').append(pop);
+		});
+		$('#pop').live('click', function(){
+			$('#pop').remove();
+		});
+	}
+	function run () {
+		resize();
+		$(window).resize(resize);
+		eventos();
+		btnMenu();
+	}
+	$(document).ready(run);

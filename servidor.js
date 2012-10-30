@@ -1,40 +1,31 @@
 var servidor = require('socket.io').listen(7873);
-var exec = require('child_process').exec;
 servidor.set('log level', 0);
 
-var user = {
-	nombre: 'Anónimo',
-	iden: 'undefined'
-};
-
-var usuarios = {};
+var user = {}, usuarios = {};
 
 servidor.sockets.on('connection', function(socket){
 
 	var iden = socket.id;
 
-	socket.on('entro', function(n){
-		// Filtro AntiAngel
-		n = n.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	socket.on('entro', function(user){
+		var u = user.name;
 		user = {
+			nombre: user.name,
+			fbID: user.id,
+			iden: iden,
+			foto: "https://graph.facebook.com/" + user.id + "/picture",
+			perfil: user.link
+		}
+		socket.username = n;
+		usuarios[n] = user;
+		var envTU = {
 			nombre: n,
-			iden: iden
-		}
-
-		if(typeof usuarios[n] != "undefined"){
-			servidor.sockets.socket(socket.id).emit('usuarioexiste', user);
-		}else{
-			socket.username = n;
-			usuarios[n] = user;
-			var envTU = {
-				nombre: n,
-				iden: socket.id,
-			};
-			servidor.sockets.socket(socket.id).emit('entraste', envTU);
-			servidor.sockets.emit('entro', user);
-			servidor.sockets.emit('online', usuarios);
-			console.log('Entro: ' + n);
-		}
+			iden: socket.id,
+		};
+		servidor.sockets.socket(socket.id).emit('entraste', envTU);
+		servidor.sockets.emit('entro', user);
+		servidor.sockets.emit('online', usuarios);
+		console.log('Entro: ' + n);
 	});
 
 	socket.on('winFocus', function(e) {
@@ -66,24 +57,6 @@ servidor.sockets.on('connection', function(socket){
 
 	socket.on('escribiendo', function(res){
 		servidor.sockets.emit('escribiendo', res);
-	});
-
-	socket.on('rename', function(newname){
-		if(typeof usuarios[newname] != 'undefined'){
-			servidor.sockets.socket(socket.id).emit('rename', {last: socket.username, now: socket.username, error: 'username exist'});
-		}else{
-			console.log(socket.username + ' se cambio el nombre por ' + newname);
-			newname = newname.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-			servidor.sockets.emit('rename', {last: socket.username, now: newname});
-			user = {
-				nombre: newname,
-				iden: iden
-			}
-			delete usuarios[socket.username];
-			socket.username = newname;
-			usuarios[newname] = user;
-			servidor.sockets.emit('online', usuarios);
-		}
 	});
 
 	socket.on('privado', function(privado){

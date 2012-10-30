@@ -22,53 +22,18 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="js/less.min.js"></script>
 	<script src="js/dannegm.dialogs.js"></script>
+	<script src="js/gomo.fb.js"></script>
 	<script src="js/functions.js"></script>
 	<script src="js/script.js"></script>
 </head>
 <body>
-<article id="helpTxt">
-		<strong>Poner una imagen</strong><br />
-		<span>Sólo debes poner el comando <code>$img::</code> seguido de la url de tu imagen, ej.</span>
-		<pre>$img::http://www.micafeina.com/wp-content/uploads/2011/07/Nyan-Cat.png</pre><br />
-
-		<strong>Poner una link</strong><br />
-		<span>Sólo debes poner el comando <code>$url::</code> seguido del link, ej.</span>
-		<pre>$url::http://google.com</pre><br />
-
-		<strong>Poner un video</strong><br />
-		<span>Sólo debes poner el comando <code>$youtube::</code> seguido del id del video, ej.</span>
-		<pre>$youtube::QH2-TGUlwu4</pre><br />
-
-		<strong>Poner un código inline</strong><br />
-		<span>Sólo debes ecribir el código entre dos pares de corchetes, ej.</span>
-		<pre>[[alert('soy un codigo');]]</pre><br />
-
-		<strong>Poner un código block</strong><br />
-		<span>Sólo debes escribir el código entre las etiquetas <code>[code][/code]</code>, ej.</span>
-		<pre>[code]
-&lt;script&gt;
-  alert('soy un codigo');
-&lt;/script&gt;
-[/code]</pre><br />
-
-		<strong>Limpiar chat</strong><br />
-		<span>Sólo debes de escribir el comando <code>$clear::</code></span><br /><br />
-
-		<strong>Mandar un mensaje en un popup</strong><br />
-		<span>Sólo debes poner el comando <code>$alert::</code> seguido del mensaje, ej.</span>
-		<pre>$alert::soy una alerta bonita :D</pre><br />
-
-		<strong>Mandar un sonidito</strong><br />
-		<span>Sólo debes poner el comando <code>$sonidito::</code></span><br /><br />
-
-		<strong>Cambiar de nombre</strong><br />
-		<span>Sólo debes poner el comando <code>$rename::</code> seguido de tu nuevo nombre</span>
-		<pre>$rename::Fuckencio</pre><br />
-
-		<strong>Enviar mensaje privado</strong><br />
-		<span>Sólo debes poner el comando <code>$privado::</code> seguido del nombre destinatario y seguido del mensaje, ej.</span>
-		<pre>$privado::Fuckencio::hola! :D</pre>
-</article>
+<div id="fbLogin">
+	<article>
+		<h1>Inicia sesión con facebook</h1>
+		<p>Debes loguearte con Facebook para poder acceder al chat</p>
+		<button id="intoFace">Iniciar con facebook</button>
+	</article>
+</diV>
 <div id="main">
 	<header id="hed">
 		<h1>
@@ -78,7 +43,7 @@
 			<button id="goChat" class="active">Chat</button>
 			<button id="goInbox">Inbox</button>
 			<button id="goMedia">Multimedia</button>
-			<button id="help">Ayuda</button>
+			<button id="goHelp">Ayuda</button>
 		</nav>
 	</header>
 	<div id="contenedor">
@@ -96,6 +61,51 @@
 				</section>
 				<section id="media"></section>
 				<section id="inbox"></section>
+				<section id="help">
+					<article>
+							<strong>Poner una imagen</strong><br />
+							<span>Sólo debes poner el comando <code>$img::</code> seguido de la url de tu imagen, ej.</span>
+							<pre>$img::http://www.micafeina.com/wp-content/uploads/2011/07/Nyan-Cat.png</pre><br />
+
+							<strong>Poner una link</strong><br />
+							<span>Sólo debes poner el comando <code>$url::</code> seguido del link, ej.</span>
+							<pre>$url::http://google.com</pre><br />
+
+							<strong>Poner un video</strong><br />
+							<span>Sólo debes poner el comando <code>$youtube::</code> seguido del id del video, ej.</span>
+							<pre>$youtube::QH2-TGUlwu4</pre><br />
+
+							<strong>Poner un código inline</strong><br />
+							<span>Sólo debes ecribir el código entre dos pares de corchetes, ej.</span>
+							<pre>[[alert('soy un codigo');]]</pre><br />
+
+							<strong>Poner un código block</strong><br />
+							<span>Sólo debes escribir el código entre las etiquetas <code>[code][/code]</code>, ej.</span>
+							<pre>[code]
+&lt;script&gt;
+  alert('soy un codigo');
+&lt;/script&gt;
+[/code]</pre><br />
+
+							<strong>Limpiar chat</strong><br />
+							<span>Sólo debes de escribir el comando <code>$clear::</code></span><br /><br />
+
+							<strong>Mandar un mensaje en un popup</strong><br />
+							<span>Sólo debes poner el comando <code>$alert::</code> seguido del mensaje, ej.</span>
+							<pre>$alert::soy una alerta bonita :D</pre><br />
+
+							<strong>Mandar un sonidito</strong><br />
+							<span>Sólo debes poner el comando <code>$sonidito::</code></span><br /><br />
+
+							<strong>Cambiar de nombre</strong><br />
+							<span>Sólo debes poner el comando <code>$rename::</code> seguido de tu nuevo nombre</span>
+							<pre>$rename::Fuckencio</pre><br />
+
+							<strong>Enviar mensaje privado</strong><br />
+							<span>Sólo debes poner el comando <code>$privado::</code> seguido del nombre destinatario y seguido del mensaje, ej.</span>
+							<pre>$privado::Fuckencio::hola! :D</pre>
+					</article>
+				</section>
 			</div>
 			<form id="formulario">
 				<div class="controls">

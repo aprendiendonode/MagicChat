@@ -113,6 +113,7 @@ if (n == null || n == ""){
 			user.texto = user.texto
 				.replace(/\&lt;3/g, '♥');
 
+			/*
 			// Emoticones
 			user.texto = user.texto
 				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>')
@@ -124,6 +125,37 @@ if (n == null || n == ""){
 				.replace(/XD/g, '<span class="emoticon xd" title="XD"></span>')
 				.replace(/\:\)/g, '<span class="emoticon sonriendo" title=":)"></span>')
 				.replace(/\:P/g, '<span class="emoticon lengua" title=":P"></span>');
+			/* */
+
+			// Emoticones Facebook
+			user.texto = user.texto
+				.replace(/\:\)/g, '<span class="emotiface fbFeliz" title=":)"></span>')
+				.replace(/\:\(/g, '<span class="emotiface fbTriste" title=":("></span>')
+				.replace(/\:P/g, '<span class="emotiface fbLengua" title=":P"></span>')
+				.replace(/\:D/g, '<span class="emotiface fbRisa" title=":D"></span>')
+				.replace(/\:O/g, '<span class="emotiface fbWow" title=":O"></span>');
+			user.texto = user.texto
+				.replace(/\;\)/g, '<span class="emotiface fbGuinio" title="8)"></span>')
+				.replace(/8\)/g, '<span class="emotiface fbGlass" title="8)"></span>')
+				.replace(/8\]/g, '<span class="emotiface fbSunGlass" title="8]"></span>')
+				.replace(/\&gt;\_\&lt;/g, '<span class="emotiface fbLimon" title=">_<"></span>')
+				.replace(/\:\//g, '<span class="emotiface fbMueca" title=":/"></span>');
+			user.texto = user.texto
+				.replace(/\:\'\(/g, '<span class="emotiface fbLagrima" title=":\'("></span>')
+				.replace(/3\:\)/g, '<span class="emotiface fbDiablito" title="<3"></span>')
+				.replace(/\&lt;3/g, '<span class="emotiface fbCorazon" title="o:)"></span>')
+				.replace(/\^\^/g, '<span class="emotiface fbAlegre" title="^^"></span>')
+				.replace(/\-\.\-/g, '<span class="emotiface fbSerio" title="-.-"></span>');
+			user.texto = user.texto
+				.replace(/o\:\)/g, '<span class="emotiface fbAngelito" title="o:)"></span>')
+				.replace(/\:\*/g, '<span class="emotiface fbBeso" title=":*"></span>')
+				.replace(/o\_O/g, '<span class="emotiface fbConfundido" title="o_O"></span>')
+				.replace(/\&gt;\.\&lt;/g, '<span class="emotiface fbAmargo" title="&gt;.&lt;"></span>')
+				.replace(/\:v/g, '<span class="emotiface fbPacman" title=":v"></span>');
+			user.texto = user.texto
+				.replace(/\:3/g, '<span class="emotiface fbTierno" title=":3"></span>')
+				.replace(/\(Y\)/g, '<span class="emotiface fbLike" title="(Y)"></span>')
+				.replace(/O\_o/g, '<span class="emotiface fbConfused" title="O_o"></span>');
 
 			user.texto = user.texto
 				.replace(/\[code+\]/g, '<pre>')

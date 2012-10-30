@@ -27,12 +27,12 @@
 		}
 		function chkLogin (resp) {
 			if (resp.authResponse) {
-				doLogin():
+				doLogin();
 			}else{
 				$("#intoFace").click(function() {
 					FB.login(function(resp) {
 						if (resp.authResponse) {
-							doLogin():
+							doLogin();
 						}
 					}, 'email,user_about_me,user_hometown,user_interests,user_location');
 				});

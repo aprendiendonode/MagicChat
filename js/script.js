@@ -88,7 +88,7 @@ if (n == null || n == ""){
 						content: comando[1]
 					};
 					multimedia.push(mediaa);
-					user.texto = '<figure class="media_img"><div><img src="' + comando[1] + '" /></div></figure>';
+					user.texto = '<figure class="media_img"><div><img class="pop" src="' + comando[1] + '" /></div></figure>';
 					break;
 				case '$youtube':
 					var mediaa = {
@@ -491,15 +491,13 @@ function run () {
 
 	$('.pop').live('click', function(e){
 		e.preventDefault();
-		var pict = $(this).attr('href');
+		var pict = $(this).attr('src');
 
 		var pop = '<div id="pop"><img src="' + pict + '" /></div>';
-		console.log('Popup Activado: [img] ' + pict);
 		$('body').append(pop);
 	});
 	$('#pop').live('click', function(){
 		$('#pop').remove();
-		console.log('Popup desactivado');
 	});
 }
 $(document).ready(run);

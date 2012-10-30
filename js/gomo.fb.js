@@ -17,15 +17,13 @@ Modificaciones para éste proyecto por Dannegm
 		return user_id; 
 	}
 	this.chkLogin =  function (resp) {
-		if(filtro > 0) 
-			return;
+		if(filtro > 0) return;
 		if (resp.authResponse) {
 			access_token = resp.authResponse.accessToken;
 			user_id = resp.authResponse.userID;
 			on = true;
 		} else {
-			on = false; 
-			actBot("Conectar"); 
+			on = false;
 			boton.click(function() {
 				FB.login(function(resp) {
 					if (resp.authResponse) {
@@ -34,18 +32,16 @@ Modificaciones para éste proyecto por Dannegm
 						user_id = resp.authResponse.userID;
 						location.reload(); 
 					} else {
-						return {cod:11,estado:"sin permisos"};
+						return {cod:11, estado:"sin permisos"};
 					}
 				}, 'email,user_about_me,user_hometown,user_interests,user_location');
 			}); 
 		}
-		if(call) 
-			call;
+		if(call) call;
 		filtro++;
 	}; 
 	this.fbInfo = function(callback){
-		if(!on) 
-			return;
+		if(!on) return;
 		FB.api('/me', callback);
 	}; 
 	this.fql = function(query,callback){
@@ -71,8 +67,7 @@ Modificaciones para éste proyecto por Dannegm
 	};
 	jQuery.fn.fb = function(callback){
 		boton = $(this); 
-		if(callback) 
-			call = callback;
-			return fbIni();
+		if(callback) call = callback;
+		return fbIni();
 	};
 })(jQuery);

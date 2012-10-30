@@ -202,6 +202,9 @@ if (n == null || n == ""){
 		}else{
 			$('#logs').append('<article class="blue"><span class="time">' + hora() + '</span><span><strong>' + newname.last + '</strong> se ha cambiado el nombre a <strong>' + newname.now + '</strong></span></article>');
 			autoScroll();
+			if (tu.nombre == newname.last){
+				tu.nombre = newname.now;
+			}
 		}
 	});
 
@@ -256,7 +259,6 @@ if (n == null || n == ""){
 				msgg = 'no';
 				break;
 			case '$rename':
-				tu.nombre = comando[1];
 				socket.emit('rename', comando[1]);
 				msgg = 'no';
 				break;

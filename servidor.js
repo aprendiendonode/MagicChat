@@ -1,5 +1,6 @@
 var servidor = require('socket.io').listen(7873);
 var exec = require('child_process').exec;
+servidor.set('log level', 0);
 
 var user = {
 	nombre: 'Anónimo',
@@ -48,6 +49,7 @@ servidor.sockets.on('connection', function(socket){
 		delete usuarios[socket.username];
 		servidor.sockets.emit('salio', socket.username);
 		servidor.sockets.emit('online', usuarios);
+		console.log('Salio: ' + socket.username);
 	});
 
 	socket.on('enviar', function (res) {
@@ -70,6 +72,7 @@ servidor.sockets.on('connection', function(socket){
 		if(typeof usuarios[newname] != 'undefined'){
 			servidor.sockets.socket(socket.id).emit('rename', {last: socket.username, now: socket.username, error: 'username exist'});
 		}else{
+			console.log(socket.username + ' se cambio el nombre por ' + newname);
 			newname = newname.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 			servidor.sockets.emit('rename', {last: socket.username, now: newname});
 			user = {
@@ -86,6 +89,7 @@ servidor.sockets.on('connection', function(socket){
 	socket.on('privado', function(privado){
 		if(typeof usuarios[privado.para] != "undefined"){
 			servidor.sockets.socket(usuarios[privado.para].iden).emit('privado', privado);
+			console.log('DM de ' + privado.de + ' para ' + privado.para + ': ' + privado.texto);
 		}
 	});
 

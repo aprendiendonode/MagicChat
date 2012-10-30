@@ -300,6 +300,7 @@ if (n == null || n == ""){
 				$('#logs').append('<article class="red"><span>Debes escribir algo antes de enviarlo</span></article>');
 				autoScroll();
 			}else{
+				texto = texto.replace(/\n/g, '');
 				var user = {
 					nombre: tu.nombre,
 					texto: texto

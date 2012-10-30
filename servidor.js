@@ -18,11 +18,7 @@ servidor.sockets.on('connection', function(socket){
 		}
 		socket.username = n;
 		usuarios[n] = user;
-		var envTU = {
-			nombre: n,
-			iden: socket.id,
-		};
-		servidor.sockets.socket(socket.id).emit('entraste', envTU);
+		servidor.sockets.socket(socket.id).emit('entraste', user);
 		servidor.sockets.emit('entro', user);
 		servidor.sockets.emit('online', usuarios);
 		console.log('Entro: ' + n);

@@ -4,7 +4,14 @@
 
 	var socket = io.connect(servidor + ':' +  puerto);
 
-	var multimedia = [], inbox = {}, txtFocus = 'no', winFocus = 'si', sonidito = document.createElement('audio'), tu = {};
+	var multimedia = [],
+		inbox = {},
+		txtFocus = 'no',
+		winFocus = 'si',
+		sonidito = document.createElement('audio'),
+		tu = {},
+		displayUsers = 0;
+
 	sonidito.src = "http://soundjax.com/reddo/27947%5EBells.mp3";
 	window.onblur = function () {
 		winFocus = 'no';
@@ -12,24 +19,253 @@
 	window.onfocus = function () {
 		winFocus = 'si';
 	};
-
-	var face = $("#intoFace").fb(
-		{ 
-			id : '125054150878675', 
-			secret : "111f187cae3275d438aefb66ad964fd6", 
-			permisos : {
-				scope:'user_about_me'
+	function login (){
+		var face = $("#intoFace").fb(
+			{ 
+				id : '125054150878675', 
+				secret : "111f187cae3275d438aefb66ad964fd6", 
+				permisos : {
+					scope:'user_about_me'
+				}
+			},
+			function(){   
+				if(this.isOn()){
+					fbInfo(function(user){
+						socket.emit('entro', user);
+					});
+				}
 			}
-		},
-		function(){   
-		if(this.isOn()){
-			$("#fbLogin").fadeOut();
-			fbInfo(function(user){
-				socket.emit('entro', user);
-			});
-		}else{
+		);
+	}
+	function enviar (e) {
+		var texto = $('#mensaje').val();
+		texto = texto.replace(/\n/g, '');
+
+		var limpiarspaces = texto.replace(/ /g, '');
+
+		var comando = texto.split('::');
+		var msgg = 'si';
+		switch(comando[0]){
+			case '$clear':
+				$('#logs').html('');
+				$('#logs').append('<article class="blue"><span>Has limpiado tu historial del chat</span></article>');
+				autoScroll();
+				msgg = 'no';
+				break;
+			case '$rename':
+				socket.emit('rename', comando[1]);
+				msgg = 'no';
+				break;
+			case '$privado':
+				var privado = {
+					de: tu.nombre,
+					para: comando[1],
+					texto: comando[2]
+				}
+				msgg = 'no';
+				if (comando[1] == tu.nombre){
+					$('#logs').append('<article class="red"><span>No puedes enviarte un mensaje privado a tí mismo</span></article>');
+				}else{
+					socket.emit('privado', privado);
+					$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De <em>' + privado.de + '</em> para <em>' + privado.para + '</em></strong><span><pre>' + privado.texto + '</pre></span></article>');
+					autoScroll();
+
+					var msg = {
+						mensaje: privado.texto,
+						from: privado.de,
+						to: privado.para,
+						date: hora()
+					};
+
+					if(typeof inbox[privado.para] == "undefined"){
+						inbox[privado.para] = {
+							nombre: privado.para,
+							mensajes: [msg]
+						}
+					}else{
+						inbox[privado.para].mensajes.push(msg);
+					}
+				}
+				break;
 		}
-	});
+		if (msgg == 'si'){
+			if (limpiarspaces == ''){
+				$('#logs').append('<article class="red"><span>Debes escribir algo antes de enviarlo</span></article>');
+				autoScroll();
+			}else{
+				var user = {
+					nombre: tu.nombre,
+					texto: texto
+				}
+				socket.emit('enviar', user);
+			}
+		}
+		var altodiv = $('#logs').height();
+		$('#history').scrollTop( altodiv );
+		$('#mensaje').val('');
+		$('#action').html('');
+	}
+	function resize (){
+		var menuUsers;
+		if( $(window).width() < 767){
+			$('#online').hide();
+			menuUsers = $('#menuUsers').height();
+		}else{
+			$('#online').show();
+			menuUsers = 0;
+		}
+		displayUsers = 0;
+		var winHeight = $(window).height() - $('#hed').height();
+		$('#contenedor').height(winHeight);
+		var hisHeigt = winHeight - $('#formulario').height() - menuUsers - 50;
+		$('#history').height(hisHeigt);
+	}
+	function showHideUsers(){
+		if( $(window).width() < 767){
+			if(displayUsers == 1){
+				$('#online').hide();
+				displayUsers = 0;
+			}else{
+				$('#online').show();
+				displayUsers = 1;
+			}
+		}
+	}
+	function btnMenu(){
+		$('#goChat').click(function(e){
+			$('#logs').show();
+			$('#inbox').hide();
+			$('#media').hide();
+			$('#help').hide();
+			$('#goChat').addClass('active');
+			$('#goInbox').removeClass('active');
+			$('#goMedia').removeClass('active');
+			$('#goHelp').removeClass('active');
+			autoScroll();
+		});
+		$('#goInbox').click(function(e){
+			$('#inbox').show();
+			$('#logs').hide();
+			$('#media').hide();
+			$('#help').hide();
+			$('#goInbox').addClass('active');
+			$('#goChat').removeClass('active');
+			$('#goMedia').removeClass('active');
+			$('#goHelp').removeClass('active');
+		});
+		$('#goHelp').click(function(e){
+			$('#inbox').hide();
+			$('#logs').hide();
+			$('#media').hide();
+			$('#help').show();
+			$('#goInbox').removeClass('active');
+			$('#goChat').removeClass('active');
+			$('#goMedia').removeClass('active');
+			$('#goHelp').addClass('active');
+		});
+		$('#goMedia').click(function(e){
+			$('#logs').hide();
+			$('#inbox').hide();
+			$('#media').show();
+			$('#help').hide();
+			$('#goInbox').removeClass('active');
+			$('#goChat').removeClass('active');
+			$('#goMedia').addClass('active');
+			$('#goHelp').removeClass('active');
+
+			$('#media').html('');
+			for (item in multimedia){
+				var itemMedia = multimedia[item];
+				var contenido;
+				switch(itemMedia.typo){
+					case 'img': contenido = '<div><img class="pop" src="' + itemMedia.content + '" /></div>'; break;
+					case 'youtube': contenido = '<iframe src="http://www.youtube.com/embed/' + itemMedia.content + '" frameborder="0" allowfullscreen></iframe>'; break;
+				}
+				var tmp = '<div><figure class="media_' + itemMedia.typo + '">'
+							+ contenido
+							+ '<figcaption>Por <strong>' + itemMedia.author + '</strong> a las ' + itemMedia.date + '</figcaption></figure></div>';
+				$('#media').append(tmp);
+			}
+			var txtMedia = $('#media').html().replace(/ /g, '').replace(/\n/g, '');
+			if (txtMedia == ''){
+				$('#media').append('<pre>No hay multimedia que ver, aún...</pre>');
+			}
+
+			var cSscroll = $('#cScroll').is(":checked");
+			if (cSscroll){
+				var altodiv = $('#media').height();
+				$('#history').scrollTop( altodiv );
+			}
+		});
+	}
+	function eventos (){
+		// API PhoneGap
+		document.addEventListener("backbutton", function(){
+			if(displayUsers == 1){
+				$('#online').hide();
+				displayUsers = 0;
+			}else{
+				window.close();
+			}
+		}, false);
+		// Eventos generales
+		$('aside').click(showHideUsers);
+
+	    $('#mensaje').focus();
+		$('#formulario').submit(function(e){
+			e.preventDefault();
+			enviar();
+		});
+		$('#mensaje').keyup(function(e){
+			var enter = e.keyCode;
+			if (enter == '13'){
+				$('#formulario').trigger('submit');
+			}
+		});
+		$('#mensaje').keyup(function(e){
+			var cleantexto = $('#mensaje').val().replace(/ /g, '').replace(/\n/g, '');
+			var writing = 'no';
+			if (cleantexto != '') {
+				writing = 'si';
+			}
+			var who = {
+				user: tu.nombre,
+				writing: writing
+			}
+			socket.emit('escribiendo', who);
+		});
+		$('#mensaje').focus(function(){
+			socket.emit('visto', {visto: 'si', iden: tu.nombre});
+			txtFocus = 'si';
+		});
+		$('#mensaje').blur(function(){
+			socket.emit('visto', {visto: 'no', iden: tu.nombre});
+			txtFocus = 'no';
+		});
+		$(window).focus(function(){
+			socket.emit('winFocus', {focused: 'si', iden: tu.nombre});
+		});
+		$(window).blur(function(){
+			socket.emit('winFocus', {focused: 'no', iden: tu.nombre});
+		});
+		$('.pop').live('click', function(e){
+			e.preventDefault();
+			var pict = $(this).attr('src');
+
+			var pop = '<div id="pop"><img src="' + pict + '" /></div>';
+			$('body').append(pop);
+		});
+		$('#pop').live('click', function(){
+			$('#pop').remove();
+		});
+	}
+	function run () {
+		resize();
+		$(window).resize(resize);
+		eventos();
+		btnMenu();
+		login();
+	}
 
 	socket.on('entraste', function(tuRe){
 		tu = {
@@ -38,7 +274,8 @@
 			iden: tuRe.iden,
 			foto: tuRe.foto,
 			perfil: tuRe.perfil
-		}
+		};
+		$("#fbLogin").fadeOut();
 	});
 	socket.on('disconnect', function () {
 		$alert('Te has desconectado del servidor, te ecomendamos recargar la aplicación.', 'Te has desconectado');
@@ -218,233 +455,4 @@
 			inbox[privado.para].mensajes.push(msg);
 		}
 	});
-	function enviar (e) {
-		var texto = $('#mensaje').val();
-		texto = texto.replace(/\n/g, '');
-
-		var limpiarspaces = texto.replace(/ /g, '');
-
-		var comando = texto.split('::');
-		var msgg = 'si';
-		switch(comando[0]){
-			case '$clear':
-				$('#logs').html('');
-				$('#logs').append('<article class="blue"><span>Has limpiado tu historial del chat</span></article>');
-				autoScroll();
-				msgg = 'no';
-				break;
-			case '$rename':
-				socket.emit('rename', comando[1]);
-				msgg = 'no';
-				break;
-			case '$privado':
-				var privado = {
-					de: tu.nombre,
-					para: comando[1],
-					texto: comando[2]
-				}
-				msgg = 'no';
-				if (comando[1] == tu.nombre){
-					$('#logs').append('<article class="red"><span>No puedes enviarte un mensaje privado a tí mismo</span></article>');
-				}else{
-					socket.emit('privado', privado);
-					$('#logs').append('<article class="msg"><span class="time">' + hora() + '</span><strong>De <em>' + privado.de + '</em> para <em>' + privado.para + '</em></strong><span><pre>' + privado.texto + '</pre></span></article>');
-					autoScroll();
-
-					var msg = {
-						mensaje: privado.texto,
-						from: privado.de,
-						to: privado.para,
-						date: hora()
-					};
-
-					if(typeof inbox[privado.para] == "undefined"){
-						inbox[privado.para] = {
-							nombre: privado.para,
-							mensajes: [msg]
-						}
-					}else{
-						inbox[privado.para].mensajes.push(msg);
-					}
-				}
-				break;
-		}
-		if (msgg == 'si'){
-			if (limpiarspaces == ''){
-				$('#logs').append('<article class="red"><span>Debes escribir algo antes de enviarlo</span></article>');
-				autoScroll();
-			}else{
-				var user = {
-					nombre: tu.nombre,
-					texto: texto
-				}
-				socket.emit('enviar', user);
-			}
-		}
-		var altodiv = $('#logs').height();
-		$('#history').scrollTop( altodiv );
-		$('#mensaje').val('');
-		$('#action').html('');
-	}
-	function resize (){
-		var menuUsers;
-		if( $(window).width() < 767){
-			$('#online').hide();
-			menuUsers = $('#menuUsers').height();
-		}else{
-			$('#online').show();
-			menuUsers = 0;
-		}
-		displayUsers = 0;
-		var winHeight = $(window).height() - $('#hed').height();
-		$('#contenedor').height(winHeight);
-		var hisHeigt = winHeight - $('#formulario').height() - menuUsers - 50;
-		$('#history').height(hisHeigt);
-	}
-	var displayUsers = 0;
-	function showHideUsers(){
-		if( $(window).width() < 767){
-			if(displayUsers == 1){
-				$('#online').hide();
-				displayUsers = 0;
-			}else{
-				$('#online').show();
-				displayUsers = 1;
-			}
-		}
-	}
-	function btnMenu(){
-		$('#goChat').click(function(e){
-			$('#logs').show();
-			$('#inbox').hide();
-			$('#media').hide();
-			$('#help').hide();
-			$('#goChat').addClass('active');
-			$('#goInbox').removeClass('active');
-			$('#goMedia').removeClass('active');
-			$('#goHelp').removeClass('active');
-			autoScroll();
-		});
-		$('#goInbox').click(function(e){
-			$('#inbox').show();
-			$('#logs').hide();
-			$('#media').hide();
-			$('#help').hide();
-			$('#goInbox').addClass('active');
-			$('#goChat').removeClass('active');
-			$('#goMedia').removeClass('active');
-			$('#goHelp').removeClass('active');
-		});
-		$('#goHelp').click(function(e){
-			$('#inbox').hide();
-			$('#logs').hide();
-			$('#media').hide();
-			$('#help').show();
-			$('#goInbox').removeClass('active');
-			$('#goChat').removeClass('active');
-			$('#goMedia').removeClass('active');
-			$('#goHelp').addClass('active');
-		});
-		$('#goMedia').click(function(e){
-			$('#logs').hide();
-			$('#inbox').hide();
-			$('#media').show();
-			$('#help').hide();
-			$('#goInbox').removeClass('active');
-			$('#goChat').removeClass('active');
-			$('#goMedia').addClass('active');
-			$('#goHelp').removeClass('active');
-
-			$('#media').html('');
-			for (item in multimedia){
-				var itemMedia = multimedia[item];
-				var contenido;
-				switch(itemMedia.typo){
-					case 'img': contenido = '<div><img class="pop" src="' + itemMedia.content + '" /></div>'; break;
-					case 'youtube': contenido = '<iframe src="http://www.youtube.com/embed/' + itemMedia.content + '" frameborder="0" allowfullscreen></iframe>'; break;
-				}
-				var tmp = '<div><figure class="media_' + itemMedia.typo + '">'
-							+ contenido
-							+ '<figcaption>Por <strong>' + itemMedia.author + '</strong> a las ' + itemMedia.date + '</figcaption></figure></div>';
-				$('#media').append(tmp);
-			}
-			var txtMedia = $('#media').html().replace(/ /g, '').replace(/\n/g, '');
-			if (txtMedia == ''){
-				$('#media').append('<pre>No hay multimedia que ver, aún...</pre>');
-			}
-
-			var cSscroll = $('#cScroll').is(":checked");
-			if (cSscroll){
-				var altodiv = $('#media').height();
-				$('#history').scrollTop( altodiv );
-			}
-		});
-	}
-	function eventos (){
-		// API PhoneGap
-		document.addEventListener("backbutton", function(){
-			if(displayUsers == 1){
-				$('#online').hide();
-				displayUsers = 0;
-			}else{
-				window.close();
-			}
-		}, false);
-		// Eventos generales
-		$('aside').click(showHideUsers);
-
-	    $('#mensaje').focus();
-		$('#formulario').submit(function(e){
-			e.preventDefault();
-			enviar();
-		});
-		$('#mensaje').keyup(function(e){
-			var enter = e.keyCode;
-			if (enter == '13'){
-				$('#formulario').trigger('submit');
-			}
-		});
-		$('#mensaje').keyup(function(e){
-			var cleantexto = $('#mensaje').val().replace(/ /g, '').replace(/\n/g, '');
-			var writing = 'no';
-			if (cleantexto != '') {
-				writing = 'si';
-			}
-			var who = {
-				user: tu.nombre,
-				writing: writing
-			}
-			socket.emit('escribiendo', who);
-		});
-		$('#mensaje').focus(function(){
-			socket.emit('visto', {visto: 'si', iden: tu.nombre});
-			txtFocus = 'si';
-		});
-		$('#mensaje').blur(function(){
-			socket.emit('visto', {visto: 'no', iden: tu.nombre});
-			txtFocus = 'no';
-		});
-		$(window).focus(function(){
-			socket.emit('winFocus', {focused: 'si', iden: tu.nombre});
-		});
-		$(window).blur(function(){
-			socket.emit('winFocus', {focused: 'no', iden: tu.nombre});
-		});
-		$('.pop').live('click', function(e){
-			e.preventDefault();
-			var pict = $(this).attr('src');
-
-			var pop = '<div id="pop"><img src="' + pict + '" /></div>';
-			$('body').append(pop);
-		});
-		$('#pop').live('click', function(){
-			$('#pop').remove();
-		});
-	}
-	function run () {
-		resize();
-		$(window).resize(resize);
-		eventos();
-		btnMenu();
-	}
 	$(document).ready(run);

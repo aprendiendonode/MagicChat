@@ -1,5 +1,5 @@
-
 var servidor = require('socket.io').listen(7873);
+var exec = require('child_process').exec;
 
 var user = {
 	nombre: 'Anónimo',

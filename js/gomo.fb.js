@@ -40,8 +40,8 @@ Modificaciones para éste proyecto por Dannegm
 			}); 
 		}
 		if(call) 
-			call();
-			filtro++;
+			call;
+		filtro++;
 	}; 
 	this.fbInfo = function(callback){
 		if(!on) 

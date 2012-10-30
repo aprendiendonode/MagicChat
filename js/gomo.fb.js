@@ -3,7 +3,7 @@ Power By Gomosoft
 Modificaciones para éste proyecto por Dannegm
 */
 (function($){ 
-	var boton, data, on = false, filtro = 0, user, call, access_token, user_id;
+	var boton, on = false, filtro = 0, user, call, access_token, user_id;
 	this.ini =  function(vars){
 		return chkLogin(fbIni());
 	};
@@ -33,11 +33,10 @@ Modificaciones para éste proyecto por Dannegm
 						access_token = resp.authResponse.accessToken;
 						user_id = resp.authResponse.userID;
 						location.reload(); 
-					} else { 
-						console.log("no tenemos permisos");
+					} else {
 						return {cod:11,estado:"sin permisos"};
 					}
-				},data.permisos);
+				}, 'email,user_about_me,user_hometown,user_interests,user_location');
 			}); 
 		}
 		if(call) 
@@ -60,7 +59,7 @@ Modificaciones para éste proyecto por Dannegm
 	}; 
 	this.fbIni = function() {
 		FB.init({
-			appId: data.id, 
+			appId: '125054150878675', 
 			status: true,
 			cookie: true,
 			xfbml: true,
@@ -70,23 +69,10 @@ Modificaciones para éste proyecto por Dannegm
 		FB.Event.subscribe( 'auth.statusChange', chkLogin );
 		return this;
 	};
-	jQuery.fn.fb = function(vars,callback){
+	jQuery.fn.fb = function(callback){
 		boton = $(this); 
 		if(callback) 
-			call = callback 
-		else if(jQuery.isFunction(vars)) 
-			call = vars;
-
-		this.vars = { 
-			id : '125054150878675', 
-			secret : "111f187cae3275d438aefb66ad964fd6", 
-			permisos : {
-				scope:'manage_pages,email,user_birthday,status_update,publish_stream,user_likes,user_about_me,read_friendlists,user_hometown,user_interests,user_location,user_subscriptions,friends_location,friends_interests'
-			}
-		};
-		if(vars) 
-			$.extend(this.vars,vars);
-			data = this.vars;
+			call = callback;
 			return fbIni();
 	};
 })(jQuery);

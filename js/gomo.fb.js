@@ -1,12 +1,7 @@
-(function(d){ 
-	var fbRoot = document.createElement('div');
-	fbRoot.id = "fb-root";
-	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0]; 
-	if (d.getElementById(id)) {return;} 
-	js = d.createElement('script'); js.id = id; js.async = true; 
-	js.src = "//connect.facebook.net/en_US/all.js"; 
-	ref.parentNode.insertBefore(js, ref); 
-}(document));
+/*
+Power By Gomosoft
+Modificaciones para éste proyecto por Dannegm
+*/
 (function($){ 
 	var boton, data, on = false, filtro = 0, user, call, access_token, user_id;
 	this.ini =  function(vars){

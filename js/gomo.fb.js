@@ -1,4 +1,6 @@
 (function(d){ 
+	var fbRoot = document.createElement('div');
+	fbRoot.id = "fb-root";
 	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0]; 
 	if (d.getElementById(id)) {return;} 
 	js = d.createElement('script'); js.id = id; js.async = true; 
@@ -15,7 +17,7 @@
 	}; 
 	this.obtAcToken = function(){ 
 		return access_token; 
-	} 
+	}
 	this.obtUserId = function(){ 
 		return user_id; 
 	}

@@ -116,7 +116,7 @@ if (n == null || n == ""){
 			
 			// Emoticones
 			user.texto = user.texto
-				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>');
+				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>')
 				.replace(/\¬\¬/g, '<span class="emoticon mueca" title="¬¬"></span>')
 				.replace(/\;\)/g, '<span class="emoticon guinio" title=";)"></span>')
 				.replace(/\:D/g, '<span class="emoticon riendo" title=":D"></span>')

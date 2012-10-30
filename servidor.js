@@ -43,7 +43,7 @@ servidor.sockets.on('connection', function(socket){
 		// Ponemos un filtro "AntiDante"
 		var texto = res.texto.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 		linea = {
-			nombre: nombre,
+			nombre: res.nombre,
 			texto: texto
 		}
 		servidor.sockets.emit('enviando', linea);

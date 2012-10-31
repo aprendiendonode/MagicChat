@@ -6,6 +6,7 @@ var user = {}, usuarios = {};
 servidor.sockets.on('connection', function(socket){
 
 	var iden = socket.id;
+	servidor.sockets.emit('online', usuarios);
 
 	socket.on('entro', function(user){
 		var n = user.name;

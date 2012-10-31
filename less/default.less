@@ -165,31 +165,33 @@ header {
 				margin: 5px 0;
 				margin-left: 12px;
 				cursor: pointer;
+				overflow: hidden;
 
-				&:before {
-					content: " ";
+				img {
 					display: block;
-					width: 7px;
-					height: 7px;
-					background: rgb(119,147,60);
-					position: absolute;
-					margin-left: -12px;
-					margin-top: 8px;
+					float: left;
+					width: 32px;
+					border: 2px solid rgb(119,147,60);
 				}
-				&.naranjita:before {
-					background: #D57100;
+				span {
+					display: block;
 				}
 				.actionUser {
 					margin-left: 5px;
 					font-size: 14px;
 					font-style: italic;
 				}
+
+				&.naranjita {
+					img {
+						border-color: #D57100;
+					}
+				}
 			}
 			#tu {
-				&:before {
-					background: #344bf9;
+				img {
+					border-color: #344bf9;
 				}
-				
 			}
 		}
 		#rooms {

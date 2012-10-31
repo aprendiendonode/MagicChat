@@ -49,9 +49,7 @@
 	}
 	function enviar (e) {
 		var texto = $('#mensaje').val();
-		texto = texto.replace(/\n/g, '');
-
-		var limpiarspaces = texto.replace(/ /g, '');
+		var limpiarspaces = texto.replace(/ /g, '').replace(/\n/g, '');
 
 		var comando = texto.split('::');
 		var msgg = 'si';

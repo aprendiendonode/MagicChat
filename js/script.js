@@ -226,10 +226,12 @@
 			e.preventDefault();
 			enviar();
 		});
-		$('#mensaje').keyup(function(e){
+		$('#mensaje').keypress(function(e){
 			var enter = e.keyCode;
-			if (enter == '13'){
-				$('#formulario').trigger('submit');
+			if(!e.shiftKey){
+				if (enter == '13'){
+					$('#formulario').trigger('submit');
+				}
 			}
 		});
 		$('#mensaje').keyup(function(e){

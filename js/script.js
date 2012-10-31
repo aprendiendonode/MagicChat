@@ -46,7 +46,6 @@
 			oauth: true
 		});
 		FB.getLoginStatus( chkLogin );
-		FB.Event.subscribe( 'auth.statusChange', chkLogin );
 	}
 	function enviar (e) {
 		var texto = $('#mensaje').val();

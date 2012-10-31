@@ -39,7 +39,8 @@ function autoScroll(){
 	var cScroll = $('#cScroll').is(":checked");
 	if (cScroll){
 		var altodiv = $('#logs').height();
-		$('#history').scrollTop( altodiv );
+		//$('#history').scrollTop( altodiv );
+		$('#history').animate({scrollTop: altodiv});
 	}
 }
 

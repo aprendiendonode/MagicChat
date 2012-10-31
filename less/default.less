@@ -171,26 +171,39 @@ header {
 					display: block;
 					float: left;
 					width: 32px;
-					border: 2px solid rgb(119,147,60);
+					border: 1px solid rgb(0,0,0,.6);
+					padding: 3px;
+					background: rgb(119,147,60);
+					background: -webkit-linear-gradient(top, rgba(119,147,60,1) 0%,rgba(106,127,52,1) 100%);
+					border-radius: 2px;
 				}
 				span {
 					display: block;
 				}
+				.name {
+					margin-top: 1px;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					max-width: 170px;
+					height: 22px;
+				}
 				.actionUser {
 					margin-left: 5px;
-					font-size: 14px;
+					font-size: 12px;
 					font-style: italic;
 				}
 
 				&.naranjita {
 					img {
-						border-color: #D57100;
+						background: rgb(213,113,0);
+						background: -webkit-linear-gradient(top, rgba(213,113,0,1) 0%,rgba(206,103,0,1) 100%);
 					}
 				}
 			}
 			#tu {
 				img {
-					border-color: #344bf9;
+					background: rgb(47,74,226);
+					background: -webkit-linear-gradient(top, rgba(47,74,226,1) 0%,rgba(39,75,186,1) 100%);
 				}
 			}
 		}

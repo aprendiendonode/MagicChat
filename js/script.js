@@ -230,6 +230,7 @@
 			var enter = e.keyCode;
 			if(!e.shiftKey){
 				if (enter == '13'){
+					e.preventDefault();
 					$('#formulario').trigger('submit');
 				}
 			}

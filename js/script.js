@@ -435,7 +435,7 @@
 			if (value.nombre == tu.nombre){
 				eresTu = 'id="tu"';
 			}
-			$('#online').append('<li rel="user_' + value.nombre + '" ' + eresTu + '>' + value.nombre  + '<span class="actionUser"></span></li>');
+			$('#online').append('<li rel="user_' + value.nombre + '" ' + eresTu + '><img src="' + value.foto + '" /><span class="name">' + value.nombre  + '</span><span class="actionUser"></span></li>');
 		});
 		var nOnline = $('#online li').length;
 		$('#nOnline').html(nOnline);

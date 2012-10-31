@@ -12,6 +12,8 @@
   - Desarrollo general
   - Se puso un filtro en su nombre
   - Desarrollo para android
+  - Mejoras generales
+  - Multimedia
 
   Web Developer: Angel Martz
   Site: N/A
@@ -24,6 +26,8 @@
   - Resolvió problema de usuarios duplicados
   - Resolvió problema del usuario que sale
   - Resolvió problema de los filtros
+  - Resolió problema con rename
+  - Mensajes privados
 
   Web Developer: Javier Gómez
   Site: http://gomosoft.com
@@ -33,6 +37,7 @@
   - Diseño
   - Idea de usuario fuera de foco
   - Idea de texo "visto"
+  - Login de facebook
 
   Web Developer: Dante Gilabert
   Site: N/A

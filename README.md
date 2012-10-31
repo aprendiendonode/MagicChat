@@ -11,6 +11,8 @@ Twitter: @dannegm
 - Desarrollo general
 - Se puso un filtro en su nombre
 - Desarrollo para android
+- Mejoras generales
+- Mulimedia
 
 Web Developer: Angel Martz,
 Site: N/A,
@@ -23,6 +25,8 @@ Twitter: @angelmartz_
 - Resolvió problema de usuarios duplicados
 - Resolvió problema del usuario que sale
 - Resolvió problema de los filtros
+- Resolvió problema con el rename
+- Mensajes privados
 
 Web Developer: Javier Gómez,
 Site: http://gomosoft.com,
@@ -32,6 +36,7 @@ Twitter: @gomosoft
 - Diseño
 - Idea de usuario fuera de foco
 - Idea de texo "visto"
+- Login con facebook
 
 Web Developer: Dante Gilabert,
 Site: N/A,

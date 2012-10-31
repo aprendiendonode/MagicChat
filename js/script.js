@@ -286,12 +286,16 @@
 		};
 		$("#fbLogin").fadeOut();
 	});
-	socket.on('connection', function(){
-		$('#history').css('opacity', '1');
-	});
 	socket.on('disconnect', function () {
 		$('#history').css('opacity','.5');
-		$alert('Te has desconectado del servidor, te recomendamos recargar la aplicación.', 'Te has desconectado');
+		$confirm('Te has desconectado del servidor, te recomendamos recargar la aplicación.',
+			'Te has desconectado',
+			function(r){
+				if(r){
+					window.location.reload();
+				}
+			}
+		);
 	});
 	socket.on('enviando', function(e){
 

@@ -51,6 +51,11 @@
 		var texto = $('#mensaje').val();
 		var limpiarspaces = texto.replace(/ /g, '').replace(/\n/g, '');
 
+		var isCode = texto.match(/\[code\]/g);
+		if (!isCode){
+			texto = texto.replace(/\n/g, '[s]');
+		}
+
 		var comando = texto.split('::');
 		var msgg = 'si';
 		switch(comando[0]){
@@ -363,6 +368,18 @@
 
 			user.texto = user.texto
 				.replace(/\&lt;3/g, '♥');
+
+			user.texto = user.texto
+				.replace(/\[s\]/g, '<br />');
+
+			var isUrl = user.texto.match(/http:/g);
+			if (isUrl) {
+				var _url = user.texto.split('//');
+				var _uri = _url[1].split(' ');
+				tmpUrl = '<a href="http://' + _uri[0] + '" target="_blank">http://' + _uri[0] + '</a>';
+				user.texto
+					.replace('http://' + _uri[0], tmpUrl);
+			}
 
 			user.texto = user.texto
 				.replace(/\.i\./g, '<span class="emoticon pene" title=".i."></span>')

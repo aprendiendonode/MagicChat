@@ -26,39 +26,51 @@ servidor.sockets.on('connection', function(socket){
 	});
 
 	socket.on('winFocus', function(e) {
-		servidor.sockets.emit('winFocus', e);
+		if(socket.username != null){
+			servidor.sockets.emit('winFocus', e);
+		}
 	});
 
 	socket.on('visto', function(e) {
-		servidor.sockets.emit('visto', e);
+		if(socket.username != null){
+			servidor.sockets.emit('visto', e);
+		}
 	});
 
 	socket.on('disconnect', function () {
-		delete usuarios[socket.username];
-		servidor.sockets.emit('salio', socket.username);
-		servidor.sockets.emit('online', usuarios);
-		console.log('Salio: ' + socket.username);
+		if(socket.username != null){
+			delete usuarios[socket.username];
+			servidor.sockets.emit('salio', socket.username);
+			servidor.sockets.emit('online', usuarios);
+			console.log('Salio: ' + socket.username);
+		}
 	});
 
 	socket.on('enviar', function (res) {
-		// Ponemos un filtro "AntiDante"
-		var texto = res.texto.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		linea = {
-			nombre: res.nombre,
-			texto: texto
+		if(socket.username != null){
+			// Ponemos un filtro "AntiDante"
+			var texto = res.texto.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			linea = {
+				nombre: res.nombre,
+				texto: texto
+			}
+			servidor.sockets.emit('enviando', linea);
+			console.log(res.nombre + ' dice: ' + res.texto);
 		}
-		servidor.sockets.emit('enviando', linea);
-		console.log(res.nombre + ' dice: ' + res.texto);
 	});
 
 	socket.on('escribiendo', function(res){
-		servidor.sockets.emit('escribiendo', res);
+		if(socket.username != null){
+			servidor.sockets.emit('escribiendo', res);
+		}
 	});
 
 	socket.on('privado', function(privado){
-		if(typeof usuarios[privado.para] != "undefined"){
-			servidor.sockets.socket(usuarios[privado.para].iden).emit('privado', privado);
-			console.log('DM de ' + privado.de + ' para ' + privado.para + ': ' + privado.texto);
+		if(socket.username != null){
+			if(typeof usuarios[privado.para] != "undefined"){
+				servidor.sockets.socket(usuarios[privado.para].iden).emit('privado', privado);
+				console.log('DM de ' + privado.de + ' para ' + privado.para + ': ' + privado.texto);
+			}
 		}
 	});
 });

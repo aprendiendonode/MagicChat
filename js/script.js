@@ -224,7 +224,6 @@
 		// Eventos generales
 		$('aside').click(showHideUsers);
 
-	    $('#mensaje').focus();
 		$('#formulario').submit(function(e){
 			e.preventDefault();
 			enviar();
@@ -291,6 +290,7 @@
 			perfil: tuRe.perfil
 		};
 		$("#fbLogin").fadeOut();
+		$('#mensaje').focus();
 	});
 	socket.on('disconnect', function () {
 		$('#history').css('opacity','.5');

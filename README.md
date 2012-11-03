@@ -4,7 +4,7 @@
 
 Web Developer: Daniel García,
 Site: http://dannegm.com,
-Twitter: @dannegm
+Twitter: [@dannegm](http://twitter.com/dannegm)
 
 - Idea original
 - Diseño
@@ -16,7 +16,7 @@ Twitter: @dannegm
 
 Web Developer: Angel Martz,
 Site: N/A,
-Twitter: ([@angelmartz_](http://twitter.com/angelmartz_))
+Twitter: [@angelmartz_](http://twitter.com/angelmartz_)
 
 - Identificó un bug de seguridad, pusimos un filtro con su nombre
 - Idea e implantación del sonidito
@@ -30,7 +30,7 @@ Twitter: ([@angelmartz_](http://twitter.com/angelmartz_))
 
 Web Developer: Javier Gómez,
 Site: http://gomosoft.com,
-Twitter: @gomosoft
+Twitter: [@gomosoft](http://twitter.com/gomosoft)
 
 - Iconos
 - Diseño
@@ -40,7 +40,7 @@ Twitter: @gomosoft
 
 Web Developer: Dante Gilabert,
 Site: N/A,
-Twitter: @DanteHat
+Twitter: [@DanteHat](http://twitter.com/DanteHat)
 
 - Resolivó bugs de seeguridad, pusimos un fitro con su nombre
 

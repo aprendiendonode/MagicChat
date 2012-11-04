@@ -16,7 +16,7 @@ Twitter: [@dannegm](http://twitter.com/dannegm)
 
 Web Developer: Angel Martz,
 Site: N/A,
-Twitter: [@angelmartz_](http://twitter.com/angelmartz_)
+Twitter: ([@angelmartz_](http://twitter.com/angelmartz_))
 
 - Identificó un bug de seguridad, pusimos un filtro con su nombre
 - Idea e implantación del sonidito
@@ -27,6 +27,7 @@ Twitter: [@angelmartz_](http://twitter.com/angelmartz_)
 - Resolvió problema de los filtros
 - Resolvió problema con el rename
 - Mensajes privados
+- Salas de Chat
 
 Web Developer: Javier Gómez,
 Site: http://gomosoft.com,

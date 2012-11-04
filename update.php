@@ -1,8 +1,9 @@
 <?php
-$cmd = exec('sh updategit.sh');
-echo "Auto pull\n";
+$out = array();
+$cmd = exec('sh updategit.sh', $out);
 if ($cmd){
-	echo "Pull exitoso";
+	echo "Pull exitoso<br>";
+	echo $out;
 }else{
 	echo "No se pudo hacer pull";
 }

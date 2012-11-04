@@ -363,6 +363,72 @@ header {
 			}
 			#inbox {
 				display: none;
+
+				section {
+					background: #EDEDED;
+					border-radius: 5px;
+					border: 1px solid rgba(0, 0, 0, .1);
+					box-shadow: 0px 0px 1px rgba(0, 0, 0, .2);
+					max-width: 600px;
+					overflow: hidden;
+					margin-bottom: 10px;
+
+					h1 {
+						font-size: 16px;
+						padding: 10px;
+						color: #444;
+						border-bottom: 1px solid rgba(0,0,0,.2);
+					}
+
+					article{
+						padding: 10px;
+						overflow: hidden;
+						background: #f2f2f2;
+						border-bottom: 1px solid rgba(0,0,0,.2);
+
+						img {
+							display: block;
+							float: left;
+							margin-right: 10px;
+							outline: 1px solid rgba(255, 255, 255, .2);
+							border-radius: 4px;
+							border: 1px solid rgba(0, 0, 0, .2);
+							width: 50px;
+						}
+						p {
+							color: #333;
+							font-size: 15px;
+							strong {
+								&:after {
+									content: ': ';
+								}
+							}
+							.time {
+								float: right;
+								font-size: 12px;
+								color: #888;
+								margin-top: 2px;
+								margin-left: 10px;
+							}
+						}
+					}
+					form {
+						background: #FAFAFA;
+						overflow: hidden;
+
+						textarea {
+							width: 95%;
+							margin: 0;
+							display: block;
+							border: 0;
+							padding: 10px;
+							font-family: 'calibri';
+							background: none;
+							outline: none;
+							resize: none;
+						}
+					}
+				}
 			}
 			#help {
 				display: none;
@@ -514,6 +580,37 @@ header {
 	}
 	#github {
 		display: none;
+	}
+
+	header {
+		h1 {
+			clear: both;
+		}
+		nav {
+			clear: both;
+			width: 100%;
+			margin: 0;
+			border-bottom: 2px solid #175d9b;
+			border-radius: 0;
+			.borderlr(none);
+
+			button {
+				width: 25%;
+				border: 0;
+				background: rgba(255,255,255,.1);
+				border-bottom: 5px solid rgba(0,0,0,0) !important;
+
+				&.active {
+					border: 0;
+					border-bottom: 5px solid #175d9b !important;
+					background: rgba(255,255,255,.1);
+				}
+			}
+		}
+	}
+
+	aside {
+		cursor: pointer;
 	}
 
 	#contenedor {

@@ -165,6 +165,17 @@
 			$('#goChat').removeClass('active');
 			$('#goMedia').removeClass('active');
 			$('#goHelp').removeClass('active');
+			$('#inbox').html('');
+			for(u in inbox){
+				var thisNombre = nameToID(inbox[u].nombre);
+				tmpInbox = '<section><h1>' + inbox[u].nombre + '</h1><div id="' + thisNombre + '"></div><form class="privado" rel="' + thisNombre + '"><textarea placeholder="Escribe un mensaje"></textarea></form></section>';
+				$('#inbox').append(tmpInbox);
+				var msjs = inbox[u].mensajes;
+				for (m in msjs){
+					tmpMensaje = '<article><p><span class="time">' + msjs[m].date + '</span><strong>' + msjs[m].from + '</strong><span class="texto">' + msjs[m].mensaje + '</span></p></article>';
+					$('#' + thisNombre).append(tmpMensaje);
+				}
+			}
 		});
 		$('#goHelp').click(function(e){
 			$('#inbox').hide();

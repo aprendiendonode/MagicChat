@@ -1,3 +1,3 @@
 <?php
-$cmd = exec('sh updategit.sh');
+exec('sh updategit.sh');
 ?>

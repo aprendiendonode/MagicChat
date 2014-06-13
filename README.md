@@ -1,5 +1,12 @@
 #Magic Chat
 
+## USO
+
+- Se necesita tener instalado node.js
+- Ejecutar node servidor.js
+- Modificar en js/script.js la dirección de dannegm.com
+- En el index.html, modificar tambien la llamada a socket.io.js
+- 
 ##TEAM
 
 Web Developer: Daniel García,
